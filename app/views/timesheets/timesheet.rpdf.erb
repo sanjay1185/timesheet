@@ -1,0 +1,92 @@
+<% day_values = { "1.0" => "Full", "0.5" => "Half", "0.25" => "Quarter", "0.0" => "&nbsp;"} %>
+<table style="font-family: Helvetica,Arial; font-size: 8pt; width: 100%" cell-padding="0" cellspacing="0">
+  <tr>
+    <td style="vertical-align: top; width:300px"><%= @img_tag %>&nbsp;</td>
+  <td style="width: 50px">&nbsp;</td>
+  <td style="vertical-align: top; text-align: right;">
+    <table style="margin: 0px 0px 0px 0px; width:200px">
+      <tr><td style="text-align: left">
+    <% address = format_address_lines(@timesheet.contract.client.agency) %>
+    <% uniq = address.uniq! %>
+    <strong><%= @timesheet.contract.client.agency.name %></strong>
+    <% addr = "" %>
+    <% address = uniq unless uniq.nil? %>
+    <% address.each { |a| addr += "<br />" + a } %>
+    <%= addr %></td>
+    </tr>
+    <tr>
+      <td align="left">Phone: <%= @timesheet.contract.client.agency.phone %><br />Fax: <%= @timesheet.contract.client.agency.fax %></td>
+    </tr>
+    </table>
+  </td>
+  <td style="width: 50px">&nbsp;</td>
+  <td style="vertical-align: top; width: 150px"><strong>
+    Timesheet No:<br />Contractor:<br />Client:<br />Position:<br />Ref:<br />Week Ending:</strong>
+  </td>
+  <td style="vertical-align: top;width: 350px">
+    &nbsp;<%= @timesheet.id.to_s.rjust(10, '0') %><br />&nbsp;<%= @timesheet.contractor.user.full_name %><br />&nbsp;<%= @timesheet.contract.client.name %><br />&nbsp;<%= @timesheet.contract.position %><br />&nbsp;<%= @timesheet.contract.ref %><br />&nbsp;<%= (@timesheet.startDate + 6).to_formatted_s(:uk_date) %>
+  </td>
+  </tr>
+</table>
+<br />
+<br />
+<table border="0" cellpadding="0" cellspacing="0" style="font-family: Courier; font-size:10px; line-height:16px">
+  <tr>
+    <td style="background-color: silver;border-bottom: black solid 1px;border-left: gray solid 1px;border-top: gray solid 1px;">&nbsp;<%= "Date".ljust(17).gsub(" ", "&nbsp;")%></td>
+    <td style="background-color: silver;border-bottom: black solid 1px;border-left: gray solid 1px;border-top: gray solid 1px;">&nbsp;<%= "Start Time".ljust(11).gsub(" ", "&nbsp;")%></td>
+    <td style="background-color: silver;border-bottom: black solid 1px;border-left: gray solid 1px;border-top: gray solid 1px;">&nbsp;<%= "Break".ljust(11).gsub(" ", "&nbsp;")%></td>
+    <td style="background-color: silver;border-bottom: black solid 1px;border-left: gray solid 1px;border-top: gray solid 1px;">&nbsp;<%= "Finish Time".ljust(11).gsub(" ", "&nbsp;")%></td>
+    <td style="background-color: silver;border-bottom: black solid 1px;border-left: gray solid 1px;border-top: gray solid 1px;">&nbsp;<%= "Daily Paid".ljust(11).gsub(" ", "&nbsp;")%></td>
+    <td style="background-color: silver;border-bottom: black solid 1px;border-left: gray solid 1px;border-top: gray solid 1px;">&nbsp;<%= "Hours".ljust(10).gsub(" ", "&nbsp;")%></td>
+    <td style="background-color: silver;border-bottom: black solid 1px;border-left: gray solid 1px;border-right: gray solid 1px;border-top: gray solid 1px;">&nbsp;<%= "Rate".ljust(15).gsub(" ", "&nbsp;")%></td>
+    <td>&nbsp;</td>
+    <td style="width: 150px;background-color: silver;border: gray solid 1px;">&nbsp;Notes</td>
+  </tr>
+  <% count = 1 %>
+  <% for entry in @timesheet.timesheet_entries %>
+  <tr>
+    <td style="border-left: gray solid 1px;border-bottom: gray solid 1px;" align="left">&nbsp;<%= entry.dateValue.to_formatted_s(:uk_date_with_day) %></td>
+    <td style="border-left: gray solid 1px;border-bottom: gray solid 1px; text-align: right" ><%= entry.startTime.blank? ? "&nbsp;" : entry.startTime %>&nbsp;</td>
+    <td style="border-left: gray solid 1px;border-bottom: gray solid 1px; text-align: right" ><%= entry.startTime.blank? ? "&nbsp;" : entry.breakHours %>&nbsp;</td>
+    <td style="border-left: gray solid 1px;border-bottom: gray solid 1px; text-align: right" ><%= entry.startTime.blank? ? "&nbsp;" : entry.finishTime %>&nbsp;</td>
+    <td style="border-left: gray solid 1px;border-bottom: gray solid 1px; text-align: center" ><%= entry.dayValue.nil? ? "&nbsp;" : day_values[entry.dayValue.to_s] %></td>
+    <td style="border-left: gray solid 1px;border-bottom: gray solid 1px; text-align: right" ><%= entry.hours.blank? ? "&nbsp;" : entry.hours %>&nbsp;</td>
+    <td style="border-left: gray solid 1px;border-right: gray solid 1px;border-bottom: gray solid 1px; vertical-align: middle"><%= entry.rate.name unless entry.rate.nil? %>&nbsp;</td>
+    <td>&nbsp;</td>
+    <% if count == 1 %>
+    <td style="padding: 4px;height: 100%;border-left: gray solid 1px;border-right: gray solid 1px;border-bottom: gray solid 1px;vertical-align:top" rowspan="<%= @timesheet.timesheet_entries.length %>">&nbsp;</td>
+    <% end %>
+    <% count += 1 %>
+  </tr>
+ 
+  <% end %>
+   <tr>
+    <td colspan="8">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="border-top: black solid 1px;border-left: gray solid 1px;border-bottom: gray solid 1px;" colspan="4">&nbsp;Totals</td>
+    <td style="border-top: black solid 1px;border-left: gray solid 1px;border-bottom: gray solid 1px; text-align: center"><%= @timesheet.totalDays %></td>
+    <td style="text-align: right;border-top: black solid 1px;border-left: gray solid 1px;border-bottom: gray solid 1px;"><%= @timesheet.totalHours %>&nbsp;</td>
+    <td style="text-align: right;border-top: black solid 1px;border-left: gray solid 1px;border-bottom: gray solid 1px;border-right: gray solid 1px;">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<br />
+<br />
+<br />
+<table style="font-family: Helvetica,Arial; font-size: 10pt" cellpadding="0" cellspacing="0">
+  <tr>
+    <td style="text-align: right">Worker Signature :</td><td>&nbsp;</td><td style="border-bottom: black solid 1px;width:200px;margin-bottom:5px">&nbsp;</td><td style="width:20px">&nbsp;</td>
+    <td style="text-align: right">Approver Name :</td><td>&nbsp;</td><td style="border-bottom: black solid 1px;width:200px;margin-bottom:5px">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="text-align: right">Date :</td><td>&nbsp;</td><td style="border-bottom: black solid 1px;width:200px;margin-bottom:5px">&nbsp;</td><td>&nbsp;</td>
+    <td style="text-align: right">Approver Signature :</td><td>&nbsp;</td><td style="border-bottom: black solid 1px;width:200px;margin-bottom:5px">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="4"></td>
+    <td style="text-align: right">Date :</td><td>&nbsp;</td><td style="border-bottom: black solid 1px;width:200px;margin-bottom:5px">&nbsp;</td>
+  </tr>
+
+</table>

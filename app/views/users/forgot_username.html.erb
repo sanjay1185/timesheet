@@ -1,0 +1,54 @@
+<div class="login_box">
+<div class="t"><div class="b"><div class="l"><div class="r"><div class="bl"><div class="br"><div class="tl"><div class="tr">
+<div class="login_content">
+<div style="height: 70px"></div>
+<div id="loginContainer" style="z-index: 1000">
+  <div id="normalForm">
+    <% form_for :user, :url => {:action => 'forgot_username'} do |form| %>
+      <div class="loginForm" >
+        <table>
+          <% if flash[:notice] %>
+            <tr><td colspan="2"><span style="color: green"><%= flash[:notice] %></span></td></tr>
+          <% end %>
+          <% if flash[:alert] %>
+            <tr><td colspan="2"><span style="color: red"><%= flash[:alert] %></span></td></tr>
+          <% end %>
+          <tr>
+            <td></td>
+            <td class="prompt" colspan="2"><label for="user_password">Please enter your email address</label></td>
+          </tr>
+          <tr>
+
+            <td colspan="2" class="email"><%= form.text_field :email, :class => 'email text' %></td>
+          </tr>
+          <tr>
+            <td class="prompt" colspan="2"><label for="user_password">If email address is found we will send your username.</label></td>
+
+          </tr>
+          <tr id="remember_me_row">
+            <td colspan="2" id="remember_me_cell"></td>
+          </tr>
+          <tr>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="loginFormButton" id="loginButtonBox">
+        <%= submit_tag 'Send' %>
+      </div>
+      <br />
+      <script language="JavaScript">
+        $('user_login').focus()
+      </script>
+
+    <% end %>
+
+  </div>
+</div>
+
+</div>
+
+</div></div></div></div></div></div></div></div>
+</div>
+<%= flash[:notice] = nil %>

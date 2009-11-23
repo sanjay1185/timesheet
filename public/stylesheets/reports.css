@@ -1,0 +1,41 @@
+body {
+	font: 0.7em 'Lucida Grande', Helvetica, Verdana, Arial;
+	background: #324d68;
+	margin: 0;
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+    display:inline;
+}
+* html body {
+    font: 0.8em 'Lucida Grande', Calibri, Helvetica, Verdana, Arial;
+}
+div.backdrop {
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 80%;
+    background-color: #FFFFFF;
+    height: 100%;
+}
+div.criteria {
+    text-align: left;
+}
+td.totals {
+    font-weight: bold;
+    border-top: black solid 1px;
+    background-color: #D9FF9F;
+}
+tr.header {
+    background-color: silver;
+}
+th.header {
+    border-bottom: black solid 1px;
+}
+.right_dotted {
+    border-right: #CEDBCE dotted 1px;
+}
+.odd {
+    background-color: #E9F2EF;
+}

@@ -1,0 +1,94 @@
+<%= show_notice(flash[:notice]) %>
+<div id="nav-bar-box">
+  <%= two_column_nav_bar_layout2("#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))} >> New Approver", "") %>
+
+</div>
+
+<div id="blue-box">
+      <div class="padder">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td class="left_side_cell">
+              <div id="left-header-box">
+                <div class="header-container">Send Request or Invite Approver</div>
+              </div>
+              <br />
+
+            <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
+              <tr><td style="padding-right: 12px;">
+               <p class="rightMargin">There are two ways to add an approver. </p>
+               <p class="rightMargin">Firstly, you can use the the box below to submit their email address.
+                If they are not yet a registered user they will be sent instructions for registering. If they are
+                already registered they will receive a request, wich they can accept or reject, to become an approver for you.</p>
+               
+               <p><% form_tag invite_approver_client_path(@client), :method => 'post' do %>
+                 <input style="width: 85%" id="invite_email" name="email" type="text" maxlength="100"/>&nbsp;<div style="display: inline; vertical-align: middle"><%= image_submit_tag '/images/icon_mail.gif', :title => 'Send'%></div>
+                 <% end %>
+               </p>
+               <% if !flash[:alert].nil? %><p style="color: red"><%= flash[:alert] %></p><% end %>
+              <p class="rightMargin">Otherwise, to make life easier for the approver, you can create an account for them directly by filling in the form to the right. The user will then be sent an email so they can activate their account.</p>
+                
+
+              </td></tr>
+            </table>
+            </td> <!-- cell -->
+            <td class="right_side_cell">
+              <% form_for(:user, :url => {:action => 'save_approver', :controller => 'clients'}) do |u| -%>
+                <SCRIPT>display_errors('Unable to save approver','<%= u.error_messages %>');</SCRIPT>
+                <div id="right-header-box">
+                    <%= two_column_nav_bar_layout2('Create New Approver', "#{image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')}") %>
+                  </div>
+                  <br />
+                 <table class="with_margins" width="100%"align="center" cellpadding="0" cellspacing="0">
+
+     
+        <tr>
+            <td class="leftHeader">Login: <span class="required">*</span></td><td><%= u.text_field :login, :id => 'login', :maxlength => 15, :class => 'spaced_input' %><%= ajax_login_check %></td>
+        </tr>
+        <%= hidden_field_tag(:client_id, @client.id) %>
+        <tr>
+            <% @titles = ['Mr', 'Mrs', 'Miss'] %>
+            <td class="leftHeader">Title: <span class="required">*</span></td><td><%= select_tag 'selected_title', options_for_select(@titles), :class => 'spaced_input' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">First Name: <span class="required">*</span></td><td><%= u.text_field :firstName, :id => 'firstName', :size => 20, :maxlength => 25, :class => 'spaced_input' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= u.text_field :lastName, :id => 'lastName', :size => 20, :maxlength => 25, :class => 'spaced_input' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">Phone:</td><td><%= u.text_field :phone, :size => 20, :maxlength => 30, :class => 'spaced_input' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">Mobile:</td><td><%= u.text_field :mobile, :size => 20, :maximum => 30, :class => 'spaced_input' %></td>
+        </tr>
+         <tr>
+            <td class="leftHeader">Email: <span class="required">*</span></td><td><%= u.text_field :email, :id => 'user_email', :size=> 30, :maxlength => 100, :class => 'spaced_input' %></td>
+        </tr>
+         <tr>
+            <td class="leftHeader">Confirm: <span class="required">*</span></td><td><input type="text" name="email_confirmation" size="30" maxlength="100" class="spaced_input" /></td>
+        </tr>
+
+    </table>
+    <br />
+    <br />
+      
+            </td> <!-- cell -->
+          </tr> <!-- row -->
+        </table> <!-- table -->
+        <br />
+      </div>
+    </div>
+
+<% end -%> <!-- end form -->
+
+<script type="text/javascript">
+  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  navbarbox.render('nav-bar-box');
+  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  bluebox.render('blue-box');
+  var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  leftheaderbox.render('left-header-box');
+  var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  rightheaderbox.render('right-header-box');
+</script>

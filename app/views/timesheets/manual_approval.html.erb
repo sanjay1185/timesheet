@@ -1,0 +1,15 @@
+<div class='MB_alert' >
+  <p>Please enter the approvers name from the printed timesheet in the box below.</p>
+
+  <% form_tag "/timesheets/#{@id}/approve" do %>
+  <table align="center" width="100%">
+    <tr>
+      <td>Approver Name:</td><td><%= text_field_tag('approver', '', :size => 30, :maxlength => 75) %></td>
+    </tr>
+    <%= hidden_field_tag('back_url', @back_url) %>
+  </table>
+
+  <br />
+  <%= submit_tag('Approve', :class => 'generalButton') %>&nbsp<input type="button" value="Cancel" class="generalButton" onclick="Modalbox.hide()" />
+  <% end %>
+</div>

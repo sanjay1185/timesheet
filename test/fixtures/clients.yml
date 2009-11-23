@@ -1,0 +1,13 @@
+# agency: sherridan_ward
+abn_amro:
+  name: ABN Amro
+  addr1: 280 Bishopsgate
+  addr2:
+  addr3:
+  city: London
+  postCode: EC1V 2UF
+  agency: sherridan_ward
+  margin: 30
+  monthlyInvoicePeriodStartDay: 1
+  invoicePeriod: monthly
+  invoiceTimesheetsSeparately: false  

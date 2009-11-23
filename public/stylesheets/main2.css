@@ -1,0 +1,189 @@
+@charset "UTF-8";
+body  {
+	font: 0.9em "Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	background: #FFF;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+img {
+  border: 0;
+}
+#menu_left {
+  height: 30px;
+  width: 360px;
+  position:relative;
+  top:90px;
+  left:400px;
+  background-image:url(/images/l_side.png);
+  background-repeat:no-repeat;
+}
+#menu_right {
+  background:url(/images/r_side.png) no-repeat top right;
+  width: 100%;
+  height: 30px;
+}
+#menu_content {
+  background-color: #95B90D;
+  width: 330px;
+  margin-left: 15px;
+  height:25px;
+  padding-top: 5px;
+}
+#container {
+	width: 800px;  /* using 20px less than a full 800px width allows for browser chrome and avoids a horizontal scroll bar */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	text-align: left; /* this overrides the text-align: center on the body element. */
+}
+
+a {text-decoration: none; color: black;}
+a:hover { color: white; }
+
+a.front {text-decoration: none; color: black; border-bottom: black dashed 1px }
+a.front:hover { color: #366daa; border-bottom: #366daa dashed 1px }
+
+a.red {text-decoration: none; color: red; border-bottom: black dashed 1px }
+a.red:hover { color: #366daa; border-bottom: #366daa dashed 1px }
+
+a.norm { text-decoration: none; color: #514D4B; font-weight: bold; font-size: 1em; border-bottom: #95B90D dotted 1px; }
+a.norm:hover { color: #95B90D; }
+
+.center {
+	text-align:center;
+}
+.small {
+	font-size: 80%;
+}
+.spacer_5 {
+	height: 5px;
+}
+.spacer_16 {
+	height: 16px;
+}
+.small_icon {
+    height: 16px;
+    width: 16px;
+}
+.align-top {
+	vertical-align: top;
+}
+.title {
+	font-size:1.2em;
+	font-weight: bold;
+}
+.main_content {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+.red { color: red; }
+.error_message {
+    background-color:#FFD8CB;
+    border: red solid 1px;
+    padding: 25px;
+}
+.LV_invalid {
+    color:#CC0000;
+}
+.generalButton {
+  border: 1px solid #AFAFAF;
+  height: 20px;
+  font-size: 0.9em;
+  color: #575757;
+  font-weight: bold;
+  background: #FFF url(/images/button-bg.gif) repeat-x top left;
+}
+td.row_even {
+	background-color: #95B90D;
+}
+.border_right {
+	border-right: #AFA7A3 solid 1px;
+}
+.underline {
+    border-bottom: #AFA7A3 solid 1px;
+}
+.small_text {
+  font-size: 80%;
+}
+.indent {
+  text-indent: 12px;
+}
+.pad_right_15 {
+	padding-right: 15px;
+}
+/* main page specific */
+#main_page_left_col {
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 430px;
+	height: 150px;
+}
+#main_page_right_col {
+	width: 260px
+}
+.gray_border_bottom {
+	border-bottom: #AFA7A3 solid 1px;
+}
+td.green_border_bottom {
+	border-bottom: #95B90D solid 1px;
+}
+table.sign_up {
+	padding-left:15px;
+	width:100%;
+}
+table.sign_up td {
+    font-size: 80%;
+}
+
+/* pricing spcific */
+table#pricing {
+
+}
+table#pricing td {
+	font-size: 110%;
+}
+div.pricing_table_border {
+	border: #AFA7A3 solid 1px;
+	width: 280px;
+	margin-left: 20px;
+    margin-right: 25px;
+}
+div.feature_heading {
+    font-weight: bold;
+    color: #514D4B;
+}
+div.sub_feature {
+    text-indent: 10px;
+    font-size: 90%;
+}
+.selected {
+    color: #95B90D;
+}
+form {
+    margin: 0px 0px 0px 0px;
+}
+td.pricing_border_right {
+	border-right: #AFA7A3 solid 1px;
+	text-indent: 10px;
+}
+#pricing_left_cell {
+	width: 365px;
+}
+
+/* features specific */
+#features_page_left_col {
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 345px;
+}
+#features_page_right_col {
+	width: 345px;
+}
+.features_heading {
+	border-bottom: #AFA7A3 solid 1px;
+	margin-left: 20px;
+}
+#features td {
+    vertical-align: top;
+}

@@ -1,0 +1,29 @@
+basic_with_5_ot:
+  startDate: 2009-04-20
+  totalHours: 45
+  status: SUBMITTED
+  contractor: contractor_bob
+  contract: sw_pa_assistant
+  rateType: Hour
+implied_ot_and_rate_for_single_day:
+  startDate: 2009-04-27
+  totalHours: 43
+  status: SUBMITTED
+  contractor: contractor_bob
+  contract: sw_pa_assistant
+  rateType: Hour
+bank_hol_plus_new_overtime:
+  startDate: 2009-05-04
+  totalHours: 45
+  status: SUBMITTED
+  contractor: contractor_bob
+  contract: sw_pa_assistant
+  rateType: Hour
+# daily rate timesheet
+standard_week_with_2_hrs_ot:
+  startDate: 2009-07-13
+  totalHours: 2
+  status: DRAFT
+  contractor: contractor_bob
+  contract: sw_data_entry_daily
+  rateType: Day

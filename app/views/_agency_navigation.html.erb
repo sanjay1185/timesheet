@@ -1,0 +1,20 @@
+<div id="tabs">
+  <ul>
+	<li><a href="<%= "/agencies/#{session[:agencyId]}/outstanding" %>" class="<%= "selected" if session[:selected] == 'dashboard' %>" title="Dashboard for quick access to current timesheet data"><span>Dashboard</span></a></li>
+    <li><a href="<%= clients_path + '?filter=*&page=1' %>" class="<%= "selected" if session[:selected] == 'clients' %>" title="Clients"><span>Clients</span></a></li>
+    <li><a href="<%= url_for :action => 'timesheet_history', :controller => 'agencies', :id => session[:agencyId] %>" class="<%= "selected" if session[:selected] == 'timesheet_history' %>" title="View the history of all timesheets in the system"><span>History</span></a></li>
+    <% if current_user.has_role?('Reports') %>
+      <li><a href="<%= url_for :action => 'reports', :controller => 'agencies', :id => session[:agencyId] %>" class="<%= "selected" if session[:selected] == 'reports' %>" title="Run reports on invoice and timesheet data"><span>Reports</span></a></li>
+    <% end %>
+    <% if current_user.has_role?('Users') %>
+      <li><a href="<%= url_for :action => 'users', :controller => 'agencies', :id => session[:agencyId] %>" class="<%= "selected" if session[:selected] == 'users' %>" title="User Manager"><span>Users</span></a></li>
+    <% end %>
+    <% if session[:useInvoicing] == true && (current_user.has_role?('Invoicing')) %>
+        <li><a href="<%= url_for :action => 'index', :controller => 'invoices' %>" title="Edit and export client invoice data" class="<%= "selected" if session[:selected] == 'invoicing' %>" title="View and process client invoices"><span>Invoicing</span></a></li>
+    <% end %>
+    <% if current_user.has_role?('Settings') %>
+      <li><a href="<%= url_for :action => 'settings', :controller => 'agencies', :id => session[:agencyId] %>" class="<%= "selected" if session[:selected] == 'settings' %>" title="Edit agency settings"><span>Settings</span></a></li>
+    <% end %>
+    <li><a href="<%= url_for :action => 'logout', :controller => 'agencies', :id => session[:agencyId] %>" class="<%= "selected" if session[:selected] == 'logout' %>" title="Exit"><span>Logout</span></a></li>
+  </ul>
+</div>

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>ClockOff.com - Agency Dashboard</title>
+  <%= stylesheet_link_tag "themes/#{session[:theme]}/style" %>
+  <%= stylesheet_link_tag "themes/#{session[:theme]}/navigation" %>
+  <%= stylesheet_link_tag "themes/#{session[:theme]}/boxes" %>
+  <%= stylesheet_link_tag "themes/#{session[:theme]}/tables" %>
+  <%= stylesheet_link_tag 'modalbox' %>
+  <!--[if gte IE 7]>
+  <%= stylesheet_link_tag 'ie' %>
+  <![endif]-->
+  <%= javascript_include_tag 'prototype' %>
+  <%= javascript_include_tag 'effects' %>
+  <%= javascript_include_tag 'shadedborder' %>
+  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag 'modalbox' %>
+  
+  <%= calendar_date_select_includes "blue", :locale => 'en' %>
+</head>
+<body>
+  <!--[if IE 6]>
+    <div style="width:100%;background-color:#F2DDB6;padding-bottom:8px;">
+     <strong>Unfortunately we don't support Internet Explorer 6 which means that some or all of the pages on our site may not be displayed correctly.</strong>
+     <br/>We reccommend upgrading to one of the following: Internet Explorer 7+ or Firefox 3+. <a href="http://www.quirksmode.org/upgrade.html" class="norm">More advice on upgrading</a>.
+    </div>
+    <![endif]-->
+  <% if current_user.agency.trial? %>
+  <div style="position:absolute;top:-8px;right:0px;">
+    <div id="trial-box"><div style="vertical-align:bottom;">Trial ends in <%= session[:days_left] %> days</div></div>
+  </div>
+  <% end %>
+  <br />
+  <div>
+    <div style="display: none;" id="error_msgs"></div>
+    <div style="display: none;" id="notice"></div>
+    <br />
+    <div id="tab-container">
+    <%= render :partial => '/agency_navigation' %>
+    </div>
+    <div id="main_box" >
+      <table width="100%" cellpadding="0" cellspacing="0">
+      	<tr>
+      		<td width="150px" valign="top" style="padding-right:5px">
+      			<%= render :partial => '/agency_dashboard_navigation' %>
+			</td>
+			<td valign="top">
+				<%= yield %>
+			</td>
+      	</tr>
+      
+	  </table>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+    var main_box = RUZEE.ShadedBorder.create({corner:11, border:5});
+    main_box.render('main_box');
+  <% if current_user.agency.trial? %>
+      var trialbox = RUZEE.ShadedBorder.create({corner:10}); 
+      trialbox.render('trial-box');
+  <% end %>
+  <% if flash[:notice] %>
+    var notice = RUZEE.ShadedBorder.create({corner:5, border:1});
+    notice.render('notice');
+  <% end %>
+  </script>
+  <% flash.discard %>
+</body>
+</html>

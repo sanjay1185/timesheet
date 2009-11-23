@@ -1,0 +1,37 @@
+div.nav_header_single {
+    padding-top: 2px;
+    padding-left: 8px;
+}
+
+.generalButton {
+  border: 1px solid #AFAFAF;
+  padding: 0px 4px 0px 4px;
+  height: 20px;
+  font-size: 0.9em;
+  color: #575757;
+  font-weight: bold;
+  background: #FFF url(/images/button-bg.gif) repeat-x top left;
+  margin-top: 1px;
+}
+.disabledButton {
+  border: 1px solid #AFAFAF;
+  padding: 0px 4px 0px 4px;
+  height: 20px;
+  font-size: 0.9em;
+  color: #575757;
+  font-weight: bold;
+  background: #FFF url(/images/button-bg.gif) repeat-x top left;
+  margin-top: 1px;
+}
+
+#nav_header_right .small_icon {
+    padding-top: 3px;
+}
+
+.buttons {
+    padding-top:4px
+}
+
+#nav_header_left, #nav_header_right {
+    line-height: 22px
+}

@@ -1,0 +1,4 @@
+Dear <%= @user.last_name_with_title %>,
+<p>At <%= @agency.name %> we need to process our weekly timesheets by <%= @agency.cutOffTime.strftime("%H:%M") %> every <%= DateTime.get_day(@agency.cutOffDay) %>.</p>
+<p>You currently have one or more timesheets outstanding that require your attention. We would apprciate it if you could log-in and action these as soon as you are able.</p>
+<p>Many thanks.</p>

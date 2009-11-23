@@ -1,0 +1,14 @@
+Dear <%= @user.last_name_with_title %>,
+
+<p><%= @agency.name %> have submitted a request for you become an approver for the timesheets for temps within your organisation. Since you are already a registered
+user of ClockOff.com all you need to do is click on the link below to approve or deny this request:</p>
+
+<p>Click <a href="<%= @url %>">here</a> to view the request.</p>
+
+<p>If you approve the request you will automatically be set up to receive notifications for timesheets that require your approval.</p>
+
+<p>If you have any other questions regarding this, please contact <%= @agency.name %><%= " on #{@agency.phone}" unless @agency.phone.blank? %>.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>

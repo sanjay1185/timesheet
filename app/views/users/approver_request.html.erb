@@ -1,0 +1,61 @@
+<br />
+<br />
+<br />
+<br />
+<div class="login_box">
+<div class="t"><div class="b"><div class="l"><div class="r">
+<div class="bl_nav_bar"><div class="br_nav_bar"><div class="tl_nav_bar"><div class="tr_nav_bar">
+<div class="login_content">
+
+<div id="loginContainer" style="z-index: 1000">
+  <div>
+    <% form_tag '/process_request' do -%>
+      <div class="loginForm" >
+        <table>
+          <% if flash[:alert] %>
+            <tr><td colspan="2" align="center"><span style="color: red"><%= flash[:alert] %></span></td></tr>
+          <% elsif flash[:notice] %>
+            <tr><td colspan="2" align="center"><span style="color: green"><%= flash[:notice] %></span></td></tr>
+          <% else %>
+          <tr>
+            <td colspan="2" class="definition prompt" style="text-align: center">You (<%= @approver_request.user.full_name %>) have received a request to become an approver for</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="definition prompt" style="text-align: center"><span style="font-size: 1.4em;"><%= @approver_request.client.name %></span></td>
+          </tr>
+          <tr>
+            <td colspan="2" class="definition prompt" style="text-align: center">Use the buttons below to accept or decline the request:</td>
+          </tr>
+          <tr>
+            <td><div class="loginFormButton" id="loginButtonBox">
+        <input id="loginButton" name="commit" type="submit" value="Accept" />
+      </div></td>
+            <td><div class="loginFormButton" id="loginButtonBox">
+        <input id="loginButton" name="commit" type="submit" value="Decline" />
+      </div></td>
+          </tr>
+          <input type="hidden" name="code" value="<%= @approver_request.code %>" />
+        <% end %>
+
+        </table>
+        <br />
+<br />
+<br />
+      </div>
+
+
+    <% end -%>
+
+  </div>
+</div>
+
+</div>
+</div></div></div></div>
+</div></div></div></div>
+</div>
+<br />
+<br />
+<br />
+<br />
+
+<% flash.discard %>

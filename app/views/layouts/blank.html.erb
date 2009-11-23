@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <title>ClockOff.com</title>
+        <%= stylesheet_link_tag "themes/default/style" %>
+        <%= stylesheet_link_tag "themes/default/boxes" %>
+        <%= stylesheet_link_tag "themes/default/tables" %>
+        <!--[if gte IE 7]>
+            <%= stylesheet_link_tag 'ie' %>
+        <![endif]-->
+        <%= javascript_include_tag :defaults %>
+		<%= javascript_include_tag 'shadedborder' %>
+    </head>
+    <body>
+        <div>
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+            <br/>
+            <div id="main_box">
+                <%= yield %>
+            </div>
+        </div>
+        <script type="text/javascript">
+                var main_box = RUZEE.ShadedBorder.create({corner:11, border:5});
+                main_box.render('main_box');
+              <% if flash[:notice] %>
+                var notice = RUZEE.ShadedBorder.create({corner:5, border:1});
+                notice.render('notice');
+              <% end %>
+              
+        </script>
+        <% flash.discard %>
+    </body>
+</html>

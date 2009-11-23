@@ -1,0 +1,164 @@
+<% form_tag('reject_timesheet?timesheet_id=' + @timesheet.id.to_s, :onsubmit => 'return false', :name => 'reject_form') do %>
+<%= show_notice(flash[:notice]) %>
+<% approve_html = "<input type=\"button\" class=\"generalButton\" value=\"Approve\" onclick=\"Modalbox.show('/timesheets/#{@timesheet.id}/manual_approval?back_url=#{@list_url}', {title: 'Manual Approval', width: 400}); return false;\" />" %>
+<% reject_html = "#{image_submit_tag("reject.gif",  :style => "top:2px", :title => "Reject this timesheet", :onclick => "Modalbox.show(\"reject_timesheet_alert\", {title: (this.title == '' ? 'Confirm' : this.title), width: 300, autoFocusing: false}); return false;")}" %>
+<% history_html = "<a class=\"image\" href=\"view_history?original_id=#{@timesheet.id}\"><img style=\"top:2px\" src=\"/images/icon_history.gif\" alt=\"\" title=\"View History\" /></a>&nbsp;" %>
+<% reject_html = "" if !@timesheet.can_reject? %>
+<% reject_html = reject_html + "#{"&nbsp;" + approve_html}" if @timesheet.status == 'MANUAL' %>
+<% reject_html = history_html + reject_html if @timesheet.can_show_history? %>
+<% session[:previous_uri] = request.request_uri %>
+<div id="nav-bar-box">
+<% if @source != 'history' %>
+  <%= two_column_nav_bar_layout2("<a href=\"#{@list_url}\">Oustanding Timesheets</a> >> Timesheet Details", reject_html) %>
+<% else %>
+  <%= two_column_nav_bar_layout2("<a href=\"#{@list_url}\">Timesheets History</a> >> Timesheet Details", "<div class=\"header_combo_right\">#{reject_html}</div>") %>
+<% end %>
+
+  </div>
+  <%= show_errors('Please fix the following errors', error_messages_for('timesheet')) %>
+
+  <div id="blue-box">
+    <div id="padder-list">
+      <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td style="width:70%;padding-right: 5px;border-right: black solid 1px">
+            <table width="100%" cellspacing="0" cellpadding="2">
+              <tr>
+                <td class="header row_border_right" colspan="2">Date</td>
+                <td class="header row_border_right" align="right">Start&nbsp;</td>
+                <td class="header row_border_right" align="right">Break&nbsp;</td>
+                <td class="header row_border_right" align="right">Finish&nbsp;</td>
+                <td class="header row_border_right" align="right">Daily&nbsp;</td>
+                <td class="header row_border_right" align="right">Hours&nbsp;</td>
+                <td class="header">Rate&nbsp;</td>
+              </tr>
+
+              <% @timesheet.timesheet_entries.each do |entry| %>
+                <tr>
+                  <% colspan = 6 %>
+
+                  <% if entry.disabled == true %>
+                    <td class="row_border_bottom" style="font-size: 1.1em;width:90px;">&nbsp;<%=h entry.dateValue.to_formatted_s(:uk_date) %></td>
+                    <td class="row_border_bottom row_border_right" style="font-size: 1.1em;<%= "color:gray" if entry.manual? %>"><%=h entry.dateValue.strftime("%A") %></td>
+                    <td class="row_border_bottom" colspan="<%= colspan %>" style="text-align: center"><div style="color: gray; border: gray solid 1px;width:98%;text-align: center;">Not required for this timesheet</div></td>
+                  <% else %>
+                    <td class="row_border_bottom" style="height: 18px;font-size: 1.1em;width:90px;<%= "color:gray;font-style: italic" if entry.manual? %>">&nbsp;<%=h entry.dateValue.to_formatted_s(:uk_date) %></td>
+                    <td class="row_border_bottom row_border_right" style="font-size: 1.1em;<%= "color:gray;font-style: italic" if entry.manual? %>"><%=h entry.dateValue.strftime("%A") %></td>
+                    <td class="row_border_bottom row_border_right" align="right"><%= entry.startTime %>&nbsp;</td>
+                    <td class="row_border_bottom row_border_right" align="right"><%= entry.breakHours %>&nbsp;</td>
+                    <td class="row_border_bottom row_border_right" align="right"><%= entry.finishTime %>&nbsp;</td>
+                    <td class="row_border_bottom row_border_right" align="right"><%= entry.dayValue unless entry.dayValue.nil? || entry.dayValue == 0 %>&nbsp;</td>
+                    <td class="row_border_bottom row_border_right" align="right"><%= entry.hours %>&nbsp;</td>
+                    <td class="row_border_bottom"><%= entry.rate.name %></td>
+                  <% end %>
+                </tr>
+
+              <% end %>
+              <tr class="totals bold">
+                <td class="row_border_right" colspan="5">Total</td>
+                <td class="row_border_right" align="right"><%= @timesheet.totalDays %>&nbsp;</td>
+                <td class="row_border_right" align="right"><%= @timesheet.totalHours %>&nbsp;</td>
+                <td class="">&nbsp;</td>
+
+              </tr>
+            </table>
+
+          <td style="width:30%; padding-left: 5px" valign="top">
+            <table width="100%" cellspacing="0" cellpadding="2">
+              <tr>
+                <td class="header" colspan="2" >Timesheet Details</td>
+              </tr>
+              <tr>
+                <td class="leftHeader row_border_bottom row_border_right">Week</td>
+                <td class="row_border_bottom"><%= @timesheet.startDate.cweek %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader row_border_bottom row_border_right">Worker</td>
+                <td class="row_border_bottom"><%= @timesheet.contractor.user.full_name %></td>
+              </tr>
+			  <tr>
+                <td class="leftHeader row_border_bottom row_border_right">Status</td>
+                <td class="row_border_bottom"><%= @timesheet.status %></td>
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="header" colspan="2" >Contract Details</td>
+              </tr>
+              <tr>
+                <td class="leftHeader row_border_bottom row_border_right">Start Date</td>
+                <td class="row_border_bottom"><%= @timesheet.contract.startDate.to_formatted_s(:uk_date) %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader row_border_bottom row_border_right">End Date</td>
+                <td class="row_border_bottom"><%= @timesheet.contract.endDate.to_formatted_s(:uk_date) %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader row_border_bottom row_border_right">Position</td>
+                <td class="row_border_bottom"><%= @timesheet.contract.position %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader row_border_bottom row_border_right">Reference</td>
+                <td class="row_border_bottom"><%= @timesheet.contract.ref %></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div></div>
+  <table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="55%" valign="top"  height="150px">
+      <div id="blue-box1">
+          <div class="padder">
+            <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+              <tr><td class="header">Notes</td></tr>
+              <tr><td>&nbsp;</td></tr>
+              <tr><td><div style="height: 120px;overflow:auto">
+              	<table width="95%" cellpadding="2" cellspacing="0">
+              		
+					<tr valign="top">
+              		<td><span class="bold"><%= @timesheet.userName %> - <%= @timesheet.updated_at.to_formatted_s(:uk_date_time_24) %></span><br /><%= @timesheet.note %></td>
+              		</tr>
+              		<% for note in @notes %>
+						<% cls = cycle("odd_row_dull", "") -%>
+						<tr class="<%= cls %>" valign="top">
+	              		<td><span class="bold"><%= note.userName %> - <%= note.updated_at.to_formatted_s(:uk_date_time_24) %></span><br /><%= note.note %></td>
+	              		</tr>
+					<% end%>
+              		
+              	</table>
+         
+              </div></td></tr>
+            </table>
+          </div></div>
+    </td> <!-- cell -->
+    <td style="padding-left: 5px" valign="top"  height="150px">
+       <div id="blue-box2">
+          <div class="padder">
+      <table width="100%" align="center" cellpadding="0" cellspacing="0">
+              <tr><td class="header">Add New Note</td></tr>
+              <tr><td>&nbsp;</td></tr>
+              <tr valign="top"><td><div style="height: 105px;"><%= text_area_tag('notes', nil, :rows => 7, :style => "width: 97%", :onKeyDown => 'limitText(this,255)', :onKeyUp => 'limitText(this,255)', :disabled => @timesheet.status != 'APPROVED') %></div></td></tr>
+            </table>
+        <br />
+      </div></div>
+    </td> <!-- cell -->
+  </tr> <!-- row -->
+</table> <!-- table -->
+
+    <br/>
+    <script type="text/javascript">
+
+      var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+      navbarbox.render('nav-bar-box');
+      var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+      bluebox.render('blue-box');
+      var bluebox1 = RUZEE.ShadedBorder.create({corner:8, border:1});
+      bluebox1.render('blue-box1');
+      var bluebox2 = RUZEE.ShadedBorder.create({corner:8, border:1});
+      bluebox2.render('blue-box2');
+
+    </script>
+  <% end %>

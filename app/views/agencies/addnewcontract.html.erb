@@ -1,0 +1,60 @@
+<% form_for(@contract, :url => { :action => 'save_new_contract'}) do |f| %>
+  <%= f.error_messages %>
+  <p>Select Client: <%= collection_select(:contract, "client_id" , @clients, "id", "name") %></p>
+<table>
+	<tr>
+		<td>Start Date:</td>
+		<td><%= f.date_select :startDate, :order => [:day, :month, :year] %></td>
+	</tr>
+	<tr>
+		<td>End Date:</td>
+		<td><%= f.date_select :endDate, :order => [:day, :month, :year] %></td>
+	</tr>
+	<tr>
+		<td>Ref:</td>
+		<td><%= f.text_field :ref %></td>
+	</tr>
+	<tr>
+		<td>Position:</td>
+		<td><%= f.text_field :position %></td>
+	</tr>
+	<tr>
+		<td>Rate:</td>
+		<td><%= f.text_field :rate %></td>
+	</tr>
+	<tr>
+		<td>Rate Type:</td>
+		<% @rateTypes =  ['Day', 'Hour'] %>
+		<td>
+          <%= select_tag :rateType, options_for_select(@rateTypes, 'Day')  %>
+          <%= f.hidden_field :rateType %>
+		</td>
+	</tr>
+	<tr>
+		<td>Pay Period:</td>
+		<% @periods =  ['Month', 'Week'] %>
+		<td><%= select_tag :period, options_for_select(@periods, 'Month') %>
+        <%= f.hidden_field :period %>
+		</td>
+	</tr>
+    <tr>
+        <td>Length of Working Day:</td>
+        <td><%= f.text_field :dayLength %></td>
+    </tr>
+    <tr>
+		<td>Overtime Rate:</td>
+		<td><%= f.text_field :overtimeRate %></td>
+	</tr>
+	<tr>
+		<td>On Call Charge:</td>
+		<td><%= f.text_field :onCallCharge %></td>
+	</tr>
+  	<tr>
+		<td>Call Out Charge:</td>
+		<td><%= f.text_field :callOutCharge %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.submit "Create" %></td>
+	</tr>
+</table>
+<% end %>

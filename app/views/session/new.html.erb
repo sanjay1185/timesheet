@@ -1,0 +1,50 @@
+<br />
+    <% form_tag session_path, :id => 'login' do -%>
+      <div class="loginForm" >
+        <table>
+          <% if flash[:alert] %>
+            <tr><td colspan="2" align="center"><span style="color: red;font-size: 1.1em">Login failed: <%= flash[:alert] %></span></td></tr>
+          <% end %>
+          <% if flash[:error] %>
+            <tr><td colspan="2" align="center"><span style="color: red;font-size: 1.1em"><%= flash[:error] %></span></td></tr>
+          <% end %>
+          <% if flash[:notice] %>
+            <tr><td colspan="2" align="center"><span style="color: green;font-size: 1.1em"><%= flash[:notice] %></span></td></tr>
+          <% end %>
+          <tr>
+            <td colspan="2" id="prompt" style="text-align: center">Please enter your username/email and password.</td>
+          </tr>
+          <tr>
+            <td class="label"><label for="user_login">username:</label></td>
+            <td class="definition"><% if !@user.nil? %><%= text_field_tag 'login', @user.login,{ :id => 'R', :class => 'user_data' } %><% else %><%= text_field_tag 'login', "", { :id => 'R', :class => 'user_data' } %><% end %> </td>
+          </tr>
+          <tr>
+            <td class="label"><label for="user_password">password:</label></td>
+            <td class="definition"><%= password_field_tag 'password', "", { :class => 'user_data' } %></td>
+          </tr>
+          <tr>
+            <td align="center" colspan="2"><% if !@user.nil? %><%= check_box_tag('remember_me', 1, true) %><% else %><%= check_box_tag 'remember_me' %><% end %>  <label for="remember_me">Remember me?</label></td>
+          </tr>
+
+        </table>
+      </div>
+
+      <div class="loginFormButton" id="loginButtonBox">
+        <input id="loginButton" name="commit" type="submit" value="login" />
+      </div>
+      <br />
+      <div id="forgotPw" class="forgotPwBox">
+        [ <%= link_to 'Forgot your password?', forgot_password_path %> ]
+      </div>
+      <br />
+      <br />
+      <script language="JavaScript">
+        document.getElementById('R').focus();
+      </script>
+
+    <% end -%>
+
+
+<br /><br />
+<%= flash[:notice] = nil %>
+<%= flash[:alert] = nil %>

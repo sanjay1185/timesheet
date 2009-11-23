@@ -1,0 +1,42 @@
+aaron:
+  id: 1
+  firstName: Aaron
+  title: Mr
+  lastName: Hinton
+  userType: agency
+  state: active
+  phone: 020 8451 2114
+  mobile: 07654 122 121
+  login: aaron
+  addr1: 75 Bond Street
+  city: Ealing
+  region: London
+  postCode: W5 8TT
+  agency: sherridan_ward
+  activated_at: 2009-01-01 12:00:00
+  email: aaron@example.com
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  password_reset_code: 7e3041ebc2fc05a40c60028e2c4901a81035d3ce
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 1.days.ago.to_s :db %>
+bob:
+  id: 2
+  firstName: Bob
+  title: Mr
+  lastName: Smith
+  userType: contractor
+  state: active
+  phone: 020 8555 1111
+  mobile: 07654 111 222
+  login: bobsmith
+  addr1: 12 Dillon Road
+  city: Greenford
+  region: Middlesex
+  postCode: UB1 2YY
+  contractor: contractor_bob
+  activated_at: 2009-01-01 12:00:00
+  email: bobsmith@live.com
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  password_reset_code: 7e3041ebc2fc05a40c60028e2c4901a81035d3ce
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 1.days.ago.to_s :db %>

@@ -1,0 +1,80 @@
+<% form_tag 'report', :method => :get, :target => '_blank' do %>
+
+  <div id="nav-bar-box">
+    <%= two_column_nav_bar_layout2("Reports", "") %>
+  </div>
+
+<div id="blue-box">
+    <div class="padder">
+  <fieldset>
+    <legend><strong>Custom Reports</strong></legend>
+  
+  <table width="100%">
+      <tr>
+        <td>Report Type:</td>
+        <td><%= select_tag('reportName', options_for_select(@reportTypes, @selected_report)) %></td>
+        <td>From Date:</td>
+        <td><%= calendar_date_select_tag 'from_date', Date.today - 1.month, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17  %></td>
+      </tr>
+      <tr>
+        <td>Client:</td>
+        <td><%= select_tag("client_id", options_from_collection_for_select(@client_list, :id, :name, @client_id.to_i), :id => 'client_id', :style =>"width: 220px;" ) %></td>
+        <td>To Date:</td>
+        <td><%= calendar_date_select_tag 'to_date', Date.today, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17  %></td>
+      </tr>
+      <tr>
+        <td>Temp:</td>
+        <td><%= select_tag("contractor_id", options_from_collection_for_select(@users, :contractor_id, :full_name, @contractor_id.to_i), :style =>"width: 220px;") %></td>
+        <td></td>
+        <td align="right"><%= submit_tag 'Run Report', :class => 'generalButton' %></td>
+      </tr>
+  </table>
+  </fieldset>
+  <br />
+  <table width="100%">
+    <tr>
+      <td>
+  <fieldset>
+    <legend><strong>Client Revenue Quick Reports</strong></legend>
+    <table>
+      <tr><td><a target="_blank" href="<%= @client_revenue_this_year_link %>"><%= @client_revenue_this_year_text %></a></td></tr>
+      <tr><td><a target="_blank" href="<%= @client_revenue_this_month_link %>"><%= @client_revenue_this_month_text %></a></td></tr>
+      <tr><td><a target="_blank" href="<%= @client_revenue_last_month_link %>"><%= @client_revenue_last_month_text %></a></td></tr>
+    </table>
+  </fieldset>
+      </td>
+      <td>
+  <fieldset>
+    <legend><strong>Contract Revenue Quick Reports</strong></legend>
+    <table>
+      <tr><td><a target="_blank" href="<%= @contract_revenue_this_year_link %>"><%= @contract_revenue_this_year_text %></a></td></tr>
+      <tr><td><a target="_blank" href="<%= @contract_revenue_this_month_link %>"><%= @contract_revenue_this_month_text %></a></td></tr>
+      <tr><td><a target="_blank" href="<%= @contract_revenue_last_month_link %>"><%= @contract_revenue_last_month_text %></a></td></tr>
+    </table>
+  </fieldset>
+      </td>
+      <td>
+  
+  <fieldset>
+    <legend><strong>Timesheet Quick Reports</strong></legend>
+    <table>
+      <tr><td><a target="_blank" href="<%= @timesheet_this_year_link %>"><%= @timesheet_this_year_text %></a></td></tr>
+      <tr><td><a target="_blank" href="<%= @timesheet_this_month_link %>"><%= @timesheet_this_month_text %></a></td></tr>
+      <tr><td><a target="_blank" href="<%= @timesheet_last_month_link %>"><%= @timesheet_last_month_text %></a></td></tr>
+    </table>
+  </fieldset>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+
+<% end %>
+<script type="text/javascript">
+
+    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    navbarbox.render('nav-bar-box');
+    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    bluebox.render('blue-box');
+
+</script>

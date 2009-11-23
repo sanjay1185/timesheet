@@ -1,0 +1,58 @@
+sherridan_ward:
+  name: Sheridan Ward Associates
+  addr1: 72 High Street
+  city: Uxbridge
+  region: Middlesex
+  postCode: UB2 1UW
+  phone: 01895 512 321
+  fax: 01895 512 322
+  email: temps@sheridanward.co.uk
+  active: 1
+  trial: false
+  invoicing: true
+  sageNominalCode: 255
+  nextInvoiceNumber: 1
+  defaultMargin: 20
+  useInvoicing: true
+  calculatePAYE: true
+  autoReminder: true
+  cutOffDay: 2
+  cutOffTime: 10:30
+hudson:
+  name: Hudson
+  addr1: Chancery House
+  addr2: 53-64 Chancery Lane
+  city: London
+  postCode: WC2A 1QS
+  phone: 020 7187 6000
+  fax: 020 7187 6001
+  email: contracts@hudson.com
+  active: 1
+  trial: false
+  invoicing: true
+  nextInvoiceNumber: 10
+  defaultMargin: 20
+  useInvoicing: true
+  calculatePAYE: true
+  autoReminder: true
+  cutOffDay: 2
+  cutOffTime: 10:30
+trial_agency:
+  name: ABC Recruitment
+  addr1: 22 Frampton St
+  city: London
+  postCode: W1 6TD
+  phone: 020 7541 2131
+  fax: 020 7541 2132
+  email: abc@abcrecruitment.com
+  active: 1
+  trial: true
+  invoicing: true
+  nextInvoiceNumber: 2
+  defaultMargin: 20
+  useInvoicing: true
+  calculatePAYE: true
+  autoReminder: true
+  cutOffDay: 2
+  cutOffTime: 10:30
+  

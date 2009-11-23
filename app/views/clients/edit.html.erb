@@ -1,0 +1,130 @@
+<% form_for(@client) do |f| %>
+
+  <%= show_errors('Unable to save client', f.error_messages) %>
+  <%= show_notice(flash[:notice]) %>
+
+  <div id="nav-bar-box">
+    <%= two_column_nav_bar_layout2("#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{@client.name}", link_to('Manage Contracts', client_contracts_path(@client))) %>
+  </div>
+
+  <div id="blue-box">
+    <div class="padder">
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="left_side_cell">
+            <div id="left-header-box" >
+              <%= two_column_nav_bar_layout2('Client Details', "#{delete_link("Delete Client?", "Would you like to delete this client?", delete_client_client_url(@client), 300, @readonly, 'clients') if @can_delete}&nbsp;#{get_save_image(@readonly, 'save clients')}") %>
+            </div>
+            <br />
+            <table width="100%" class="with_margins" align="center" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="leftHeader">Name: <span class="required">*</span></td>
+                <td><%= f.text_field :name, :size => "30", :maxlength => "100", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">Addr1: <span class="required">*</span></td>
+                <td><%= f.text_field :addr1, :size => "30", :maxlength => "75", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">Addr2:</td>
+                <td><%= f.text_field :addr2, :size => "30", :maxlength => "75", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">Addr3:</td>
+                <td><%= f.text_field :addr3, :size => "30", :maxlength => "75", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">City: <span class="required">*</span></td>
+                <td><%= f.text_field :city, :size => "24", :maxlength => "75", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">Region:</td>
+                <td><%= f.text_field :region, :size => "24", :maxlength => "75", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">Post Code:</td>
+                <td><%= f.text_field :postCode, :size => "15", :maxlength => "15", :class => 'spaced_input' %></td>
+              </tr>
+            </table>
+            <br />
+            <div id="left-header-box2">
+              <div class="header-container">Invoicing Settings</div>
+            </div>
+            <br />
+            <table width="100%" class="with_margins" cellpadding="0" align="center" cellspacing="0">
+              <tr>
+                <% @periods =  ['Monthly', 'Weekly'] %>
+                <td class="leftHeader">Invoice Period <%= help_link('/help/client_invoice_period', 'Help on Invoice Period') %> :</td><td><%= select_tag 'period', options_for_select(@periods, @client.invoicePeriod), :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">Monthly Period Start Day <%= help_link('/help/client_monthly_start_day', 'Help on Monthly Period Start Day') %> :</td>
+                <td><%= f.text_field :monthlyInvoicePeriodStartDay, :size => "4", :maxlength => "2", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">External Ref <%= help_link('/help/client_external_ref', 'Help on External Ref %') %> :</td>
+                <td><%= f.text_field :externalClientRef, :size => "12", :maxlength => "15", :class => 'spaced_input' %></td>
+              </tr>
+              <tr>
+                <td class="leftHeader">Default Margin % <%= help_link('/help/client_margin', 'Help on Default Margin %') %> : <span class="required">*</span></td>
+                <td><%= f.text_field :margin, :size => "6", :class => 'spaced_input txt_right' %></td>
+              </tr>
+
+            </table>
+            <br />
+
+          </td> <!-- cell -->
+          <td class="right_side_cell" valign="top">
+            <div id="right-header-box">
+              <%= two_column_nav_bar_layout2("Approvers #{help_link('/help/client_approvers', 'Help on Approvers')}", "#{link_to('Add Approver', new_approver_client_path(@client))}") %>
+            </div>
+            <div class="with_margins">
+            <table width="100%" align="center" cellpadding="2" cellspacing="0">
+              <tr>
+                <td colspan="3">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="header row_border_right">Name</td><td class="header" colspan="2" style="padding-left:2px">Email</td>
+              </tr>
+              <% if @approvers.length == 0 %>
+                <tr>
+                  <td colspan="3">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="3" align="center"><strong>This client has no approvers</strong><p>Timesheets can only be submitted manually (faxed/posted) unless approvers are defined for this client.</p></td>
+                </tr>
+              <% else %>
+               
+                  <% for approver in @approvers %>
+                    <tr>
+                      <td class="row_border_bottom row_border_right" ><%= approver.full_name %></td>
+                      <td class="row_border_bottom "><%= truncate(approver.email, :length => 32) %></td>
+                      <td class="row_border_bottom " align="right"><%= delete_link_readonly(@readonly, "approvers", "Delete Approver?", "Are you sure you want to remove this approver?<p>(This will not delete their account)</p>", remove_approver_client_url(@client, :user_id => approver.id), 350) %></td>
+                    </tr>
+                  <% end %>
+          
+              <% end %>
+            </table>
+            </div>
+            <div id="pagination"><%= will_paginate(@approvers) %></div>
+          </td> <!-- cell -->
+        </tr> <!-- row -->
+      </table> <!-- table -->
+
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    
+    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    navbarbox.render('nav-bar-box');
+    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    bluebox.render('blue-box');
+    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    leftheaderbox.render('left-header-box');
+    var leftheaderbox2 = RUZEE.ShadedBorder.create({corner:8, border:1});
+    leftheaderbox2.render('left-header-box2');
+    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    rightheaderbox.render('right-header-box');
+
+  </script>
+<% end %>

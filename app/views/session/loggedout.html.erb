@@ -1,0 +1,11 @@
+<br /><br /><br />
+<table cellpadding="2" width="100%">
+  <tr>
+    <td style="text-align:center; font-size:10pt">
+      <% p = ''  %>
+      <% p = "?t=" + params[:t] unless params[:t] == 'default' %>
+      You have been logged out.<br /><br />Click <%= link_to "here", login_path + p %> to log in again.
+    </td>
+  </tr>
+</table>
+<br /><br /><br />

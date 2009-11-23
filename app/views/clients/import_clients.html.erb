@@ -1,0 +1,86 @@
+<%= show_notice(flash[:notice]) %>
+<%= show_errors('Unable to import CSV file', flash[:alert]) %>
+<% form_tag('import_clients', :multipart => true) do %>
+  <div id="nav-bar-box">
+    <%= two_column_nav_bar_layout2("<a href=\"/clients\">Clients</a> >> Import Clients", submit_tag('Import', :class => 'generalButton')) %>
+  </div>
+  <div id="blue-box">
+    <div class="padder">
+      <table id="client_import" width="100%" cellpadding="4" cellspacing="3">
+        <tr>
+          <td width="33.3%" style="border-right: black solid 1px;">
+            <div class="import_header">Import Requirements</div>
+            <div style="margin-top:5px">Each field must be in the correct order and within the length specified below:
+              <p class="bold">
+              	<table width="120px">
+              		<tr>
+              			<td class="required">Name (100)</td>
+              		</tr>
+					<tr>
+						<td class="required">Addr1 (75)</td>
+					</tr>
+					<tr>
+						<td>Addr2 (75)</td>
+					</tr>
+					<tr>
+						<td>Addr3 (75)</td>
+					</tr>
+					<tr>
+						<td class="required">City (75)</td>
+					</tr>
+					<tr>
+						<td>Region (75)</td>
+					</tr>
+					<tr>
+						<td>PostCode (15)</td>
+					</tr>
+					<tr>
+						<td>ExternalRef (75)</td>
+					</tr>
+              	</table>
+                </p>
+              <p>The fields marked in <span class="required">red</span> are required and must be supplied.</p>
+              <p>The csv file may contain a header. If so you should
+                tick the '<i>Contains Header</i>' checkbox to make sure that this row is not imported as a client.</p>
+            </div>
+          </td>
+          <td style="border-right: black solid 1px;width: 33.4%">
+            <div class="import_header">CSV Import Format</div>
+            <div style="margin-top:5px">
+              Each client should be on a separate row. Copy and paste the text below into a text editor:
+              <p style="font-family:monospace;font-size: 1.2em">
+                AA Services Ltd,100 Bond Street,,,London,,EC1M 8YH,AAS01<br/>
+                ABC Company,65 Byron Road,Lordshill,,Southampton,Hants,SO15 8HS,
+              </p>
+              <p>
+                Double quotes are allowed to define fields if required.
+              </p>
+              <p>
+                The importer will not import clients with the same name and town as existing clients. Tick the '<i>Allow Duplicates</i>' checbox to override this and import all rows.
+              </p>
+              <p>
+                Please note that the <i>ExternalRef</i> field must be unique across all your clients.
+              </p>
+            </div>
+          </td>
+          <td width="33.3%">
+            <div class="import_header">Upload CSV File</div>
+            <div style="margin-top:5px">
+              <%= file_field_tag('upload', :accept => 'text/csv') %>
+              <p style="margin-left: 8px;">        <input type="checkbox" name="has_header" />Contains Header?<br />
+                <input type="checkbox" name="allow_duplicates" />Allow Duplicates?
+              </p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+
+  </div>
+</div>
+<script type="text/javascript">
+  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  navbarbox.render('nav-bar-box');
+  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  bluebox.render('blue-box');
+</script>

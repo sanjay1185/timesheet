@@ -1,0 +1,133 @@
+<tr>
+	<td><div style="widthL 100%;text-align: center" class="statement gray_border_bottom">Recruitment Agencies - Register for free trial</div>
+<% form_for(:agency, :user, :url => {:action => :create}) do |f| %>
+      
+        <table width="100%">
+           <tr><td>
+              <div style="margin-left:20px; margin-right:20px;<%= "display:none" if @agency.errors.length == 0 && @user.errors.length == 0 && flash[:error].nil? %>" class="error_message"><span style="font-weight: bold">Please correct the following errors:</span><p><%= error_messages_for :agency, :user  %><br /><%= flash[:error] %> </p></div>
+              <p>Please fill in your company details below to register. You will also need to create a default user account which will become the
+                administrative user for your company. Please note that the company email address below will be used as the default
+              contact email for temps who are submitting timesheets for you.</p>
+            </td>
+          </tr>
+        </table>
+      
+
+  <table width="100%">
+    <tr>
+      <td valign="top" width="50%"> <!-- left side -->
+
+        <table>
+          <tr>
+            <td colspan="2" class="gray_border_bottom" style="font-size: 1.3em; text-align: center;">Company Information</td>
+          </tr>
+          <tr>
+            <td colspan="2">&nbsp;</td>
+          </tr>
+  <tr>
+    <td>Company Name:  <label class="red">*</label></td>
+    <td><%= text_field :agency, :name, :size => 30, :maxlength => 100 %></td>
+  </tr>
+  <tr>
+    <td>Addr1:  <label class="red">*</label></td>
+    <td><%= text_field :agency,:addr1, :maxlength => 75, :size => 30 %></td>
+  </tr>
+  <tr>
+    <td>Addr2:</td>
+    <td><%= text_field :agency,:addr2, :maxlength => 75, :size => 30 %></td>
+  </tr>
+  <tr>
+    <td>Addr3:</td>
+    <td><%= text_field :agency,:addr3, :maxlength => 75, :size => 30 %></td>
+  </tr>
+  <tr>
+    <td>City:  <label class="red">*</label></td>
+    <td><%= text_field :agency, :city, :maxlength => 75, :size => 30 %></td>
+  </tr>
+  <tr>
+    <td>Region:</td>
+    <td><%= text_field :agency,:region, :maxlength => 75, :size => 30 %></td>
+  </tr>
+  <tr>
+    <td>Postcode:  <label class="red">*</label></td>
+    <td><%= text_field :agency,:postCode %></td>
+  </tr>
+  <tr>
+    <td>Phone:  <label class="red">*</label></td>
+    <td><%= text_field :agency,:phone, :maxlength => 30, :size => 30 %></td>
+  </tr>
+  <tr>
+    <td>Fax: <label class="red">*</label></td>
+    <td><%= text_field :agency, :fax, :maxlength => 30, :size => 30 %></td>
+  </tr>
+  <tr>
+    <td>Company Email:  <label class="red">*</label></td>
+    <td><%= text_field :agency,:email, :size => 30, :maxlength => 100 %></td>
+  </tr>
+ 
+ 
+</table>
+            </td>
+            <td valign="top"> <!-- right side-->
+              <table>
+                <tr>
+            <td colspan="2" class="gray_border_bottom" style="font-size: 1.3em; text-align: center;">User Information</td>
+          </tr>
+          <tr>
+            <td colspan="2">&nbsp;</td>
+          </tr>
+                 <tr>
+    <td>Login:  <label class="red">*</label></td>
+    <td><%= text_field :user, :login, :maxlength => 15, :size => 12, :id => 'login' %><div style="display: inline;vertical-align: middle; left: 5px" id="answer"></div>&nbsp;<%= ajax_login_check %></td>
+  </tr>
+  <tr>
+    <td><% @titles = ['Mr', 'Mrs', 'Miss'] %><label>Title:</label> <label class="red">*</label></td>
+    <td><%= select_tag 'selected_title', options_for_select(@titles, 'Mr') %>
+    </td>
+  </tr>
+  <tr>
+    <td>First Name:  <label class="red">*</label></td>
+    <td><%= text_field :user, :firstName, :maxlength => 30, :size => 20 %></td>
+  </tr>
+  <tr>
+    <td>Last Name:  <label class="red">*</label></td>
+    <td><%= text_field :user, :lastName, :maxlength => 30, :size => 20 %></td>
+  </tr>
+  <tr>
+    <td>Password:  <label class="red">*</label></td>
+    <td><%= password_field :user, :password, :maxlength => 20, :size => 20 %></td>
+  </tr>
+  <tr>
+    <td>Confirm:  <label class="red">*</label></td>
+    <td><%= password_field :user, :password_confirmation, :id => 'pwd_conf', :maxlength => 20, :size => 20 %></td>
+  </tr>
+  <tr>
+    <td>Email: <label class="red">*</label></td>
+    <td><%= text_field :user, :email, :size => 30, :maxlength => 100 %></td>
+  </tr>
+  <tr>
+    <td>Confirm Email: <label class="red">*</label></td>
+    <td><%= text_field :user, :email_confirmation, :size => 30, :maxlength => 100 %></td>
+  </tr>
+  <tr>
+            <td colspan="2">&nbsp;</td>
+          </tr>
+  <tr>
+    <td colspan="2"><input type="checkbox" name="t_and_c" <%= "checked" if @t_and_c == 'on' %> />I have read the <a href="#" onclick="window.open('terms.html', 'Terms and Conditions','width=500,height=400,scrollbars,location=0,toolbar=0,status=0')" class="norm">Terms and Conditions</a></td>
+  </tr>
+              </table>
+            </td>
+    </tr>
+    <tr>
+        <td colspan="2">&nbsp;</td>
+      </tr>
+     <tr>
+    <td colspan="2" align="center"><%= f.submit 'Submit', :class => 'generalButton' %></td>
+  </tr>
+  </table>
+</div>
+
+<% end %>
+</td>
+</tr>
+<% flash.discard %>

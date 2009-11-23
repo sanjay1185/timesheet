@@ -1,0 +1,53 @@
+<% colspan = 6 %>
+<% colspan -= 1 if !@client_id.nil? && @client_id.to_i > 0 %>
+<% colspan -= 1 if @contractor_id.to_i > 0 %>
+
+<br/>
+<h1>Contract Revenue Report</h1>
+<h3><%= @sub_header unless @sub_header.blank? %></h3>
+
+<table width="100%" cellpadding="1" cellspacing="0">
+  <tr class="header">
+    <th class="header right_dotted" align="left"><%= sort_link 'Start Date', 'c.startDate', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'End Date', 'c.endDate', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'Ref', 'c.ref', @selected_column %></th>
+    <th style="<%= "display: none" if !@client_id.nil? && @client_id.to_i > 0 %>" class="header right_dotted" align="left"><%= sort_link 'Client', 'cl.name', @selected_column %></th>
+    <th style="<%= "display: none" if @contractor_id.to_i > 0 %>" class="header right_dotted" align="left"><%= sort_link 'Temp', 'u.firstName', @selected_column %></th>
+    <th class="header right_dotted" align="right"><%= sort_link 'Margin', 'c.margin', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'Status', 'c.status', @selected_column %></th>
+    <th class="header" align="right"><%= sort_link 'Net Amount', 'netAmt', @selected_column %></th>
+  </tr>
+  <% if @contracts.length == 0 %>
+    <tr>
+      <td colspan="10">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="10" align="center">No records to display.</td>
+    </tr>
+  <% else %>
+<% for contract in @contracts %>
+
+    <% class_name = cycle("", "odd") %>
+
+<tr>
+  <td class="<%= class_name %> right_dotted" align="left"><%= contract.startDate.to_formatted_s(:uk_date) %></td>
+  <td class="<%= class_name %> right_dotted" align="left"><%= contract.endDate.to_formatted_s(:uk_date) %></td>
+  <td class="<%= class_name %> right_dotted" align="left"><%= contract.ref %></td>
+  <td style="<%= "display: none" if !@client_id.nil? && @client_id.to_i > 0 %>" class="<%= class_name %> right_dotted" align="left"><%= contract.client.name %></td>
+  <td style="<%= "display: none" if @contractor_id.to_i > 0 %>" class="<%= class_name %> right_dotted" align="left"><%= contract.worker %></td>
+  <td class="<%= class_name %> right_dotted" align="right"><%= number_with_precision(contract.margin, :precision => 2) %></td>
+  <td class="<%= class_name %> right_dotted" align="left"><%= contract.status %></td>
+  <td class="<%= class_name %>" align="right"><%= number_with_precision(contract.netAmt, :precision => 2) %></td>
+</tr>
+
+<% end %>
+<tr>
+  <%= "<td class=\"right_dotted\">&nbsp;</td>" * (colspan+1) %>
+  <td></td>
+</tr>
+<tr>
+  <td class="totals right_dotted" colspan="<%= colspan + 1 %>" align="left">Totals:</td>
+  <td class="totals" align="right"><%= number_with_precision(@netTotal, :precision => 2) %></td>
+</tr>
+<% end %>
+</table>

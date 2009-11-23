@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+ni_rate:
+  name: ni_rate
+  effectiveDate: 2009-04-05
+  value: 12.8
+hol_accrual_rate:
+  name: hol_accrual_rate
+  effectiveDate: 2009-04-05
+  value: 12.07
+next_invoice_number:
+  name: next_invoice_number
+vat_rate:
+  name: next_invoice_number
+  effectiveDate: 2009-04-05
+invoice_address:
+  name: invoice_address
+  value: 2nd Floor,145-157 St John St,London,EC1V 4PY
+vat_number:
+  name: vat_number
+  value: 906 1781 27
+company_number:
+  name: company_number
+  value: 6132404
+ni_rate_newer:
+  name: ni_rate
+  effectiveDate: 2009-05-05
+  value: 12.9

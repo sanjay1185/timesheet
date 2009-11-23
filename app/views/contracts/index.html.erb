@@ -1,0 +1,63 @@
+<% form_tag(contracts_path, :method => 'get') do %>
+
+  <% header_left = "#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))} >> Contracts" %>
+  <% header_right = "#{select_tag('status', options_for_select(['ALL', 'ACTIVE', 'INACTIVE', 'COMPLETE'], @status.nil? ? 'ANY' : @status), :style => 'width: 100px', :onchange => 'this.form.submit();')}" %>
+  <% right_side_cells = "<td align=\"right\" style=\"padding-top: 2px\">Filter:</td><td align=\"right\" width=\"112px\">#{header_right}</td><td valign=\"top\" align=\"right\" width=\"90px\" style=\"padding-right: 8px;\"><div style=\"margin-top:4px\">#{link_to_readonly('New Contract', new_client_contract_path(@client), 'create a contract', @readonly)}</div></td>" %>
+
+  <div id="nav-bar-box">
+    <%= multi_column_nav_bar_layout(header_left, right_side_cells) %>
+  </div>
+
+  <input type="hidden" name="client_id" value="<%= @client.id %>" />
+  
+<% end %>
+<% contracts_page = params[:page].nil? ? "1" : params[:page] %>
+<div id="blue-box">
+  <div class="padder">
+    <table width="100%" cellspacing="0" cellpadding="2" >
+      <tr class="heading">
+        <td class="header row_border_right"><%= sort_link 'Ref', :ref, @selected_column %></td>
+        <td class="header row_border_right"><%= sort_link 'Start Date', :startDate, @selected_column %></td>
+        <td class="header row_border_right"><%= sort_link 'End Date', :endDate, @selected_column %></td>
+        <td class="header row_border_right"><%= sort_link 'Position', :position, @selected_column %></td>
+        <td class="header row_border_right">Temp</td>
+        <td class="header"><%= sort_link 'Status', :status, @selected_column %></td>
+      </tr>
+      <% if @contracts.length > 0 %>
+
+        <% for contract in @contracts %>
+          <tr>
+            <% name = contract.contractors.length == 0 ? "&nbsp;" : contract.contractors[0].user.full_name %>
+            <td class="row_border_bottom row_border_right"><%= link_to contract.ref, edit_client_contract_path(@client, contract) + "?contracts_page=" + contracts_page  + "&status=" + @status %></td>
+            <td class="row_border_bottom row_border_right"><%=h contract.startDate.to_s(:uk_date) %></td>
+            <td class="row_border_bottom row_border_right"><%=h contract.endDate.to_s(:uk_date) %></td>
+            <td class="row_border_bottom row_border_right"><%=h contract.position %></td>
+            <td class="row_border_bottom row_border_right"><%= name %></td>
+            <td class="row_border_bottom"><%=h contract.status %></td>
+          </tr>
+        <% end %>
+
+      <% else %>
+        <tr>
+          <td colspan="7">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="6" align="center">There are no <%= @status.downcase unless @status.nil? || @status.downcase == 'all' %> contracts to view</td>
+        </tr>
+      <% end %>
+
+      <tr><td colspan="6" align="center"><%= will_paginate(@contracts) %></td></tr>
+      <tr>
+        <td colspan="7">&nbsp;</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<script type="text/javascript">
+
+  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  navbarbox.render('nav-bar-box');
+  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  bluebox.render('blue-box');
+  
+</script>

@@ -1,0 +1,90 @@
+<%= show_notice(flash[:notice]) %>
+<% left_header = '' %>
+<% left_header << "&nbsp;#{link_to('Client Manager', clients_path, :filter => '*', :page => '1')} >> #{link_to(@client.name, edit_client_path(@client))}" %>
+<% left_header << "&nbsp;>> #{link_to('Contracts', client_contracts_path(@client))} >> #{link_to(@contract.ref, edit_client_contract_path(@client, @contract))} >> Temp Search" %>
+<div id="nav-bar-box">
+    <%= two_column_nav_bar_layout2("#{left_header}", "&nbsp;") %>
+</div>
+<div id="blue-box">
+    <div class="padder">
+        <table width="100%" cellpadding="2" cellspacing="0">
+            <tr class="heading">
+                <td class="header">
+                    &nbsp;
+                </td>
+                <td class="header row_border_right">
+                    First Name
+                </td>
+                <td class="header row_border_right">
+                    Last Name
+                </td>
+                <td class="header row_border_right">
+                    Email
+                </td>
+                <td class="header row_border_right">
+                    City
+                </td>
+                <td class="header">
+                    Registration Date
+                </td>
+            </tr>
+            <% if @contractors.length > 0 %>
+            <% for user in @contractors %>
+            <tr>
+                <td class="row_border_bottom">
+                    <%= link_to image_tag('/images/add_16.gif', :alt => 'Add'), contractor_add_client_contract_path(@client, @contract, :contractor_id => user.contractor.id), :class => 'image' %>
+                </td>
+                <td class="row_border_bottom row_border_right">
+                    <%= user.firstName %>
+                </td>
+                <td class="row_border_bottom row_border_right">
+                    <%= user.lastName %>
+                </td>
+                <td class="row_border_bottom row_border_right">
+                    <%= user.email %>
+                </td>
+                <td class="row_border_bottom row_border_right">
+                    <%= user.city %>
+                </td>
+                <td class="row_border_bottom">
+                    <%= user.activated_at.to_formatted_s(:uk_date_time_24) unless user.activated_at.nil? %>
+                </td>
+            </tr>
+            <% end %>
+            <tr>
+                <td colspan="6" align="center">
+                    <%= will_paginate(@contractors) %>
+                </td>
+            </tr>
+            <% else %>
+            <tr class="spacer">
+                <td colspan="6">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="font-weight: bold" align="center">
+                    No users found
+                    <p style="font-size:1.1em">
+                        Click <%= link_to('here', invite_workers_agency_path) %>to invite new workers or <%= link_to 'Go Back', edit_client_contract_path(@client, @contract) %>to search again.
+                    </p>
+                </td>
+            </tr>
+            <% end %>
+        </table>
+        <br/>
+    </div>
+</div>
+<script type="text/javascript">
+    
+    var navbarbox = RUZEE.ShadedBorder.create({
+        corner: 8,
+        border: 1
+    });
+    navbarbox.render('nav-bar-box');
+    var bluebox = RUZEE.ShadedBorder.create({
+        corner: 8,
+        border: 1
+    });
+    bluebox.render('blue-box');
+</script>

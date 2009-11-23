@@ -1,0 +1,72 @@
+<% left_header = '' %>
+<% left_header << "&nbsp;#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))}" %>
+<% left_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> #{link_to('Contract (' + @contract.ref + ')', edit_client_contract_path(@client, @contract))} >> Manage Rates" %>
+<% left_header << "&nbsp;#{help_link('/help/contract_managing_rates', 'Help on Managing Rates')}" %>
+
+<div id="nav-bar-box">
+  <%= two_column_nav_bar_layout2("#{left_header}", link_to_readonly('Add New Rate', new_client_contract_rate_path(@client, @contract), 'add rates', @readonly)) %>
+</div>
+<div id="blue-box">
+      <div class="padder">
+
+<table width="100%" cellpadding="2" cellspacing="0" >
+  <tr class="heading">
+    <td class="header row_border_right"><%= sort_link 'Name', :name, @selected_column %></td>
+    <td class="header row_border_right"><%= sort_link 'Pay Rate', :payRate, @selected_column %></td>
+    <td class="header row_border_right"><%= sort_link 'Charge Rate', :chargeRate, @selected_column %></td>
+    <td class="header row_border_right"><%= sort_link 'Category', :category, @selected_column %></td>
+    <td class="header row_border_right"><%= sort_link 'Rate Type', :rateType, @selected_column %></td>
+    <td class="header row_border_right"><%= sort_link 'Effective Date', :effectiveDate, @selected_column %></td>
+    <td class="header row_border_right"><%= sort_link 'End Date', :endDate, @selected_column %></td>
+    <td class="header row_border_right" align="center"><%= sort_link 'Active', :active, @selected_column %></td>
+    <td align="center" class="header"><%= sort_link 'Delete', '`default`', @selected_column %></td>
+  </tr>
+
+<% @rates.each do |rate| %>
+  <tr class="row_size_icon">
+    <% if rate.contract_id == 0 %>
+      <td class="row_border_bottom row_border_right"><%=h rate.name %></td>
+    <% else %>
+      <td class="row_border_bottom row_border_right"><%= link_to rate.name, edit_client_contract_rate_path(@client, @contract, rate) %></td>
+    <% end %>
+    <td align="right" class="row_border_bottom row_border_right"><%=h number_with_precision(rate.payRate, :precision => 2) %>&nbsp;</td>
+    <td align="right" class="row_border_bottom row_border_right"><%=h number_with_precision(rate.chargeRate, :precision => 2) %>&nbsp;</td>
+    <td class="row_border_bottom row_border_right"><%=h rate.category %></td>
+    <td class="row_border_bottom row_border_right"><%=h rate.rateType %></td>
+    <% if rate.default? || rate.effectiveDate.nil? %>
+      <td class="row_border_bottom row_border_right italic">Continuous</td>
+    <% else %>
+      <td class="row_border_bottom row_border_right"><%= rate.effectiveDate.to_formatted_s(:uk_date) %></td>
+    <% end %>
+    <% if rate.default? || rate.endDate.nil? %>
+      <td class="row_border_bottom row_border_right italic">Continuous</td>
+    <% else %>
+      <td class="row_border_bottom row_border_right"><%= rate.endDate.to_formatted_s(:uk_date) %></td>
+    <% end %>
+    <td class="row_border_bottom row_border_right" align="center"><%= rate.active? ? "Yes" : "No" %></td>
+    <td class="row_border_bottom" align="center">
+      <% if !rate.can_delete? && !rate.default? %>
+        <img src="/images/flag_red.gif" alt="" title="The rate is in use and cannot be deleted" />
+      <% else %>
+        <% if rate.default? %>
+          &nbsp;
+        <% else %>
+          <%= delete_link("Delete Rate?", "Are you sure you want to delete this rate?", delete_rate_rates_url + '?id=' + rate.id.to_s, 300) unless rate.default? %>
+        <% end %>
+      <% end %>
+  </td>
+  </tr>
+<% end %>
+<tr><td colspan="9"><%= will_paginate(@rates) %></td></tr>
+</table>
+</div>
+</div>
+
+<script type="text/javascript">
+
+    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    navbarbox.render('nav-bar-box');
+    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    bluebox.render('blue-box');
+
+</script>

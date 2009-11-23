@@ -1,0 +1,46 @@
+<p><%= error_messages_for :timesheet %> </p>
+<p>Please use the buttons below to approve/deny this timesheet.</p>
+<p>
+  <table>
+    <tr><td>Contractor   : <%= @timesheet.contractor.user.full_name %></td></tr>
+    <tr><td>Contract Ref : <%= @timesheet.contract.ref %></td></tr>
+    <tr><td>StartDate    : <%= @timesheet.startDate.to_formatted_s(:uk_date_with_day) %></td></tr>
+    <tr><td>EndDate      : <%= (@timesheet.startDate + 7).to_formatted_s(:uk_date_with_day) %></td></tr>
+    <tr><td>TotalDays    : <%= @timesheet.totalDays %></td></tr>
+    <tr><td>TotalHours   : <%= @timesheet.totalHours %> (excluding daily paid days)</td></tr>
+  </table>
+</p>
+<p>
+<table>
+  <tr>
+    <td style="border-bottom: 2px solid black;">Date</td>
+    <td style="border-bottom: 2px solid black;">Days</td>
+    <td style="border-bottom: 2px solid black;">Standard Hours</td>
+    <td style="border-bottom: 2px solid black;">Overtime Hours</td>
+    <td style="border-bottom: 2px solid black;">Holiday Hours</td>
+    <td style="border-bottom: 2px solid black;">Sickness Hours</td>
+    <td style="border-bottom: 2px solid black;">Unpaid Hours</td>
+  </tr>
+  <% for entry in @timesheet.timesheet_entries %>
+  <tr>
+    <td><%= entry.dateValue.to_formatted_s(:uk_date_with_day) %></td>
+    <td><%= entry.dayValue %></td>
+    <td><%= entry.standardHours %></td>
+    <td><%= entry.overtimeHours %></td>
+    <td><%= entry.holidayHours %></td>
+    <td><%= entry.sicknessHours %></td>
+    <td><%= entry.unpaidHours %></td>
+  </tr>
+  <% end %>
+</table>
+</p>
+<p>
+  <% form_for :timesheet, @timesheet, :url => {:controller => 'timesheets', :action => 'approver_action', :approver_id => @approver_id} do |f| %>
+  <%= f.hidden_field :id %>
+  <table>
+    <tr><td>Note:</td><td><%= f.text_area :note %> </td></tr>
+  </table>
+  <%= f.submit 'Approve', :class => 'generalButton' %>
+  <%= f.submit 'Deny', :class => 'generalButton' %>
+  <% end %>
+</p>

@@ -1,0 +1,137 @@
+<% form_for @agency do |f| %>
+
+  <%= show_errors('Unable to save settings', f.error_messages) %>
+  <%= show_notice(flash[:notice]) %>
+
+<div id="nav-bar-box">
+  <%= two_column_nav_bar_layout2("Agency Settings", get_save_image(@readonly, 'edit settings'))%>
+</div>
+
+<div id="blue-box">
+      <div class="padder">
+
+<table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td class="left_side_cell">
+      <div id="left-header-box" >
+        <div class="header-container">General Details <%= help_link('/help/settings_general', 'Help on General Settings') %></div>
+        </div>
+      <br />
+      <div class="with_margins">
+      <table width="100%" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+                <td class="leftHeader">Name: <span class="required">*</span></td>
+                <td><%= f.text_field :name, :size => "30", :maxlength => "100", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Addr1: <span class="required">*</span></td>
+                <td><%= f.text_field :addr1, :size => "30", :maxlength => "75", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Addr2:</td>
+                <td><%= f.text_field :addr2, :size => "30", :maxlength => "75", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Addr3:</td>
+                <td><%= f.text_field :addr3, :size => "30", :maxlength => "75", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">City: <span class="required">*</span></td>
+                <td><%= f.text_field :city, :size => "24", :maxlength => "75", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Region:</td>
+                <td><%= f.text_field :region, :size => "24", :maxlength => "75", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Post Code:</td>
+                <td><%= f.text_field :postCode, :size => "15", :maxlength => "15", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Phone: <span class="required">*</span></td>
+                <td><%= f.text_field :phone, :size => "20", :maxlength => "30", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Fax: <span class="required">*</span></td>
+                <td><%= f.text_field :fax, :size => "20", :maxlength => "30", :class => 'spaced_input' %></td>
+            </tr>
+            <tr>
+                <td class="leftHeader">Email: <span class="required">*</span></td>
+                <td><%= f.text_field :email, :size => "30", :maxlength => "100", :class => 'spaced_input' %></td>
+            </tr>
+        </table>
+      </div>
+        <br />
+      
+          <br />
+    </td> <!-- cell -->
+            <td class="right_side_cell" valign="top">
+    	<div id="right-header-box2">
+                <div class="header-container">Automated Timesheet Reminders <%= help_link('/help/settings_automated_reminders', 'Help on Automated Reminders') %></div>
+              </div>
+              <br />
+        <div class="with_margins">
+              <table width="100%" align="center" cellpadding="0" cellspacing="0">
+	
+	<tr>
+          <td colspan="2" class="leftHeader"><%= f.check_box(:autoReminder) %> Enable Automated Weekly Timesheet Email Reminders?</td>
+          
+          </tr>
+          <tr>
+          <td class="leftHeader">Cut-off Day:</td>
+          <td><%= f.select(:cutOffDay, @days, {:selected => @agency.cutOffDay}, {:class => 'spaced_input'}) %></td>
+          </tr>
+          <tr>
+          <td class="leftHeader">Cut-off Time:</td>
+          <td><%= f.time_select(:cutOffTime, :minute_step => 15) %></td>
+          </tr>
+          </table>
+        </div>
+		<br />
+		<div id="right-header-box">
+                <div class="header-container">Other Settings <%= help_link('/help/settings_other', 'Help on Other Settings') %></div>
+              </div>
+              <br />
+        <div class="with_margins">
+              <table width="100%" align="center" cellpadding="0" cellspacing="0">
+
+          <tr>
+          <td class="leftHeader">Sage Nominal Code:</td>
+          <td><%= f.text_field(:sageNominalCode, :size => 10, :class => 'spaced_input') %></td>
+          </tr>
+          <tr>
+          <td class="leftHeader">Default Margin:</td>
+          <td><%= f.text_field(:defaultMargin, :size => 6, :class => 'spaced_input', :style => 'text-align:right') %></td>
+          </tr>
+		  <tr>
+		  <td colspan="2" class="leftHeader"><%= f.check_box(:useInvoicing) %> Use Client Invoicing?</td>
+          </tr>
+		  <tr>
+		  <td colspan="2" class="leftHeader"><%= f.check_box(:calculatePAYE) %> Calculate PAYE as default?</td>
+          </tr>
+          </table>
+        </div>
+          <% end %>
+             
+    </td> <!-- cell -->
+          </tr> <!-- row -->
+        </table> <!-- table -->
+
+
+<!-- end settings -->
+      </div>
+</div>
+<script type="text/javascript">
+
+    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    navbarbox.render('nav-bar-box');
+    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    bluebox.render('blue-box');
+    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    leftheaderbox.render('left-header-box');
+    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    rightheaderbox.render('right-header-box');
+	var rightheaderbox2 = RUZEE.ShadedBorder.create({corner:8, border:1});
+    rightheaderbox2.render('right-header-box2');
+
+</script>

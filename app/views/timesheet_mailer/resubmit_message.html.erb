@@ -1,0 +1,14 @@
+Dear <%= @user.last_name_with_title %>,
+
+<p>Because your contract dates have changed your last timesheet will need to be resubmitted.</p>
+<p><strong>Contract Details:<br /></strong>
+<table>
+  <tr><td>Start Date: </td><td><%= @timesheet.contract.startDate.to_formatted_s(:uk_date) %></td></tr>
+  <tr><td>End Date: </td><td><%= @timesheet.contract.endDate.to_formatted_s(:uk_date) %></td></tr>
+  <tr><td>Ref: </td><td><%= @timesheet.contract.ref %></td></tr>
+  <tr><td>Client: </td><td><%= @timesheet.contract.client.name %></td></tr>
+</table>
+</p>
+<p>Please log in to your ClockOff.com account. You will see your timesheet in the list of outstanding (DRAFT) timesheets.</p>
+<p>Kind regards,</p>
+<p>The ClockOff.com team</p>

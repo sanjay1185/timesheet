@@ -1,0 +1,54 @@
+<% colspan = 8 %>
+<% colspan -= 1 if !@client_id.nil? && @client_id.to_i > 0 %>
+
+<br/>
+<h1>Timesheet Report</h1>
+<h3><%= @sub_header unless @sub_header.blank? %></h3>
+
+<table width="100%" cellpadding="1" cellspacing="0">
+  <tr class="header">
+    <th class="header right_dotted" align="left"><%= sort_link 'Start Date', 't.startDate', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'End Date', 'endDate', @selected_column %></th>
+    <th style="<%= "display: none" if !@client_id.nil? && @client_id.to_i > 0 %>" class="header right_dotted" align="left"><%= sort_link 'Client', 'cl.name', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'Temp', 'u.firstName', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'Approver', 't.userName', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'Approval Date', 't.updated_at', @selected_column %></th>
+    <th class="header right_dotted" align="left"><%= sort_link 'Days', 't.totalDays', @selected_column %></th>
+    <th class="header right_dotted" align="right"><%= sort_link 'Hours', 't.totalHours', @selected_column %></th>
+  </tr>
+  <% if @timesheets.length == 0 %>
+    <tr>
+      <td colspan="<% colspan %>">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="<% colspan %>" align="center">No records to display.</td>
+    </tr>
+  <% else %>
+  
+<% for ts in @timesheets %>
+  
+  <% class_name = cycle("", "odd")%>
+  
+<tr>
+  <td class="<%= class_name %> right_dotted" align="left"><%=h ts.startDate.to_formatted_s(:uk_date) %></td>
+  <td class="<%= class_name %> right_dotted" align="left"><%=h Date.parse(ts.endDate).to_formatted_s(:uk_date) %></td>
+  <td style="<%= "display: none" if !@client_id.nil? && @client_id.to_i > 0 %>" class="<%= class_name %> right_dotted" align="left"><%=h ts.contract.client.name %></td>
+  <td class="<%= class_name %> right_dotted" align="left"><%=h ts.contractor.user.full_name %></td>
+  <td class="<%= class_name %> right_dotted" align="left"><%=h ts.userName %></td>
+  <td class="<%= class_name %> right_dotted" align="left"><%=h ts.updated_at.to_formatted_s(:uk_date) %></td>
+  <td class="<%= class_name %> right_dotted" align="right"><%=h number_with_precision(ts.totalDays, :precision => 2) %></td>
+  <td class="<%= class_name %> right_dotted" align="right"><%=h number_with_precision(ts.totalHours, :precision => 2) %></td>
+</tr>
+
+<% end %>
+<tr>
+  <%= "<td class=\"right_dotted\">&nbsp;</td>" * (colspan) %>
+  <td></td>
+</tr>
+<tr>
+  <td class="totals right_dotted" colspan="<%= colspan - 2 %>" align="left">Totals:</td>
+  <td class="totals right_dotted" align="right"><%=h number_with_precision(@totalDays, :precision => 2) %></td>
+  <td class="totals right_dotted" align="right"><%= TimeUtil.numeric_to_hours(@totalHrs) %></td>
+</tr>
+<% end %>
+</table>

@@ -1,0 +1,18 @@
+clients:
+  id: 1
+  name: Clients
+contracts:
+  id: 2
+  name: Contracts
+settings:
+  id: 3
+  name: Settings
+invoicing:
+  id: 4
+  name: Invoicing
+users:
+  id: 5
+  name: Users
+rates:
+  id: 6
+  name: Rates

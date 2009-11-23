@@ -1,0 +1,91 @@
+<% form_tag( '/runreport', :method => 'get', :style => 'margin: 0px 0px 0px 0px' ) do %>
+<div class="nav_bar_box">
+<div class="t"><div class="b"><div class="l"><div class="r">
+<div class="bl_nav_bar"><div class="br_nav_bar"><div class="tl_nav_bar"><div class="tr_nav_bar">
+<div class="nav_bar_content">&nbsp;Timesheet History<div style="position:absolute;top: 1px; width: 150px; text-align:right; left: 580px;"><%= submit_tag 'Run Report', :class => 'generalButton' %></div>
+</div></div></div></div>
+</div></div></div></div>
+</div>
+</div>
+
+
+<div class="report_criteria_box">
+<div class="t"><div class="b"><div class="l"><div class="r">
+<div class="bl"><div class="br"><div class="tl"><div class="tr">
+<div class="report_criteria_content">
+        <table class="fullWidth" cellpadding="0" cellspacing="0">
+          <tr style="height: 8px;">
+            <td colspan="6" class="header">Timesheet History Criteria</td>
+          </tr>
+          <tr class="spacer"><td colspan="2"></td></tr>
+          <tr>
+          <tr>
+            <td class="leftHeader">From:&nbsp;</td>
+            <td><%= calendar_date_select_tag 'from', @from.nil? ? Date.today : @from, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17  %></td>
+            <td class="leftHeader">Status:&nbsp;</td>
+            <td><%= select_tag 'status', options_for_select(@status_list, @status) %></td>
+            <td colspan="2"></td>
+          </tr>
+          <tr>
+            <td class="leftHeader">To:&nbsp;</td>
+            <td><%= calendar_date_select_tag 'to', @to.nil? ? Date.today : @to, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17 %></td>
+            <td class="leftHeader">Approval Date:&nbsp;</td>
+            <td><%= calendar_date_select_tag "approvalDate", @approvalDate.nil? ? nil : @approvalDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now %></td>
+            <td class="leftHeader">Approver:&nbsp;</td>
+            <td><input type="text" name="approver" size="18" <% if !@approver.nil? %>value="<%= @approver %>"<% end %> /></td>
+          </tr>
+        </table>
+        <% end %>
+</div>
+</div></div></div></div>
+</div></div></div></div>
+</div>
+
+<div class="report_list_box">
+<div class="t"><div class="b"><div class="l"><div class="r">
+<div class="bl"><div class="br"><div class="tl"><div class="tr">
+<div class="report_list_content">
+
+        <table class="fullWidth" cellspacing="0" cellpadding="2">
+<tr>
+	<td class="header">Start Date</td>
+  <td class="header">End Date</td>
+  <td class="header">Days</td>
+  <td class="header">Hours</td>
+  <td class="header">Status</td>
+  <td class="header">Approval Date</td>
+  <td class="header">Approver</td>
+</tr>
+<% if !@timesheets.nil? %>
+  <% count = 0 %>
+<% for timesheet in @timesheets %>
+  <% if count % 2 == 0 %>
+    <% class_name = "" %>
+  <% else %>
+    <% class_name = "odd" %>
+  <% end %>
+<tr>
+	<td class="<%= class_name %>"><%= timesheet.startDate.to_formatted_s(:uk_date) %></td>
+    <td class="<%= class_name %>"><%= (timesheet.startDate + 7).to_formatted_s(:uk_date) %></td>
+    <td class="<%= class_name %>"><%=h timesheet.totalDays %></td>
+    <td class="<%= class_name %>"><%=h timesheet.totalHours %></td>
+    <td class="<%= class_name %>"><%=h timesheet.status %></td>
+    <td class="<%= class_name %>"><%=h timesheet.approvalDateTime.to_formatted_s(:uk_date_time_24) unless timesheet.approvalDateTime.nil? %></td>
+    <td class="<%= class_name %>"><%=h timesheet.userName %></td>
+</tr>
+<% count += 1 %>
+<% end %>
+<%  end %>
+</table>
+</div>
+</div></div></div></div>
+</div></div></div></div>
+<div style="position:absolute;text-align: center; top: 365px;width:100%;font-weight: bold;"><%= will_paginate(@timesheets) %></div>
+</div>
+
+<SCRIPT>
+  var from = new LiveValidation('from', {validMessage: "", onlyOnSubmit: true});
+    from.add(Validate.Presence, {failureMessage: '*'});
+      var to = new LiveValidation('to', {validMessage: "", onlyOnSubmit: true});
+    to.add(Validate.Presence, {failureMessage: '*'});
+</SCRIPT>

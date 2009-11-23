@@ -1,0 +1,11 @@
+The timesheet for <%= @timesheet.contractor.user.full_name %> for the week <%= @timesheet.startDate.to_formatted_s(:uk_date) %> - <%= (@timesheet.startDate+7).to_formatted_s(:uk_date) %>
+was rejected.
+
+<% if !@timesheet.note.blank? %>
+<p>The following note was attached to the timesheet, which may contain additional information:</p>
+<p><%= @timesheet.note %></p>
+<% end %>
+
+<p>Please can you re-check the timesheet and if necessary 'DENY' the timesheet so that it can be corrected and re-submitted by <%= @timesheet.contractor.user.last_name_with_title %>.</p>
+
+<p>Thank you.</p>

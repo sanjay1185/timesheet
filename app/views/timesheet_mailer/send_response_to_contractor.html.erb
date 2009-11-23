@@ -1,0 +1,16 @@
+Dear <%= @timesheet.contractor.user.last_name_with_title %>,
+
+<p>
+  Your timesheet for the week <%= @timesheet.startDate.to_formatted_s(:uk_date) %> - <%= (@timesheet.startDate+7).to_formatted_s(:uk_date) %>
+  was <%= @timesheet.status.downcase %> by <%= @timesheet.userName %> on <%= @timesheet.updated_at.to_formatted_s(:uk_date) %>.
+   
+</p>
+
+<% if @timesheet.status == 'DENIED' %>
+  <% if !@timesheet.note.nil? && !@timesheet.note.blank? %>
+  <p>The following note was attached to the timesheet, which may contain additional information:</p>
+  <p><%= @timesheet.note %></p>
+<% end %>
+  <p>Please log back into <a href="<%= @url %>">ClockOff.com</a> to edit and re-submit your timesheet.</p>
+<% end %>
+<p>Thank you.</p>

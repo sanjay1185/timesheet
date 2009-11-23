@@ -1,0 +1,6 @@
+
+<% if @selected_report == 'Revenue By Client' %>
+
+<%= ClientRevenue.render_html(:start_date => @from_date, :end_date => @to_date, :client_id => @client_id, :contractor_id => @contractor_id, :order_by => @order_by, :d => @direction) %>
+
+<% end %>

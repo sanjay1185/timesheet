@@ -1,0 +1,197 @@
+# default unpaid rate (used for everything)
+default_unpaid:
+  name: Unpaid
+  payRate: 0
+  chargeRate: 0
+  contract_id: 0
+  active: true
+  default: true
+  category: Unpaid
+  rateType: Hour
+default_sick:
+  name: Sickness
+  payRate: 0
+  chargeRate: 0
+  contract_id: 0
+  active: true
+  default: true
+  category: Sickness
+  rateType: Hour
+# sw_pa_assistant std
+standard_1:
+  name: Default Standard Rate
+  payRate: 10
+  chargeRate: 12
+  contract: sw_pa_assistant
+  comment: Default Standard Rate
+  active: true
+  default: true
+  category: Standard
+  rateType: Hour
+# sw_pa_assistant ot
+overtime_1:
+  name: Default Overtime Rate
+  payRate: 13
+  chargeRate: 15
+  contract: sw_pa_assistant
+  comment: Default Overtime Rate
+  active: true
+  default: true
+  category: Overtime
+  rateType: Hour
+# sw_pa_assistant bh
+bank_holiday_1:
+  name: Default Bank Holiday Rate
+  payRate: 14
+  chargeRate: 16
+  contract: sw_pa_assistant
+  comment: Default Bank Holiday Rate
+  active: true
+  default: true
+  category: Bank Holiday
+  rateType: Hour
+# sw_pa_assistant single date rate
+standard_may_1st:
+  name: Special May 1st Rate
+  payRate: 15
+  chargeRate: 17
+  contract: sw_pa_assistant
+  comment: May 1st - Increased Rate
+  effectiveDate: 2009-05-01
+  endDate: 2009-05-01
+  active: true
+  default: false
+  category: Standard
+  rateType: Hour
+# sw_pa_assistant one week special
+overtime_7th_to_13th:
+  name: Updated Overtime Rate
+  payRate: 16
+  chargeRate: 17
+  contract: sw_pa_assistant
+  comment: New Overtime for week in may
+  effectiveDate: 2009-05-07
+  endDate: 2009-05-13
+  active: true
+  default: false
+  category: Overtime
+  rateType: Hour
+# sw_pa_assistant sick
+sick_1:
+  name: Sickness
+  payRate: 0
+  chargeRate: 0
+  contract: sw_pa_assistant
+  active: true
+  default: false
+  category: Sick
+  rateType: Hour
+# sw_pa_assistant hol
+holiday_1:
+  name: Holiday
+  payRate: 0
+  chargeRate: 0
+  contract: sw_pa_assistant
+  active: true
+  default: false
+  category: Holiday
+  rateType: Hour
+# sw_secretary std
+standard_2:
+  name: Default Standard Rate
+  payRate: 10
+  chargeRate: 12
+  contract: sw_secretary
+  comment: Default Standard Rate
+  active: true
+  default: true
+  category: Standard
+  rateType: Hour
+# sw_secretary ot
+overtime_2:
+  name: Default Overtime Rate
+  payRate: 13
+  chargeRate: 15
+  contract: sw_secretary
+  comment: Default Overtime Rate
+  active: true
+  default: true
+  category: Overtime
+  rateType: Hour
+# sw_secretary bh
+bank_holiday_2:
+  name: Default Bank Holiday Rate
+  payRate: 14
+  chargeRate: 16
+  contract: sw_secretary
+  comment: Default Bank Holiday Rate
+  active: true
+  default: true
+  category: Bank Holiday
+  rateType: Hour
+# sw_receptionist std
+standard_3:
+  name: Default Standard Rate
+  payRate: 10
+  chargeRate: 11
+  contract: sw_receptionist
+  comment: Default Standard Rate
+  active: true
+  default: true
+  category: Standard
+  rateType: Hour
+# sw_secretary ot
+overtime_3:
+  name: Default Overtime Rate
+  payRate: 13
+  chargeRate: 15
+  contract: sw_receptionist
+  comment: Default Overtime Rate
+  active: true
+  default: true
+  category: Overtime
+  rateType: Hour
+# sw_secretary bh
+bank_holiday_3:
+  name: Default Bank Holiday Rate
+  payRate: 14
+  chargeRate: 16
+  contract: sw_receptionist
+  comment: Default Bank Holiday Rate
+  active: true
+  default: true
+  category: Bank Holiday
+  rateType: Hour
+# sw_secretary bh with date
+no_end_date_3:
+  name: Default Bank Holiday Rate
+  payRate: 11.50
+  chargeRate: 17
+  contract: sw_receptionist
+  effectiveDate: 2009-06-07
+  comment: Override Standard
+  active: true
+  default: false
+  category: Standard
+  rateType: Hour
+# sw_data_entry_daily
+daily_std_sw_data_entry:
+  name: Default Standard Daily Rate
+  payRate: 75
+  chargeRate: 85
+  contract: sw_data_entry_daily
+  comment: Override Standard
+  default: true
+  active: true
+  category: Standard
+  rateType: Day
+daily_ot_sw_data_entry:
+  name: Overtime Rate
+  payRate: 13
+  chargeRate: 15
+  contract: sw_data_entry_daily
+  comment: Overtime
+  active: true
+  default: false
+  category: Overtime
+  rateType: Hour

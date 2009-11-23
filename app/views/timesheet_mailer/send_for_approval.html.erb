@@ -1,0 +1,20 @@
+Dear <%= @approver.last_name_with_title %>,
+
+<p>A timesheet has been submitted that requires your approval.<p>
+
+<p>The details of the timesheet are as follows:</p>
+
+<p>
+  <table cellpadding="1" cellspacing="0" style="margin: 0px 0px 0px 0px;">
+    <tr><td>Contractor</td><td>:</td><td><%= @timesheet.contractor.user.full_name %></td></tr>
+    <tr><td>Contract Ref</td><td>:</td><td><%= @timesheet.contract.ref %></td></tr>
+    <tr><td>StartDate</td><td>:</td><td><%= @timesheet.startDate.to_formatted_s(:uk_date_with_day) %></td></tr>
+    <tr><td>EndDate</td><td>:</td><td><%= (@timesheet.startDate + 6).to_formatted_s(:uk_date_with_day) %></td></tr>
+    <tr><td>TotalDays</td><td>:</td><td><%= @timesheet.totalDays %></td></tr>
+    <tr><td>TotalHours</td><td>:</td><td><%= @timesheet.totalHours %> (excluding daily paid days)</td></tr>
+  </table>
+</p>
+
+<p>Please <a href="<% @url %>">login</a> to view/approve this timesheet.<p/>
+
+<p>Thank you.</p>

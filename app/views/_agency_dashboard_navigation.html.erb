@@ -1,0 +1,25 @@
+<div id="dashboard_menu">
+<table style="margin-top: 30px" width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align="center"><div style="margin-bottom:20px"><img src="/images/alarm.gif" alt="" class="icon_48" /><br /><a href="<%= "/agencies/#{session[:agencyId]}/outstanding" %>">Outstanding Timesheets</a></div></td>
+	</tr>
+	<tr>
+		<td align="center"><div style="margin-bottom:20px"><img src="/images/calendar.gif" alt="" class="icon_48" /><br /><a href="<%= "/agencies/#{session[:agencyId]}/active_contracts" %>">Active Contracts</a></div></td>
+	</tr>
+	<tr>
+		<td align="center"><div style="margin-bottom:20px"><img src="/images/addressbook.gif" alt="" class="icon_48" /><br /><a href="<%= "/agencies/#{session[:agencyId]}/active_clients" %>">Active Clients</a></div></td>
+	</tr>
+	<tr>
+		<td align="center"><div style="margin-bottom:20px"><img src="/images/configure.gif" alt="" class="icon_48" /><br /><a href="<%= "/agencies/#{session[:agencyId]}/tools" %>">Tools</a></div></td>
+	</tr>
+	<tr>
+		<td align="center"><div style="margin-bottom:20px"><img src="/images/chart.gif" alt="" class="icon_48" /><br /><a href="<%= "/agencies/#{session[:agencyId]}/stats" %>">Statistics</a></div></td>
+	</tr>
+</table>
+</div>
+<script type="text/javascript">
+
+    var dashboardmenu = RUZEE.ShadedBorder.create({corner:8, border:1});
+    dashboardmenu.render('dashboard_menu');
+
+</script>

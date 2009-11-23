@@ -1,0 +1,83 @@
+<% left_header = '' %>
+<% left_header << "&nbsp;#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session,:client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))}" %>
+<% left_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> #{link_to(@contract.ref, edit_client_contract_path(@client, @contract))} >> Add Approver" %>
+<div id="nav-bar-box">
+    <%= two_column_nav_bar_layout2("#{left_header}", link_to('Create New', new_approver_client_path(@client))) %>
+</div>
+<div id="blue-box">
+    <div class="padder">
+        <table width="100%" cellpadding="2" cellspacing="0">
+            <tr class="heading">
+                <td class="header">
+                    &nbsp;
+                </td>
+                <td class="header row_border_right">
+                    Name
+                </td>
+                <td class="header row_border_right">
+                    Email
+                </td>
+                <td class="header row_border_right">
+                    Phone
+                </td>
+                <td class="header">
+                    Mobile
+                </td>
+            </tr>
+            <% if @approvers.length > 0 %>
+            <% for approver in @approvers %>
+            <tr>
+                <td class="row_border_bottom">
+                    <%= link_to image_tag('/images/add_16.gif', :alt => 'Add'), save_added_approver_client_contract_path(@client, @contract, :user_id => approver.id), :class => 'image' %>
+                </td>
+                <td class="row_border_bottom row_border_right">
+                    <%= approver.full_name %>
+                </td>
+                <td class="row_border_bottom row_border_right">
+                    <%= truncate(approver.email, :length => 40) %>
+                </td>
+                <td class="row_border_bottom row_border_right">
+                    <%= approver.phone.blank? ? "&nbsp;" : approver.phone %>
+                </td>
+                <td class="row_border_bottom">
+                    <%= approver.mobile.blank? ? "&nbsp;" : approver.mobile %>
+                </td>
+            </tr>
+            <% end %>
+            <tr>
+                <td colspan="5">
+                    &nbsp;
+                </td>
+            </tr>
+            <% else %>
+            <tr>
+                <td colspan="5">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" align="center">
+                    There are no approvers to add. You can create a new approver for this client <%= link_to('here', new_approver_client_path(@client)) %>.
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    &nbsp;
+                </td>
+            </tr>
+            <% end %>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    var navbarbox = RUZEE.ShadedBorder.create({
+        corner: 8,
+        border: 1
+    });
+    navbarbox.render('nav-bar-box');
+    var bluebox = RUZEE.ShadedBorder.create({
+        corner: 8,
+        border: 1
+    });
+    bluebox.render('blue-box');
+</script>

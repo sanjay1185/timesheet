@@ -1,0 +1,51 @@
+<div id="header">Contract - Calculating Charge Rates</div>
+<br />
+<div>
+  It is important that the client is charged the correct rate. Therefore, the system will calculate the charge rate for you. This will be based on a combination of things
+  which you have control over.
+  <p>
+    If you do not select select the check box <i>Calculate Charge Rate as PAYE Employee</i>, the charge rate will be calculated as follows:
+    <br /><br />
+    <strong>Pay Rate * Margin</strong>
+  </p>
+  <p>
+    If you select select the check box <i>Calculate Charge Rate as PAYE Employee</i> then the charge rate will be calculated as follows:
+    <br /><br />
+    <strong>(Pay Rate + Holiday Accrual + Employers NI) * Margin</strong>
+    <br /><br />
+    Consider the following example, with a Pay Rate of £10 and a margin of 25%:
+    <br /><br />
+  <table cellpadding="2" cellspacing="0">
+      <tr style="font-weight: bold">
+        <td style="border-bottom: black solid 2px;border-right: black dotted 1px">Step</td><td style="border-bottom: black solid 2px;border-right: black dotted 1px">Calculation</td><td style="border-bottom: black solid 2px" align="right">Result</td>
+      </tr>
+      <tr>
+        <td style="border-bottom: black dotted 1px;border-right: black dotted 1px;text-indent:4px">Holiday Accurual</td><td style="border-bottom: black dotted 1px;border-right: black dotted 1px">10 * 12.07%</td><td style="border-bottom: black dotted 1px" align="right">£1.207</td>
+      </tr>
+      <tr>
+        <td style="border-bottom: black dotted 1px;border-right: black dotted 1px;text-indent:4px">Employers National Insurance</td><td style="border-bottom: black dotted 1px;border-right: black dotted 1px">10 * 12.8%</td><td style="border-bottom: black dotted 1px" align="right">£1.28</td>
+      </tr>
+      <tr style="font-style: italic">
+        <td style="border-bottom: black dotted 1px;border-right: black dotted 1px">Sub Total</td><td style="border-bottom: black dotted 1px;border-right: black dotted 1px">10 + 1.207 + 1.28</td><td style="border-bottom: black dotted 1px" align="right">£12.487</td>
+      </tr>
+      <tr>
+        <td style="border-bottom: green solid 2px;border-right: black dotted 1px;text-indent:4px">Margin</td><td style="border-bottom: green solid 2px;border-right: black dotted 1px">12.487 * 25%</td><td style="border-bottom: green solid 2px;" align="right">£3.12175</td>
+      </tr>
+      <tr style="color: green">
+        <td style="border-bottom: black dotted 1px;border-right: black dotted 1px">Charge Rate</td><td style="border-bottom: black dotted 1px;border-right: black dotted 1px">12.487 + 3.12175</td><td style="border-bottom: black dotted 1px" align="right">£15.60875</td>
+      </tr>
+    </table>
+  <br />
+  The charge rate would be calculated as <i>£15.61</i>.
+  </p>
+  <p>
+    The <i>Holiday Accrual Rate</i> and <i>Employers National Insurance Rate</i> are set according to the UK government standard rates and are set across the
+    clockoff.com system. There is nothing you need to do to update these.
+  </p>
+
+  <p>
+    If your client specifies a specific rate that you need to charge, the easiest option is to type the exact amount into the <i>Charge Rate</i>
+    box for each rate and not to use the automatic calculation.
+  </p>
+
+</div>

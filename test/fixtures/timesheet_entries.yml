@@ -1,0 +1,126 @@
+# 5 day week, 40 hrs, 5 hrs OT, no times
+mon_basic_with_5_ot:
+  dateValue: 2009-04-20
+  timesheet: basic_with_5_ot
+  hours: '8:00'
+  rate: standard_1
+  rateType: Hour
+  chargeRate: 12
+tue_basic_with_5_ot:
+  dateValue: 2009-04-21
+  timesheet: basic_with_5_ot
+  hours: '8:00'
+  rate: standard_1
+  rateType: Hour
+  chargeRate: 12
+wed_basic_with_5_ot:
+  dateValue: 2009-04-22
+  timesheet: basic_with_5_ot
+  hours: '8:00'
+  rate: standard_1
+  rateType: Hour
+  chargeRate: 12
+wed_basic_with_5_ot_1:
+  timesheet: basic_with_5_ot
+  dateValue: 2009-04-22
+  hours: '1:30'
+  rate: overtime_1
+  rateType: Hour
+  chargeRate: 15
+thu_basic_with_5_ot:
+  dateValue: 2009-04-23
+  timesheet: basic_with_5_ot
+  hours: '8:00'
+  rate: standard_1
+  rateType: Hour
+  chargeRate: 12
+thu_basic_with_5_ot_1:
+  timesheet: basic_with_5_ot
+  dateValue: 2009-04-23
+  hours: '1:30'
+  rate: overtime_1
+  rateType: Hour
+  chargeRate: 15
+fri_basic_with_5_ot:
+  dateValue: 2009-04-24
+  timesheet: basic_with_5_ot
+  hours: '8:00'
+  rate: standard_1
+  rateType: Hour
+  chargeRate: 12
+fri_basic_with_5_ot_1:
+  dateValue: 2009-04-24
+  timesheet: basic_with_5_ot
+  hours: '0:30'
+  rate: overtime_1
+  rateType: Hour
+  chargeRate: 15
+sat_basic_with_5_ot:
+  dateValue: 2009-04-25
+  timesheet: basic_with_5_ot
+  rate: default_unpaid
+  rateType: Hour
+  chargeRate: 0
+sun_basic_with_5_ot:
+  dateValue: 2009-04-26
+  timesheet: basic_with_5_ot
+  rate: default_unpaid
+  rateType: Hour
+  chargeRate: 0
+# daily rate - sw 2 hrs OT
+sw_daily_2_ot_mon:
+  dateValue: 2009-07-13
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_std_sw_data_entry
+  dayValue: 1
+  rateType: Day
+  chargeRate: 85
+sw_daily_2_ot_tue:
+  dateValue: 2009-07-14
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_std_sw_data_entry
+  rateType: Day
+  dayValue: 1
+  chargeRate: 85
+sw_daily_2_ot_tue_ot:
+  dateValue: 2009-07-14
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_ot_sw_data_entry
+  rateType: Hour
+  hours: '2:00'
+  chargeRate: 15
+sw_daily_2_ot_wed:
+  dateValue: 2009-07-15
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_std_sw_data_entry
+  rateType: Day
+  dayValue: 1
+  chargeRate: 85
+sw_daily_2_ot_thu:
+  dateValue: 2009-07-16
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_std_sw_data_entry
+  rateType: Day
+  dayValue: 1
+  chargeRate: 85
+sw_daily_2_ot_fri:
+  dateValue: 2009-07-17
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_std_sw_data_entry
+  rateType: Day
+  dayValue: 1
+  chargeRate: 85
+sw_daily_2_ot_sat:
+  dateValue: 2009-07-18
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_std_sw_data_entry
+  rateType: Day
+  rate: default_unpaid
+  chargeRate: 0
+sw_daily_2_ot_sun:
+  dateValue: 2009-07-19
+  timesheet: standard_week_with_2_hrs_ot
+  rate: daily_std_sw_data_entry
+  rateType: Day
+  rate: default_unpaid
+  chargeRate: 0

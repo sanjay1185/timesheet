@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>clockoff.com - Timesheets, Made Easy!</title>
+    <%= stylesheet_link_tag 'clockoff' %>
+    <%= javascript_include_tag 'shadedborder' %>
+	<%= javascript_include_tag  :defaults %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <body>
+<div id="header">
+            <div id="header-menu">
+                <div style="position: relative">
+                	<div style="position: absolute;top: 15px;left: <%= @arrow_position %>px"><img src="/images/arrow_select.gif" alt="arrow_select" /></div>
+                    <%= render :partial => "/navigation" %>
+                </div>
+            </div>
+            <div id="header-text">
+                <div align="right"></div>
+            </div>
+        </div>
+        <div id="main_box">
+            <div id="caption">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr valign="top">
+                        <td>
+                            <img src="/images/clock_wflow.jpg" alt="time-workflow-image" />
+                        </td>
+                        <td class="statement" style="padding-right: 20px;">
+                            <%=h @statement %>
+                            <br/>
+                            <div style="font-size: 0.7em;width: 400px;padding-top:30px">
+                                <%=h @sub_statement %>
+                            </div>
+                            
+                                <%= @header_link %>
+                          
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="general-container" style="margin:0px 20px 0px 20px">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <%= yield %>
+                </table>
+            </div>
+			<div id="footer">
+				<div>&copy; 2009 <a class="black" href="#">Intura Ltd</a></div>
+			</div>
+        </div>
+        <script type="text/javascript">
+            var main_box = RUZEE.ShadedBorder.create({
+                corner: 11,
+                edges: "blr"
+            });
+            main_box.render('main_box');
+            
+            var headerTop = RUZEE.ShadedBorder.create({
+                corner: 11,
+                edges: "tlr"
+            });
+            headerTop.render(document.getElementById('header-menu'));
+           
+        </script>
+  </body>
+</html>

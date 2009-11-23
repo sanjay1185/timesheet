@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>Clockoff.com - timesheets, made easy</title>
+  <% @theme = session[:theme] %>
+  <% if @theme.blank? %>
+    <% @theme = params[:t].blank? ? 'default' : params[:t] %>
+  <% end %>
+  <%= stylesheet_link_tag "themes/#{@theme}/login" %>
+  <%= javascript_include_tag 'shadedborder' %>
+</head>
+<body>
+  
+  <div id="login-box">
+    <%= yield %>
+  </div>
+
+  <script type="text/javascript">
+    var loginbox = RUZEE.ShadedBorder.create({corner:15, border: 5});
+    loginbox.render('login-box');
+  </script>
+
+</body>
+</html>

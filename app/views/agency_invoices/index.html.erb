@@ -1,0 +1,100 @@
+<%= navigation_bar("<div class=\"header_text_left\">&nbsp;<a href=\"#{url_for(:action => 'settings', :controller => 'agencies', :id => session[:agencyId])}\">Agency Settings</a> >> Invoices</div>", "") %>
+<SCRIPT>display_errors('','');</SCRIPT>
+<div class="wide_blue_box">
+<div class="t"><div class="b"><div class="l"><div class="r"><div class="bl"><div class="br"><div class="tl"><div class="tr">
+<div class="wide_blue_content" style="height: 422px;">
+
+<div class="tbl">
+  <div class="row">
+    <div class="cell_left">
+      <div class="full_width_header_box">
+        <div class="t"><div class="b"><div class="l"><div class="r">
+        <div class="bl_header"><div class="br_header"><div class="tl_header"><div class="tr_header">
+        <div class="full_width_header_content">Invoice History</div>
+        </div></div></div></div>
+        </div></div></div></div>
+      </div>
+      <br />
+      <table class="splitSide" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="header">Date</td>
+          <td class="header">Number</td>
+          <td class="header" align="right">Net</td>
+          <td class="header" align="right">Tax</td>
+          <td class="header" align="right">Total</td>
+          <td class="header"></td>
+        </tr>
+        <% if @invoices.length == 0 %>
+          <tr>
+               <td colspan="6">&nbsp;</td>
+             </tr>
+             <tr>
+               <td colspan="6" align="center">No invoices to view</td>
+             </tr>
+        <% else %>
+          <% for invoice in @invoices  %>
+            <% class_name = cycle("", "odd") %>
+            <tr>
+                  <td class="<%= class_name %>"><%= link_to(invoice.invoiceDate.to_formatted_s(:uk_date), agency_invoices_path(:invoice_id => invoice.id)) %></td>
+                  <td class="<%= class_name %>"><%= invoice.invoiceNumber.to_s.rjust(6, "0") %></td>
+                  <td class="<%= class_name %>" align="right">&pound;<%= number_with_precision(invoice.netAmount, :precision => 2) %></td>
+                  <td class="<%= class_name %>" align="right">&pound;<%= number_with_precision(invoice.taxAmount, :precision => 2) %></td>
+                  <td class="<%= class_name %>" align="right">&pound;<%= number_with_precision(invoice.grossAmount, :precision => 2) %></td>
+                   <td class="<%= class_name %>" align="right"><%= link_to(image_tag("/images/acrobat.gif"), agency_invoices_path(:format => "pdf", :invoice_id => invoice.id)) %></td>
+              </tr>
+          <% end %>
+        <% end %>
+        </table>
+    </div> <!-- cell -->
+
+    <div class="cell_right">
+     
+      <div class="full_width_header_box">
+        <div class="t"><div class="b"><div class="l"><div class="r">
+        <div class="bl_header"><div class="br_header"><div class="tl_header"><div class="tr_header">
+        <div class="full_width_header_content">Contract Details</div>
+        </div></div></div></div>
+        </div></div></div></div>
+      </div>
+
+      <br />
+
+           <table class="splitSide" align="center" cellpadding="0" cellspacing="0">
+           <tr>
+             <td class="header">Start Date</td>
+             <td class="header">End Date</td>
+             <td class="header">Ref</td>
+             <td class="header">Client</td>
+           </tr>
+           <% if @invoice.nil? %>
+             <tr class="spacer">
+               <td colspan="4">&nbsp;</td>
+             </tr>
+             <tr>
+               <td colspan="4" align="center">Select an invoice to view contracts</td>
+             </tr>
+           <% else %>
+             <% for detail in @details %>
+              <tr>
+                <td><%= detail.contract.startDate.to_formatted_s(:uk_date) %></td>
+                <td><%= detail.contract.endDate.to_formatted_s(:uk_date) %></td>
+                <td><%= detail.contract.ref %></td>
+                <td><%= detail.contract.client.name %></td>
+              </tr>
+             <% end %>
+           <% end %>
+
+             
+      </table>
+      <%= will_paginate(@details) unless @details.nil? %>
+    </div> <!-- cell -->
+  </div> <!-- row -->
+
+</div> <!-- table -->
+
+
+      </div>
+</div></div></div></div>
+</div></div></div></div>
+</div>
+<br />

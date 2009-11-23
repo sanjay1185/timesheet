@@ -1,0 +1,136 @@
+<%= show_errors('An error occurred...', flash[:alert]) %>
+<%= show_notice(flash[:notice]) %>
+
+<div id="nav-bar-box">
+<%= two_column_nav_bar_layout2("User Manager&nbsp;#{help_link('/help/agency_users', 'Help on Users','middle', 500, 400)}", "") %>
+</div>
+
+<div id="blue-box">
+    <div class="padder">
+
+         <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td class="left_side_cell" valign="top">
+              <div id="left-header-box" >
+                <%= two_column_nav_bar_layout2('User List', link_to_readonly('Add', 'add users', @readonly, user_add_agency_path)) %>
+              </div>
+                          
+                <br />
+                <div class="with_margins">
+                <table width="100%" align="center" cellspacing="0" cellpadding="2">
+                  <tr class="heading">
+                    <td class="header row_border_right">Name</td>
+                    <td class="header">Login</td>
+                    <td class="header">&nbsp;</td>
+                  </tr>
+                  <% if !@users.nil? %>
+
+                    <% for user in @users %>
+                      <tr class="row_size_icon">
+                       
+                        <td class="row_border_bottom row_border_right"><img src="/images/user_48.png" alt="user" class="small_icon" style="vertical-align: bottom;" />&nbsp;<a href="<%= url_for :action => 'users', :controller => 'agencies', :id => session[:agencyId], :user_id => user.id %>"><%= user.full_name %></a></td>
+                        <td class="row_border_bottom"><%=h user.login %></td>
+                        <td class="row_border_bottom" style="text-align:right;"><%= delete_link_readonly(@readonly, 'users', "Delete User?", "Removing this user will completely remove their account with clockoff.com.<br />Are you sure you want to do this?", delete_user_user_url(user), 350) %></td>
+                        </tr>
+
+                    <% end %>
+                    <tr><td colspan="3" align="center"><%= will_paginate @users %></td></tr>
+                  <% end %>
+
+                </table>
+                </div>
+                <br />
+              </td> <!-- cell -->
+                  <td class="right_side_cell" valign="top">
+                          <% if !@user.nil? %>
+                        
+                            <% form_for(:user, @user,  :url => {:controller => 'agencies', :action => "user_update", :id => @user.id }) do |f| -%>
+                              <SCRIPT>display_errors('Unable to save user','<%= error_messages_for(:user) %>');</SCRIPT>
+                              <div id="right-header-box" >
+                                <%= two_column_nav_bar_layout2('User Details', get_save_image(@readonly, 'save users')) %>
+                              </div>
+                              <div class="with_margins">
+                            <table width="100%" align="center" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td colspan="2">&nbsp;</td>
+                              </tr>
+                                <tr>
+                                  <td class="leftHeader" style="height: 20px">Login:</td><td><%=h @user.login %></td>
+                                </tr>
+                                <tr>
+                                  <td class="leftHeader">First Name: <span class="required">*</span></td><td><%= f.text_field(:firstName, :size => 15, :maxlength => 25, :class => 'spaced_input') %></td>
+                                </tr>
+                                <tr>
+                                  <td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= f.text_field(:lastName, :size => 15, :maxlength => 25, :class => 'spaced_input') %></td>
+                                </tr>
+                                <tr>
+                                  <td class="leftHeader">Email: <span class="required">*</span></td><td><%= f.text_field(:email, :size => 25, :maxlength => 100, :class => 'spaced_input') %></td>
+                                </tr>
+                                <tr>
+                                  <td class="leftHeader">Phone:</td><td><%= f.text_field(:phone, :maxlength => 30, :class => 'spaced_input') %></td>
+                                </tr>
+                                <tr>
+                                  <td class="leftHeader">Mobile:</td><td><%= f.text_field(:mobile, :maxlength => 30, :class => 'spaced_input') %></td>
+                                </tr>
+
+                          </table>
+                              
+                          <br />
+                          
+                            <table width="100%" cellspacing="0" cellpadding="2">
+                            	<tr><td class="header">Role Name</td><td class="header">Granted</td><td class="header">Read Only</td></tr>
+                            	<% for role in @roles_list do %>
+                              <tr>
+                              	<td><%= role.name %></td>
+								<td><%= check_box_tag(role.name + "_granted", "1", @user.has_role?(role.name), :onclick => (@show_warning == true && role.name == 'Users') ? "Modalbox.show('/user_manager_warning.html', {title: 'User Manager Warning', width: 300});return true;" : "" ) %></td>
+                              	<td><%= check_box_tag(role.name + "_readonly", "1", @user.is_role_read_only?(role.name)) %></td>
+                            	<% end %>
+								</tr>
+							</table>
+                          
+                          <% end %>
+                          <% end %>
+                          <br />
+            
+                          <% if !@user.nil? && @user.id == current_user.id %>
+                            <% form_for :user, @user, :url => {:controller => 'agencies', :action => "change_password"} do |form| %>
+                            <table width="100%" align="center" cellspacing="0" cellpadding="0">
+                              
+                                <tr>
+                                  <td class="header" colspan="3" style="font-size: 90%;"><strong>Change Your Password</strong></td>
+                                </tr>
+                                <tr>
+                                  <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td>Password: </td>
+                                  <td><%= form.password_field :password, :size => 20, :id => 'pwd', :class => 'spaced_input' %></td><td></td>
+                                </tr>
+                                <tr>
+                                  <td>Confirm: </td>
+                                  <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input' %></td><td><%= submit_tag "Change", :class => 'generalButton' %></td>
+                                </tr>
+
+                              
+                            </table>
+                            <% end %>
+                          <% end %>
+                          </div>
+                          <br />
+                       </td> <!-- cell -->
+          </tr> <!-- row -->
+        </table> <!-- table -->
+                  </div>
+          </div>
+<script type="text/javascript">
+
+    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    navbarbox.render('nav-bar-box');
+    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    bluebox.render('blue-box');
+    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    leftheaderbox.render('left-header-box');
+    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+    rightheaderbox.render('right-header-box');
+
+</script>

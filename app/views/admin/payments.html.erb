@@ -1,0 +1,50 @@
+<% form_tag('payments') do %>
+<div class="position: relative;">
+
+  <table cellpadding="4" cellspacing="0">
+    <tr>
+      <td class="leftHeader">Select Month: </td>
+      <td><%= select_month(@selected_month) %></td>
+      <td class="leftHeader">Select Year: </td>
+      <td><%= select_year(@selected_year, :start_year => 2009, :end_year => 2015) %></td>
+      <td><%= submit_tag('Go') %></td>
+
+    </tr>
+  </table>
+  <br/>
+  <table cellpadding="4" cellspacing="0">
+    <tr>
+      <td colspan="12"><%= submit_tag('Generate Invoices') %></td>
+    </tr>
+    <tr>
+      <td class="header" align="center">Select</td>
+      <td class="header">Agency</td>
+      <td class="header">Agency Id</td>
+      <td class="header" align="center">Active Contracts</td>
+      <td class="header">Amount Due</td>
+    </tr>
+  <% if !@payments.nil? && @payments.length > 0 %>
+    <% count = 0 %>
+    <% for payment in @payments %>
+      <% if count % 2 == 0 %>
+        <% class_name = "" %>
+      <% else %>
+        <% class_name = "odd" %>
+      <% end %>
+    <tr>
+      <td class="<%= class_name %>" align="center"><%= check_box_tag("ids[]", payment.agencyId)%></td>
+      <td class="<%= class_name %>"><%= payment.agencyName %></td>
+      <td class="<%= class_name %>" align="center"><%= payment.agencyId %></td>
+      <td class="<%= class_name %>" align="center"><%= payment.total %></td>
+      <td class="<%= class_name %>"><%= PaymentUtil.get_monthly_payment_total(payment.total.to_i) %></td>
+    </tr>
+    <% count += 1 %>
+    <% end %>
+  <% else %>
+    <tr><td colspan="12">&nbsp</td></tr>
+    <tr><td colspan="12" align="center"><strong>No one is paying anything!!! Noooooo!</strong></td></tr>
+  <% end %>
+  </table>
+  <% end %>
+
+</div>

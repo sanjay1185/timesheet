@@ -1,0 +1,51 @@
+<div id="header">Contract - Default Rates</div>
+<br />
+<div>
+  Each contract must have a set of default rates which the temp will select on the timesheet.
+  <p>
+    There are two default hourly rates:
+  <table cellpadding="2" cellspacing="0">
+    <tr style="font-weight: bold">
+      <td style="border-bottom: black solid 2px;border-right: black dotted 1px">Name</td><td style="border-bottom: black solid 2px">Description</td>
+    </tr>
+    <tr>
+      <td style="border-bottom: black dotted 1px;border-right: black dotted 1px;text-indent:4px">Standard</td><td style="border-bottom: black dotted 1px">Normal contract hourly rate</td>
+    </tr>
+    <tr>
+      <td style="border-bottom: black dotted 1px;border-right: black dotted 1px;text-indent:4px">Overtime</td><td style="border-bottom: black dotted 1px">Basic overtime for extra hours</td>
+    </tr>
+  </table>
+
+  </p>
+  <p>
+    ...and one default daily rate:
+    <table cellpadding="2" cellspacing="0">
+    <tr style="font-weight: bold">
+      <td style="border-bottom: black solid 2px;border-right: black dotted 1px">Name</td><td style="border-bottom: black solid 2px">Description</td>
+    </tr>
+    <tr>
+      <td style="border-bottom: black dotted 1px;border-right: black dotted 1px;text-indent:4px">Standard</td><td style="border-bottom: black dotted 1px">Normal contract daily rate</td>
+    </tr>
+    </table>
+  </p>
+
+  <p>
+    By default, all the rates will be set to zero. If you type a value in the <i>Pay Rate</i> field
+    the <i>Charge Rate</i> will automatically be filled in accoring to the <a href="/help/contract_margin">margin</a> for the contract. If
+    <i>Calculate Charge Rate as PAYE Employee</i> is selected the charge rate will be <a href="/help/contract_calculate_charge_rates">calculated including the
+    Employers NI and employee holiday accrual entitlement</a>.
+  </p>
+
+  <p>
+    If the contract rate type is set to <i>Day</i> then the overtime <i>Hourly</i> rate will still be enabled for you to specify an overtime
+    rate.
+  </p>
+  <p>If you specify that the contract does not allow overtime then the <i>Overtime</i> rate can be left blank and an overtime rate will not be created.</p>
+  <p>
+    <strong>Additional:</strong><br />
+    Every contract will have an <i>Unpaid</i> rate, which cannot be edited or deleted.<br />
+    Default rates cannot be deleted, but can be edited.<br />
+    For more information, see <a href="/help/contract_managing_rates">Managing Rates</a>
+  </p>
+
+</div>

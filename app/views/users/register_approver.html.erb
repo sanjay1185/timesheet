@@ -1,0 +1,58 @@
+<% form_for(@user, :url => { :action => 'create_approver'}) do |u| %>
+<div id="nav-bar-box">
+  <%= two_column_nav_bar_layout2("New Approver Details", image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon', :style => 'vertical-align: bottom')) %>
+</div>
+<%= show_errors('Unable to save new user', u.error_messages) %>
+<div id="blue-box">
+  <div class="padder">
+  <table>
+        <tr>
+            <td class="leftHeader" style="width:120px">Login: <span class="required">*</span></td><td><%= u.text_field :login, :maxlength => 15, :class => 'spaced_input', :id => 'login' %><%= ajax_login_check %></td>
+        </tr>
+        <tr>
+          <td class="leftHeader">Password: <span class="required">*</span></td>
+          <td><%= u.password_field :password, :id => 'pwd', :size => '12', :maxlength => 15 %>
+        </td>
+  </tr>
+  <tr>
+    <td class="leftHeader">Confirm: <span class="required">*</span></td>
+    <td><%= u.password_field :password_confirmation, :id => 'pwd_conf', :size => '12', :maxlength => 15 %>
+</td>
+  </tr>
+        <tr>
+            <% @titles = ['Mr', 'Mrs', 'Miss'] %>
+            <td class="leftHeader">Title: <span class="required">*</span></td><td><%= select_tag 'selected_title', options_for_select(@titles, @user.title), :class => 'spaced_input' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">First Name: <span class="required">*</span></td><td><%= u.text_field :firstName, :id => 'firstName', :size => 20, :maxlength => 25, :class => 'spaced_input' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= u.text_field :lastName, :id => 'lastName', :size => 20, :maxlength => 25, :class => 'spaced_input' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">Phone: <span class="required">*</span></td><td><%= u.text_field :phone, :size => 20, :maxlength => 30, :class => 'spaced_input', :id => 'user_phone' %></td>
+        </tr>
+        <tr>
+            <td class="leftHeader">Mobile:</td><td><%= u.text_field :mobile, :size => 20, :maximum => 30, :class => 'spaced_input', :id => 'user_mobile' %></td>
+        </tr>
+         <tr>
+            <td class="leftHeader">Email: <span class="required">*</span></td><td><%= u.text_field :email, :id => 'user_email', :size=> 30, :maxlength => 100, :class => 'spaced_input' %></td>
+        </tr>
+         <tr>
+            <td class="leftHeader">Confirm: <span class="required">*</span></td><td><%= u.text_field :email_confirmation, :size=> 30, :maxlength => 100, :class => 'spaced_input' %></td>
+        </tr>
+        <%= hidden_field_tag('client_id', @client_id) %>
+  </table>
+
+<br />
+</div>
+</div>
+<% end %>
+<script type="text/javascript">
+
+  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  navbarbox.render('nav-bar-box');
+  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  bluebox.render('blue-box');
+  
+</script>

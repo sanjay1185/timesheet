@@ -1,0 +1,50 @@
+<div id="nav-bar-box">
+    <%= two_column_nav_bar_layout2('Workers You Can Currenty Approve', "") %>
+  </div>
+<div id="blue-box" style="height:300px">
+  <div class="padder">
+    <table width="100%" cellpadding="2" cellspacing="0">
+      <tr>
+        <td class="header row_border_right">First Name</td>
+        <td class="header row_border_right">Last Name</td>
+        <td class="header row_border_right">Phone</td>
+        <td class="header row_border_right">Mobile</td>
+        <td class="header">Email</td>
+      </tr>
+
+      <% if @workers.length == 0 %>
+        <tr>
+          <td colspan="5">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="5" style="text-align:center">You are not currently assigned to approve timesheets for any workers</td>
+        </tr>
+      <% else %>
+
+        <% for worker in @workers %>
+        
+          <tr>
+            <td class="row_border_bottom"><%= h worker.firstName %></td>
+            <td class="row_border_bottom row_border_right"><%= h worker.lastName %></td>
+            <td class="row_border_bottom row_border_right"><%= h worker.phone %></td>
+            <td class="row_border_bottom row_border_right"><%= h worker.mobile %></td>
+            <td class="row_border_bottom row_border_right"><%= h worker.email %></td>
+          </tr>
+
+        <% end %>
+        <tr><td colspan="5" align="center"><%= will_paginate(@workers) %></td></tr>
+      <% end %>
+    </table>
+    <br />
+
+  </div>
+
+</div>
+<script type="text/javascript">
+
+  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  navbarbox.render('nav-bar-box');
+  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  bluebox.render('blue-box');
+
+</script>

@@ -1,0 +1,129 @@
+<tr><td>
+<% form_for(:contractor, @contractor, :url => users_path) do |c| -%>
+  <% c.fields_for(:user, @user) do |u| %>
+      <div style="text-align: left;padding-left: 20px;padding-right: 20px">
+        <table width="100%">
+          <tr><td align="center" class="gray_border_bottom"><div class="statement">New Temp/Contractor - Sign up</div></td></tr>
+          <tr><td>
+              <div style="margin-left:20px; margin-right:20px;<%= "display:none" if @contractor.errors.length == 0 && flash[:error].nil? %>" class="error_message"><span style="font-weight: bold">Please correct the following errors:</span><p><%= error_messages_for(:contractor) %><br /><%= flash[:error]  %></p></div>
+              <p>Please fill in your details below to register as a temp/contractor. Fill in as much information as you can as this will make it easier for recruitment companies to
+                distinguish between users with the same or similar names.</p>
+              <p>Please note that users who are <i>approvers</i> cannot register here. Approvers can only be invited or setup directly by a recruitment agency.</p>
+            </td>
+          </tr>
+        </table>
+        <!-- container -->
+        <table width="100%">
+          <tr>
+            <td valign="top" width="50%"> <!-- left side -->
+              <table>
+                <tr>
+                  <td colspan="2" style="border-bottom: black dotted 1px;font-weight: bold">Login Details</td>
+                </tr>
+                <tr>
+                  <td><label>Login:</label> <label class="red">*</label></td>
+                  <td><%= u.text_field :login, :id => 'login', :maxlength => 15, :size => 12 %><div style="display: inline;vertical-align: middle; left: 5px" id="answer"></div>&nbsp;<%= ajax_login_check %></td>
+                </tr>
+                <tr>
+                  <td><% @titles = ['Mr', 'Mrs', 'Miss'] %><label>Title:</label> <label class="red">*</label></td>
+                  <td><%= select_tag 'selected_title', options_for_select(@titles) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label>First Name:</label> <label class="red">*</label></td>
+                  <td><%= u.text_field :firstName, :id => 'firstName', :maxlength => 30, :size => 20 %><%= u.hidden_field :id %></td>
+                </tr>
+                <tr>
+                  <td><label>Last Name:</label> <label class="red">*</label></td>
+                  <td><%= u.text_field :lastName, :id => 'lastName', :maxlength => 30, :size => 20 %></td>
+                </tr>
+                <tr>
+                  <td><label>Password:</label> <label class="red">*</label></td>
+                  <td><%= u.password_field :password, :id => 'pwd', :maxlength => 20, :size => 20 %></td>
+                </tr>
+                <tr>
+                  <td><label>Confirm:</label> <label class="red">*</label></td>
+                  <td><%= u.password_field :password_confirmation, :id => 'pwd_conf', :size => 20 %></td>
+                </tr>
+                <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="border-bottom: black dotted 1px;font-weight: bold">Contact Details</td>
+                </tr>
+                <tr>
+                  <td><label>Email:</label> <label class="red">*</label></td>
+                  <td><%= u.text_field :email, :id => 'user_email', :size => 30, :maxlength => 100 %></td>
+                </tr>
+                <tr>
+                  <td><label>Confirm Email:</label> <label class="red">*</label></td>
+                  <td><%= u.text_field :email_confirmation, :size => 30, :maxlength => 100 %></td>
+                </tr>
+                <tr>
+                  <td><label>Phone:</label></td>
+                  <td><%= u.text_field :phone, :maxlength => 30, :size => 30 %></td>
+                </tr>
+                <tr>
+                  <td><label>Mobile:</label></td>
+                  <td><%= u.text_field :mobile, :maxlength => 30, :size => 30 %></td>
+                </tr>
+
+
+                <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+                <%= c.hidden_field :companyNumber %>
+                <%= c.hidden_field :user_id %>
+                <%= c.hidden_field :vatNumber %>
+                <%= c.hidden_field :companyName %>
+              </table>
+            </td>
+            <td valign="top"> <!-- right side -->
+          <table>
+            <tr>
+              <td colspan="2" style="border-bottom: black dotted 1px;font-weight: bold">Address Details</td>
+            </tr>
+            <tr>
+              <td width="90px"><label>Line 1:</label> <label class="red">*</label></td>
+              <td><%= u.text_field :addr1, :id => 'user_addr1', :maxlength => 75, :size => 30 %></td>
+            </tr>
+            <tr>
+              <td><label>Line 2:</label></td>
+              <td><%= u.text_field :addr2, :maxlength => 75, :size => 30 %></td>
+            </tr>
+            <tr>
+              <td><label>Line 3:</label></td>
+              <td><%= u.text_field :addr3, :maxlength => 75, :size => 30 %></td>
+            </tr>
+            <tr>
+              <td><label>City:</label> <label class="red">*</label></td>
+              <td><%= u.text_field :city, :id => 'user_city', :maxlength => 75, :size => 30 %></td>
+            </tr>
+            <tr>
+              <td><label>County:</label></td>
+              <td><%= u.text_field :region, :maxlength => 75, :size => 30 %></td>
+            </tr>
+            <tr>
+              <td><label>Post Code:</label> <label class="red">*</label></td>
+              <td><%= u.text_field :postCode, :id => 'user_postCode', :maxlength => 15, :size => 10 %></td>
+            </tr>
+            <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+            <tr>
+    <td colspan="2"><input type="checkbox" name="t_and_c" />I have read the <a href="#" onclick="window.open('terms_workers.html', 'Terms and Conditions','width=500,height=400,scrollbars,location=0,toolbar=0,status=0')" class="norm">Terms and Conditions</a></td>
+  </tr>
+            
+          </table>
+            </td>
+          </tr>
+          <tr style="height: 40px">
+            <td colspan="2" style="text-align:center"><%= submit_tag 'Sign up', :class => 'generalButton' %></td>
+          </tr>
+        </table>
+        <!-- end container -->
+      </div>
+    <% end %>
+  <% end -%>
+</td></tr>
+<% flash.discard %>

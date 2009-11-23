@@ -1,0 +1,30 @@
+aaron_users:
+  id: 1
+  role: users
+  user: aaron
+  readOnly: false
+aaron_settings:
+  id: 2
+  role: settings
+  user: aaron
+  readOnly: false
+aaron_settings:
+  id: 3
+  role: invoicing
+  user: aaron
+  readOnly: false
+aaron_clients:
+  id: 4
+  role: clients
+  user: aaron
+  readOnly: false
+aaron_contracts:
+  id: 5
+  role: contracts
+  user: aaron
+  readOnly: false
+aaron_rates:
+  id: 6
+  role: rates
+  user: aaron
+  readOnly: false
