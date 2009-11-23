@@ -16,7 +16,7 @@ set :port, 28001
 default_run_options[:pty] = true
 set :repository,  "ssh://git@clockoff.com:28001/home/git/timesheets"
 set :scm, "git"
-set :user, :opt1
+set :user, "admin"
 set :branch, "master"
 set :deploy_via, :remote_cache
 

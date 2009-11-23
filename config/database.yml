@@ -2,7 +2,7 @@
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development:
   adapter: mysql
-  database: october_release
+  database: timesheets
   timeout: 5000
   username: rails_user
   password: ra1ls
