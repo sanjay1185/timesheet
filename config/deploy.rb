@@ -14,9 +14,13 @@ set :port, 28001
 # via the :deploy_to variable:
 # set :deploy_to, "/var/www/#{application}"
 
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-# set :scm, :subversion
+default_run_options[:pty] = true
+set :repository,  "ssh://git@clockoff.com:28001/home/git/timesheets"
+set :scm, "git"
+set :scm_passphrase, "gitr3p0"
+set :user, "git"
+set :branch, "master"
+set :deploy_via, :remote_cache
 
 server "clockoff.com", :app, :web, :db, :primary => true
 
