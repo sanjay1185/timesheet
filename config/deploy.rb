@@ -6,7 +6,6 @@ set :keep_releases, 3
 set :use_sudo, false
 
 set :application, "clockoff"
-set :user, :opt1
 set :port, 28001
 
 # If you aren't deploying to /u/apps/#{application} on the target
@@ -17,7 +16,6 @@ set :port, 28001
 default_run_options[:pty] = true
 set :repository,  "ssh://git@clockoff.com:28001/home/git/timesheets"
 set :scm, "git"
-set :scm_passphrase, "gitr3p0"
 set :user, "git"
 set :branch, "master"
 set :deploy_via, :remote_cache
