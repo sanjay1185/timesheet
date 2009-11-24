@@ -1,4 +1,4 @@
-namespace :demo2 do
+namespace :clockoff do
   
   @the_date = nil
   @last_month = nil
@@ -105,7 +105,7 @@ namespace :demo2 do
 
     james_brand.method(:encrypt_password)
     james_brand.method(:make_password_reset_code)
-    james_brand.save(false)
+    james_brand.activate
     
     # add permissions for james brand
     james_brand.permissions << Permission.new(:role => users_role)
@@ -132,7 +132,7 @@ namespace :demo2 do
 
     alan_braine.method(:encrypt_password)
     alan_braine.method(:make_password_reset_code)
-    alan_braine.save(false)
+    alan_braine.activate
     
     # add permissions for alan braine
     alan_braine.permissions << Permission.new(:role => clients_role)
@@ -158,7 +158,7 @@ namespace :demo2 do
       })
     mark_norris.method(:encrypt_password)
     mark_norris.method(:make_password_reset_code)
-    mark_norris.save(false)
+    mark_norris.activate
     abn.users << mark_norris
     
     puts "......adding approver Owen Peters for ABN Amro"
@@ -176,7 +176,7 @@ namespace :demo2 do
       })
     owen_peters.method(:encrypt_password)
     owen_peters.method(:make_password_reset_code)
-    owen_peters.save(false)
+    owen_peters.activate
     abn.users << owen_peters
     
     puts "...ARX Media Ltd"
@@ -185,9 +185,9 @@ namespace :demo2 do
     puts "...Bortex Industries Ltd"
     bortex = Client.new(:agency => agency, :name => 'Bortex Industries Ltd', :addr1 => "UNIT 12B", :addr2 => 'Castleton Industrial Estate', :addr3 => 'Bramingham' , :city => 'Luton', :region => 'Bedfordshire', :postCode => 'LU2 7SD', :externalClientRef => 'BORTEX', :margin => 11, :invoicePeriod => 'WEEKLY')
     bortex.save
-    # TODO: Add approvers for Borex Industries
-    puts "......adding approver Graham Bennett for Borex Industries Ltd"
-    graham_benett = User.new(
+    
+    puts "......adding approver Graham Bennett for Bortex Industries Ltd"
+    graham_bennett = User.new(
       { :login => 'grahambennett',
         :email => 'graham.bennett@intura.co.uk',
         :title => 'Mr',
@@ -201,8 +201,9 @@ namespace :demo2 do
       })
     graham_bennett.method(:encrypt_password)
     graham_bennett.method(:make_password_reset_code)
-    graham_bennett.save(false)
-    borex.users << graham_bennett
+    graham_bennett.activate
+    bortex.users << graham_bennett
+    
     puts "...Coral Trade Bathrooms"
     coral = Client.new(:agency => agency, :name => 'Coral Trade Bathrooms', :addr1 => "120 High Street", :city => 'Uxbridge', :region => 'Middlesex', :postCode => 'UB4 8SP', :externalClientRef => 'CORAL', :margin => 10, :invoicePeriod => 'WEEKLY')
     coral.save
@@ -292,9 +293,9 @@ namespace :demo2 do
     charles_daly_contractor.vatNumber = '977 6534 187'
     charles_daly_contractor.companyNumber = '086548277'
     charles_daly_contractor.save(false)
-    
+ 
     charles_daly.contractor_id = charles_daly_contractor.id
-    charles_daly.save(false)
+    charles_daly.activate
     
     puts '...Mary Smith'
     mary_smith = User.new(
@@ -322,7 +323,7 @@ namespace :demo2 do
     mary_smith_contractor.save(false)
     
     mary_smith.contractor_id = charles_daly_contractor.id
-    mary_smith.save(false)
+    mary_smith.activate
     
     puts '...Terry Vance'
     terry_vance = User.new(
@@ -350,7 +351,17 @@ namespace :demo2 do
     terry_vance_contractor.save(false)
     
     terry_vance.contractor_id = charles_daly_contractor.id
-    terry_vance.save(false)
+    terry_vance.activate
+    
+#    puts "*** Creating contracts for ABN Amro ***"
+#    abn_contract1 = Contract.new(
+#      { :startDate => @the_date - 6.weeks,
+#        :endDate => @the_date + 1.week
+#        :ref => 'ABN17872',
+#        :position => 'PA Assistant',
+#        :client => abn,
+#        :margin => abn.
+#      })
     
   end
   
@@ -416,7 +427,11 @@ namespace :demo2 do
   
   task :configure, [:from_date] => :environment do |t, args|
   
-    puts "Setting up demo data..."
+    puts "Setting up some basic data..."
+    
+    if args.RAILS_ENV == 'production'
+      abort("Aborted: Can't run clockoff:setup in production environment")
+    end
     
     args.with_defaults(:from_date => Date.today)
     
@@ -431,6 +446,7 @@ namespace :demo2 do
       @the_date = args.from_date
     end
     
+    # set some dates in the past.
     @last_month = @the_date - 1.month
     @last_quarter = @the_date - 3.months
     @six_months_ago = @the_date - 6.months

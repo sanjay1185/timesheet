@@ -15,7 +15,7 @@ class UserObserver < ActiveRecord::Observer
   #----------------------------------------------------------------------------
   def after_save(user)
 
-    UserMailer.deliver_activation(user) if user.recently_activated?
+    UserMailer.deliver_activation(user) if user.recently_activated? unless user.demo
     UserMailer.deliver_forgot_password(user) if user.recently_forgot_password?
     UserMailer.deliver_reset_password(user) if user.recently_reset_password?
     UserMailer.deliver_forgot_username(user) if user.recently_forgot_username?
