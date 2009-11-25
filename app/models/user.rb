@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   #############################################################################
   # Other attributes
   #############################################################################
-  attr_accessor :password, :email_confirmation, :only_basic_validation, :demo
+  attr_accessor :password, :email_confirmation, :only_basic_validation, :setup
   attr_accessible :login, :email, :password, :password_confirmation, :password_reset_code,
                   :only_basic_validation, :contractor, :agency_id, :contractor_id,
                   :userType, :admin, :allowEmailApproval, :addr1, :city,
@@ -499,25 +499,6 @@ class User < ActiveRecord::Base
 
     return users.paginate(:page => page, :per_page => per_page)
 
-  end
-
-  #def self.generate_user_info(name, password)
-  #  salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{name}--")
-  #  pwd = encrypt(password, salt)
-  #  return {:login => name, :pwd => pwd, :salt => salt, :reset_code => Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )}
-  #end
-
-  #----------------------------------------------------------------------------
-  # Generate insert statement for users
-  #----------------------------------------------------------------------------
-  def self.generate_user_sql(name, password, firstName, lastName, email, city)
-
-    salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{name}--")
-    pwd = encrypt(password, salt)
-    code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-    sprintf("insert into `users` (login, firstName, lastName, email, crypted_password, password_reset_code, salt, city, activated_at, state, userType, created_at, title, allowEmailApproval) \
-        values('%s', '%s','%s','%s','%s','%s','%s', '%s', now(),'active','1','approver',now(),'Mr','0')",name, firstName, lastName, email, pwd, code, salt, city)
-    
   end
 
 protected

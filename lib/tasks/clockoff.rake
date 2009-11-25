@@ -40,6 +40,15 @@ namespace :clockoff do
     company_number = Settings.new({:name => 'company_number', :value => '06132404'})
     company_number.save
     
+    puts "*** Creating default rates ***"
+    puts "...sickness"
+    sickness_rate = Rate.new({:contract_id => 0, :name => 'Sickness', :payRate => 0, :chargeRate => 0, :comment => 'Default Sickness Rate', :default => true, :active => true, :category => 'Sickness'})
+    sickness_rate.save(false)
+    
+    puts "...unpaid"
+    unpaid_rate = Rate.new({:contract_id => 0, :name => 'Unpaid', :payRate => 0, :chargeRate => 0, :comment => 'Default Unpaid Rate', :default => true, :active => true, :category => 'Unpaid'})
+    unpaid_rate.save(false)
+    
     puts "*** Creating roles ***"
     puts "...Clients"
     clients_role = Role.new({:name => 'Clients', :description => 'Client management role'})
@@ -100,7 +109,7 @@ namespace :clockoff do
         :state => 'active',
         :userType => 'agency',
         :phone => '020 7827 9323',
-        :demo => true
+        :setup => true
       })
 
     james_brand.method(:encrypt_password)
@@ -127,7 +136,7 @@ namespace :clockoff do
         :state => 'active',
         :userType => 'agency',
         :phone => '020 7827 9324',
-        :demo => true
+        :setup => true
       })
 
     alan_braine.method(:encrypt_password)
@@ -154,7 +163,7 @@ namespace :clockoff do
         :state => 'active',
         :userType => 'approver',
         :phone => '020 7719 7366',
-        :demo => true
+        :setup => true
       })
     mark_norris.method(:encrypt_password)
     mark_norris.method(:make_password_reset_code)
@@ -172,7 +181,7 @@ namespace :clockoff do
         :state => 'active',
         :userType => 'approver',
         :phone => '020 7719 7398',
-        :demo => true
+        :setup => true
       })
     owen_peters.method(:encrypt_password)
     owen_peters.method(:make_password_reset_code)
@@ -197,7 +206,7 @@ namespace :clockoff do
         :state => 'active',
         :userType => 'approver',
         :phone => '01523 736 288',
-        :demo => true
+        :setup => true
       })
     graham_bennett.method(:encrypt_password)
     graham_bennett.method(:make_password_reset_code)
@@ -281,7 +290,7 @@ namespace :clockoff do
         :city => 'Southall',
         :region => 'Middlesex',
         :postCode => 'UB1 2YQ',
-        :demo => true
+        :setup => true
       })
 
     charles_daly.method(:encrypt_password)
@@ -312,7 +321,7 @@ namespace :clockoff do
         :city => 'Maidenhead',
         :region => 'Berkshire',
         :postCode => 'MD2 3KD',
-        :demo => true
+        :setup => true
       })
 
     mary_smith.method(:encrypt_password)
@@ -340,7 +349,7 @@ namespace :clockoff do
         :city => 'Harrow',
         :region => 'Middlesex',
         :postCode => 'HA1 3CF',
-        :demo => true
+        :setup => true
       })
 
     terry_vance.method(:encrypt_password)
@@ -353,15 +362,40 @@ namespace :clockoff do
     terry_vance.contractor_id = charles_daly_contractor.id
     terry_vance.activate
     
-#    puts "*** Creating contracts for ABN Amro ***"
-#    abn_contract1 = Contract.new(
-#      { :startDate => @the_date - 6.weeks,
-#        :endDate => @the_date + 1.week
-#        :ref => 'ABN17872',
-#        :position => 'PA Assistant',
-#        :client => abn,
-#        :margin => abn.
-#      })
+    puts "*** Creating contract (ABN17872) for ABN Amro ***"
+    puts "...Terry Vance, 8 Weeks, Daily Paid, 420"
+    abn_contract1 = Contract.new(
+      { :startDate => @the_date - 6.weeks,
+        :endDate => @the_date + 2.weeks,
+        :ref => 'ABN17872',
+        :position => 'Technical Documentation Specialist',
+        :client => abn,
+        :margin => abn.margin,
+        :rateType => 'Day',
+      })
+    abn_contract1_std = Rate.new({:name => 'Standard Rate', :payRate => 420, :chargeRate => 460.95, :comment => 'Standard rate', :default => true, :active => true, :rateType => 'Day', :category => 'Standard' })
+    abn_contract1.contractors << terry_vance_contractor
+    abn_contract1.rates << abn_contract1_std
+    abn_contract1.save(false)
+    
+    puts "*** Creating timesheets for Terry Vance (ABM17872) ***"
+    abn_c1_ts1 = abn_contract1.create_next_timesheet
+    abn_c1_ts1.timesheet_entries[0].dayValue = 1
+    abn_c1_ts1.timesheet_entries[0].rate = abn_contract1_std
+    abn_c1_ts1.timesheet_entries[1].dayValue = 1
+    abn_c1_ts1.timesheet_entries[1].rate = abn_contract1_std
+    abn_c1_ts1.timesheet_entries[2].dayValue = 1
+    abn_c1_ts1.timesheet_entries[2].rate = abn_contract1_std
+    abn_c1_ts1.timesheet_entries[3].dayValue = 1
+    abn_c1_ts1.timesheet_entries[3].rate = abn_contract1_std
+    abn_c1_ts1.timesheet_entries[4].dayValue = 1
+    abn_c1_ts1.timesheet_entries[4].rate = abn_contract1_std
+    abn_c1_ts1.status = 'SUBMITTED'
+    abn_c1_ts1.save(false)
+    
+    abn_c1_ts1.note = "Job well done!"
+    abn_c1_ts1.status = 'APPROVED'
+    abn_c1_ts1.save(false)
     
   end
   

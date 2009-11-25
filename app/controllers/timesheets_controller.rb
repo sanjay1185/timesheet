@@ -428,9 +428,6 @@ class TimesheetsController < ApplicationController
       # calc days
       total_days += entry.dayValue unless entry.dayValue.nil?
       
-      # calc charge rate
-      entry.chargeRate = entry.rate.chargeRate unless entry.disabled? || (entry.is_bank_hol == true && !@contract.allowBankHoildays?)
-      
       # convert extra validation variables to bools
       entry.requireTimes = Boolean.parse(entry.requireTimes)
       entry.requireFullWeek = Boolean.parse(entry.requireFullWeek) 

@@ -125,9 +125,9 @@ class ApplicationController < ActionController::Base
   #----------------------------------------------------------------------------
   # Check the current user belongs to the specified role
   #----------------------------------------------------------------------------
-  def can_edit?(role_name)
+  def can_edit?(required_role)
     
-    perm = current_user.permissions.select { |p| p.role.name == role_name}[0]
+    perm = current_user.permissions.select { |p| p.role.name == required_role}[0]
   
     @readonly= perm.nil? ? false : perm.readOnly?
     

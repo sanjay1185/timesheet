@@ -6,7 +6,7 @@ class UserObserver < ActiveRecord::Observer
   def after_create(user)
 
     # only send notification if the user is not created from the demo task
-    UserMailer.deliver_signup_notification(user) unless user.demo
+    UserMailer.deliver_signup_notification(user) unless user.setup
 
   end
 
@@ -15,7 +15,7 @@ class UserObserver < ActiveRecord::Observer
   #----------------------------------------------------------------------------
   def after_save(user)
 
-    UserMailer.deliver_activation(user) if user.recently_activated? unless user.demo
+    UserMailer.deliver_activation(user) if user.recently_activated? unless user.setup
     UserMailer.deliver_forgot_password(user) if user.recently_forgot_password?
     UserMailer.deliver_reset_password(user) if user.recently_reset_password?
     UserMailer.deliver_forgot_username(user) if user.recently_forgot_username?

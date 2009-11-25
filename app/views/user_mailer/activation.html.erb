@@ -1,6 +1,13 @@
 Dear <%= @user.last_name_with_title %>,
 
-<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use.</p>
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td><%= @user.login %></td></tr>
+  <tr><td>Password :</td><td><%= @user.password %></td></tr>
+</table>
+</p>
 
 <p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
 

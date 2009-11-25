@@ -1,19 +1,12 @@
 Dear <%= @user.last_name_with_title %>,
 
-<p>Your new ClockOff.com account has been created.</p>
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
 
-<p>
-<table>
-  <tr><td>Username :</td><td><%= @user.login %></td></tr>
-  <tr><td>Password :</td><td><%= @user.password %></td></tr>
-</table>
-</p>
-
-<p>Your account now needs to be activated. To complete this process please click the following link:</p>
+<p>To complete this process please click the following link:</p>
 
 <p><a href="<%= @url %>"><%= @url %></a></p>
 
-<p>Once activation is complete you can login immediately.</p>
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
 
 <p>Regards,</p>
 

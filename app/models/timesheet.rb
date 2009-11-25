@@ -259,9 +259,7 @@ class Timesheet < ActiveRecord::Base
       end
       
     end
-    
-    
-    
+
   end
     
   
@@ -290,8 +288,11 @@ class Timesheet < ActiveRecord::Base
   def calc
 
     sub_total = 0
-
-    timesheet_entries.each {|te| sub_total += te.calc }
+    
+    timesheet_entries.each {|entry|
+      entry.chargeRate = entry.rate.chargeRate unless entry.disabled? || (entry.is_bank_hol == true && !contract.allowBankHoildays?)
+      sub_total += entry.calc 
+    }
 
     self.netAmount = sub_total
     

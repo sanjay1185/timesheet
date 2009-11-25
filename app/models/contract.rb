@@ -45,7 +45,7 @@ class Contract < ActiveRecord::Base
   #############################################################################
   accepts_nested_attributes_for :rates
   named_scope :descending, :order => "startDate DESC"
-  attr_accessible :status, :rateType, :dayRate, :startDate, :ref, :position, :client_id,
+  attr_accessible :status, :rateType, :dayRate, :startDate, :ref, :position, :client_id, :client,
                   :endDate, :margin, :rates_attributes, :calcChargeRateAsPAYE,
                   :requireTimes, :requireFullWeek, :allowOvertime, :allowBankHolidays
 
@@ -336,9 +336,11 @@ class Contract < ActiveRecord::Base
         self.update_attribute(:status, "COMPLETE")
       
       end
-    
+      
       # save, no validation
       new_ts.save(false)
+      
+      return new_ts
       
     end
 
