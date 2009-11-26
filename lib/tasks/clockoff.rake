@@ -328,10 +328,10 @@ namespace :clockoff do
     mary_smith.method(:make_password_reset_code)
     
     mary_smith_contractor = Contractor.new()
-    mary_smith_contractor.user = charles_daly
+    mary_smith_contractor.user = mary_smith
     mary_smith_contractor.save(false)
     
-    mary_smith.contractor_id = charles_daly_contractor.id
+    mary_smith.contractor_id = mary_smith_contractor.id
     mary_smith.activate
     
     puts '...Terry Vance'
@@ -356,10 +356,10 @@ namespace :clockoff do
     terry_vance.method(:make_password_reset_code)
     
     terry_vance_contractor = Contractor.new()
-    terry_vance_contractor.user = charles_daly
+    terry_vance_contractor.user = terry_vance
     terry_vance_contractor.save(false)
     
-    terry_vance.contractor_id = charles_daly_contractor.id
+    terry_vance.contractor_id = terry_vance_contractor.id
     terry_vance.activate
     
     puts "*** Creating contract (ABN17872) for ABN Amro ***"
