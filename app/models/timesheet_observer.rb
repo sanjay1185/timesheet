@@ -92,4 +92,11 @@ class TimesheetObserver < ActiveRecord::Observer
 
   end
 
+  def after_save(timesheet)
+    
+    #todo: change contract status here?   
+ 
+  end
+
+
 end

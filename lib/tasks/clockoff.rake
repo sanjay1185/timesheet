@@ -393,9 +393,13 @@ namespace :clockoff do
     abn_c1_ts1.status = 'SUBMITTED'
     abn_c1_ts1.save(false)
     
+    puts "...#{abn_c1_ts1.startDate} (SUBMITTED)"
+    
     abn_c1_ts1.note = "Job well done!"
     abn_c1_ts1.status = 'APPROVED'
     abn_c1_ts1.save(false)
+    
+    puts "...#{abn_c1_ts1.startDate} (APPROVED)"
     
     abn_c1_ts2 = abn_contract1.create_next_timesheet
     abn_c1_ts2.timesheet_entries[0].dayValue = 1
@@ -411,8 +415,12 @@ namespace :clockoff do
     abn_c1_ts2.status = 'SUBMITTED'
     abn_c1_ts2.save(false)
     
+    puts "...#{abn_c1_ts2.startDate} (SUBMITTED)"
+    
     abn_c1_ts2.status = 'APPROVED'
     abn_c1_ts2.save(false)
+    
+    puts "...#{abn_c1_ts2.startDate} (APPROVED)"
     
     abn_c1_ts3 = abn_contract1.create_next_timesheet
     abn_c1_ts3.timesheet_entries[0].dayValue = 1
@@ -428,8 +436,12 @@ namespace :clockoff do
     abn_c1_ts3.status = 'SUBMITTED'
     abn_c1_ts3.save(false)
     
+    puts "...#{abn_c1_ts3.startDate} (SUBMITTED)"
+    
     abn_c1_ts3.status = 'APPROVED'
     abn_c1_ts3.save(false)
+    
+    puts "...#{abn_c1_ts3.startDate} (APPROVED)"
     
   end
   
@@ -452,22 +464,22 @@ namespace :clockoff do
     puts "Deleting invoices..."
     Invoice.delete_all
     puts "Deleting rates..."
-    Rate.delete_all("contract_id != 0")
+    Rate.delete_all
     puts "Deleting agency invoices..."
-    AgencyInvoice.delete_all()
-    AgencyInvoiceDetail.delete_all()
+    AgencyInvoice.delete_all
+    AgencyInvoiceDetail.delete_all
     puts "Deleting approver requests..."
-    ApproverRequest.delete_all()
+    ApproverRequest.delete_all
     puts "Deleting Agencies"
-    Agency.delete_all()
+    Agency.delete_all
     puts "Deleting users"
-    User.delete_all()
+    User.delete_all
     puts "Deleting permissions..."
     Permission.delete_all
     puts "Deleting roles..."
     Role.delete_all
     puts "Deleting settings"
-    Settings.delete_all()
+    Settings.delete_all
     puts "Deleting additional join tables..."
     ActiveRecord::Base.connection.execute("delete from invoices_timesheets")
     ActiveRecord::Base.connection.execute("delete from contracts_users")
