@@ -30,7 +30,7 @@ class Timesheet < ActiveRecord::Base
   #############################################################################
   # Validation
   #############################################################################
-  validates_length_of :note, :maximum => 255, :message => 'Notes cannot be more than 255 characters'
+  validates_length_of :note, :maximum => 255, :message => 'Note cannot be more than 255 characters', :allow_nil => true
   validates_length_of :userName, :maximum => 75, :message => 'User name must be 75 characters or less', :allow_nil => true
   
   #############################################################################

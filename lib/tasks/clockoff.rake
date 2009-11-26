@@ -397,6 +397,40 @@ namespace :clockoff do
     abn_c1_ts1.status = 'APPROVED'
     abn_c1_ts1.save(false)
     
+    abn_c1_ts2 = abn_contract1.create_next_timesheet
+    abn_c1_ts2.timesheet_entries[0].dayValue = 1
+    abn_c1_ts2.timesheet_entries[0].rate = abn_contract1_std
+    abn_c1_ts2.timesheet_entries[1].dayValue = 1
+    abn_c1_ts2.timesheet_entries[1].rate = abn_contract1_std
+    abn_c1_ts2.timesheet_entries[2].dayValue = 1
+    abn_c1_ts2.timesheet_entries[2].rate = abn_contract1_std
+    abn_c1_ts2.timesheet_entries[3].dayValue = 1
+    abn_c1_ts2.timesheet_entries[3].rate = abn_contract1_std
+    abn_c1_ts2.timesheet_entries[4].dayValue = 1
+    abn_c1_ts2.timesheet_entries[4].rate = abn_contract1_std
+    abn_c1_ts2.status = 'SUBMITTED'
+    abn_c1_ts2.save(false)
+    
+    abn_c1_ts2.status = 'APPROVED'
+    abn_c1_ts2.save(false)
+    
+    abn_c1_ts3 = abn_contract1.create_next_timesheet
+    abn_c1_ts3.timesheet_entries[0].dayValue = 1
+    abn_c1_ts3.timesheet_entries[0].rate = abn_contract1_std
+    abn_c1_ts3.timesheet_entries[1].dayValue = 1
+    abn_c1_ts3.timesheet_entries[1].rate = abn_contract1_std
+    abn_c1_ts3.timesheet_entries[2].dayValue = 1
+    abn_c1_ts3.timesheet_entries[2].rate = abn_contract1_std
+    abn_c1_ts3.timesheet_entries[3].dayValue = 1
+    abn_c1_ts3.timesheet_entries[3].rate = abn_contract1_std
+    abn_c1_ts3.timesheet_entries[4].dayValue = 1
+    abn_c1_ts3.timesheet_entries[4].rate = unpaid_rate
+    abn_c1_ts3.status = 'SUBMITTED'
+    abn_c1_ts3.save(false)
+    
+    abn_c1_ts3.status = 'APPROVED'
+    abn_c1_ts3.save(false)
+    
   end
   
   task :cleardown => :configure do

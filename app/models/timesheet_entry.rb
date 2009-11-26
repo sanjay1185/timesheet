@@ -158,7 +158,6 @@ class TimesheetEntry < ActiveRecord::Base
     amt = std * self.chargeRate unless self.chargeRate.nil? || self.chargeRate == 0
     self.netAmount = amt
 
-    puts "amt was #{amt}"
     return amt
     
   end

@@ -36,7 +36,7 @@ class TimesheetObserver < ActiveRecord::Observer
 
       # get the invoice date
       invoice_date = timesheet.get_invoice_date(start_day)
-
+      
       conditions = []
       conditions.add_condition!(['client_id = ?', timesheet.contract.client_id])
       conditions.add_condition!(['invoiceDate = ?', invoice_date])
@@ -63,11 +63,11 @@ class TimesheetObserver < ActiveRecord::Observer
 
       # at this point we have an invoice... add the timesheet to it
       if !invoice.timesheets.include?(timesheet)
-
+        
         invoice.timesheets << timesheet
-
+        
       end
-
+      
       # save the invoice.. the calc will happen automatically
       invoice.save
 

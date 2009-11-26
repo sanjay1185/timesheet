@@ -9,7 +9,7 @@ class Invoice < ActiveRecord::Base
   #############################################################################
   # Custom Methods
   #############################################################################
-
+  
   #----------------------------------------------------------------------------
   # search for invoices for clients
   #----------------------------------------------------------------------------
@@ -48,16 +48,16 @@ class Invoice < ActiveRecord::Base
     # iterate through the timesheets and recalc
     self.netAmount = 0
 
-    for timesheet in self.timesheets
+    for timesheet in timesheets
 
       self.netAmount += timesheet.netAmount unless timesheet.netAmount.blank?
-      
+         
     end
 
     # calculate the tax and gross amounts
     self.taxAmount = self.netAmount * (self.taxRate/100)
     self.grossAmount = self.netAmount + self.taxAmount
-      
+
   end
 
 end

@@ -8,5 +8,5 @@ class InvoiceObserver < ActiveRecord::Observer
     invoice.calc
 
   end
-  
+
 end
