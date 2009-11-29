@@ -487,6 +487,7 @@ namespace :clockoff do
     ActiveRecord::Base.connection.execute("delete from contractors_contracts")
 
     puts "*** Setting AUTO_INCREMENT for tables back to 1 ***"
+    ActiveRecord::Base.connection.execute("ALTER TABLE `agencies` AUTO_INCREMENT = 1;")
     ActiveRecord::Base.connection.execute("ALTER TABLE `users` AUTO_INCREMENT = 1;")
     ActiveRecord::Base.connection.execute("ALTER TABLE `clients` AUTO_INCREMENT = 1;")
     ActiveRecord::Base.connection.execute("ALTER TABLE `contracts` AUTO_INCREMENT = 1;")
@@ -517,13 +518,19 @@ namespace :clockoff do
     
     puts "*** #{args.from_date} is the supplied date ***"
     
-    # get the monday on or after this date
-    if args.from_date.wday == 0
-      @the_date = args.from_date - 6.days
-    elsif args.from_date.wday != 1
-      @the_date = args.from_date - (args.from_date.wday - 1).days
+    if args.from_date.class != Date
+      d = Date.parse(args.from_date)
     else
-      @the_date = args.from_date
+      d = args.from_date
+    end
+    
+    # get the monday on or after this date
+    if d.wday == 0
+      @the_date = d - 6.days
+    elsif d.wday != 1
+      @the_date = d - (d.wday - 1).days
+    else
+      @the_date = d
     end
     
     # set some dates in the past.
