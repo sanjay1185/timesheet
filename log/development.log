@@ -1742,3 +1742,1271 @@ Rendering rescues/layout (internal_server_error)
   [4;35;1mRole Create (0.3ms)[0m   [0mINSERT INTO "roles" ("name", "description") VALUES('Settings', 'Settings role')[0m
   [4;36;1mRole Create (0.4ms)[0m   [0;1mINSERT INTO "roles" ("name", "description") VALUES('Users', 'Users role')[0m
   [4;35;1mAgency Create (0.5ms)[0m   [0mINSERT INTO "agencies" ("name", "addr1", "city", "region", "addr2", "created_at", "addr3", "trial", "updated_at", "postCode", "nextInvoiceNumber", "useInvoicing", "autoReminder", "cutOffTime", "phone", "fax", "calculatePAYE", "defaultMargin", "cutOffDay", "sageNominalCode", "email", "active", "invoicing") VALUES('247 Recruitment Ltd', '185 Lombard Street', 'London', NULL, NULL, '2009-12-01 21:03:13', NULL, 'f', '2009-12-01 21:03:13', 'EC1M 9YD', 251, 't', 't', '2000-01-01 10:30:00', '020 7827 9322', '020 7827 9333', 't', 10.5, 2, '4011', '247solutions@intura.co.uk', 't', 'f')[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.9ms)[0m   [0;1mCREATE TABLE "agencies" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) NOT NULL, "addr1" varchar(75) NOT NULL, "addr2" varchar(75), "addr3" varchar(75), "city" varchar(75) NOT NULL, "region" varchar(255), "postCode" varchar(15) NOT NULL, "phone" varchar(30) NOT NULL, "fax" varchar(30) NOT NULL, "email" varchar(100) NOT NULL, "active" boolean, "created_at" datetime, "updated_at" datetime, "sageNominalCode" varchar(15), "trial" boolean DEFAULT 't' NOT NULL, "invoicing" boolean DEFAULT 'f' NOT NULL, "nextInvoiceNumber" integer DEFAULT 1 NOT NULL, "defaultMargin" decimal(8,2) DEFAULT 0.0, "useInvoicing" boolean DEFAULT 't' NOT NULL, "calculatePAYE" boolean DEFAULT 't' NOT NULL, "autoReminder" boolean DEFAULT 'f' NOT NULL, "cutOffDay" integer, "cutOffTime" time) [0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.8ms)[0m   [0;1mCREATE TABLE "agency_invoice_details" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "agency_invoice_id" integer NOT NULL, "contract_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [4;35;1mSQL (3.8ms)[0m   [0mCREATE INDEX "index_agency_invoice_detail_on_agency_id" ON "agency_invoice_details" ("agency_invoice_id")[0m
+  [4;36;1mSQL (2.3ms)[0m   [0;1mCREATE INDEX "index_agency_invoice_detail_on_contract_id" ON "agency_invoice_details" ("contract_id")[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.4ms)[0m   [0;1mCREATE TABLE "agency_invoices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "invoiceDate" date NOT NULL, "agency_id" integer NOT NULL, "netAmount" decimal(8,2) NOT NULL, "taxAmount" decimal(8,2) NOT NULL, "grossAmount" decimal(8,2) NOT NULL, "created_at" datetime, "updated_at" datetime, "invoiceNumber" integer NOT NULL) [0m
+  [4;35;1mSQL (2.2ms)[0m   [0mCREATE INDEX "index_agency_invoice_on_agency_id" ON "agency_invoices" ("agency_id")[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.3ms)[0m   [0mCREATE TABLE "approver_requests" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "client_id" integer NOT NULL, "code" varchar(40), "status" varchar(15), "created_at" datetime, "updated_at" datetime) [0m
+  [4;36;1mSQL (2.3ms)[0m   [0;1mCREATE UNIQUE INDEX "index_approver_requests_on_user_id_and_client_id" ON "approver_requests" ("user_id", "client_id")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.4ms)[0m   [0;1mCREATE TABLE "bank_holidays" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "holidayDate" date NOT NULL, "countryCode" varchar(2) NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [4;35;1mSQL (0.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE TABLE "clients" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) NOT NULL, "addr1" varchar(75) NOT NULL, "addr2" varchar(75), "addr3" varchar(75), "city" varchar(75) NOT NULL, "region" varchar(75), "postCode" varchar(15), "agency_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime, "externalClientRef" varchar(20), "margin" decimal(8,2) NOT NULL, "monthlyInvoicePeriodStartDay" integer DEFAULT 1 NOT NULL, "invoicePeriod" varchar(10) DEFAULT 'Monthly' NOT NULL, "invoiceTimesheetsSeparately" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (2.4ms)[0m   [0mCREATE INDEX "index_clients_on_agency_id" ON "clients" ("agency_id")[0m
+  [4;36;1mSQL (2.8ms)[0m   [0;1mCREATE INDEX "index_clients_on_city" ON "clients" ("city")[0m
+  [4;35;1mSQL (6.7ms)[0m   [0mCREATE INDEX "index_clients_on_name" ON "clients" ("name")[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.8ms)[0m   [0mCREATE TABLE "clients_users" ("client_id" integer NOT NULL, "user_id" integer NOT NULL) [0m
+  [4;36;1mSQL (3.0ms)[0m   [0;1mCREATE UNIQUE INDEX "index_clients_users_on_client_id_and_user_id" ON "clients_users" ("client_id", "user_id")[0m
+  [4;35;1mSQL (0.6ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.7ms)[0m   [0;1mCREATE TABLE "contractors" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "companyName" varchar(100), "vatNumber" varchar(30), "companyNumber" varchar(30), "user_id" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [4;35;1mSQL (2.7ms)[0m   [0mCREATE INDEX "index_contractors_on_companyName" ON "contractors" ("companyName")[0m
+  [4;36;1mSQL (2.9ms)[0m   [0;1mCREATE INDEX "index_contractors_on_user_id" ON "contractors" ("user_id")[0m
+  [4;35;1mSQL (0.6ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.7ms)[0m   [0;1mCREATE TABLE "contractors_contracts" ("contractor_id" integer NOT NULL, "contract_id" integer NOT NULL, "terminationDate" date) [0m
+  [4;35;1mSQL (3.2ms)[0m   [0mCREATE UNIQUE INDEX "index_contractors_contracts_on_contractor_id_and_contract_id" ON "contractors_contracts" ("contractor_id", "contract_id")[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (10.4ms)[0m   [0mCREATE TABLE "contracts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "startDate" date NOT NULL, "endDate" date NOT NULL, "position" varchar(75) NOT NULL, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "ref" varchar(15) NOT NULL, "client_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime, "status" varchar(15) DEFAULT 'INACTIVE' NOT NULL, "margin" decimal(8,2), "requireTimes" boolean DEFAULT 'f' NOT NULL, "requireFullWeek" boolean DEFAULT 'f' NOT NULL, "calcChargeRateAsPAYE" boolean DEFAULT 't' NOT NULL, "allowOvertime" boolean DEFAULT 'f' NOT NULL, "allowBankHolidays" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;36;1mSQL (2.5ms)[0m   [0;1mCREATE INDEX "index_contracts_on_client_id" ON "contracts" ("client_id")[0m
+  [4;35;1mSQL (2.6ms)[0m   [0mCREATE INDEX "index_contracts_on_endDate" ON "contracts" ("endDate")[0m
+  [4;36;1mSQL (2.7ms)[0m   [0;1mCREATE INDEX "index_contracts_on_ref" ON "contracts" ("ref")[0m
+  [4;35;1mSQL (2.7ms)[0m   [0mCREATE INDEX "index_contracts_on_startDate" ON "contracts" ("startDate")[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.6ms)[0m   [0mCREATE TABLE "contracts_users" ("contract_id" integer NOT NULL, "user_id" integer NOT NULL, "isDefault" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;36;1mSQL (3.3ms)[0m   [0;1mCREATE UNIQUE INDEX "index_contracts_users_on_contract_id_and_user_id" ON "contracts_users" ("contract_id", "user_id")[0m
+  [4;35;1mSQL (0.9ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE TABLE "invoices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "netAmount" float NOT NULL, "taxAmount" decimal(10,2), "grossAmount" decimal(10,2) NOT NULL, "ref" varchar(20), "client_id" integer NOT NULL, "txnDetails" varchar(255), "created_at" datetime, "updated_at" datetime, "invoiceDate" date NOT NULL, "lastExportDate" datetime, "margin" float DEFAULT 0.0 NOT NULL, "inactive" boolean DEFAULT 'f' NOT NULL, "taxRate" decimal(8,2) NOT NULL) [0m
+  [4;35;1mSQL (3.2ms)[0m   [0mCREATE INDEX "index_invoices_on_client_id" ON "invoices" ("client_id")[0m
+  [4;36;1mSQL (1.0ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (66.5ms)[0m   [0mCREATE TABLE "invoices_timesheets" ("invoice_id" integer NOT NULL, "timesheet_id" integer NOT NULL) [0m
+  [4;36;1mSQL (51.8ms)[0m   [0;1mCREATE UNIQUE INDEX "index_invoices_timesheets_on_invoice_id_and_timesheet_id" ON "invoices_timesheets" ("invoice_id", "timesheet_id")[0m
+  [4;35;1mSQL (1.0ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (40.7ms)[0m   [0;1mCREATE TABLE "permissions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "role_id" integer, "user_id" integer, "readOnly" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (1.1ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (16.5ms)[0m   [0;1mCREATE TABLE "rates" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(30) NOT NULL, "payRate" float, "chargeRate" float, "comment" varchar(100), "effectiveDate" date, "contract_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime, "default" boolean DEFAULT 'f' NOT NULL, "endDate" date, "active" boolean DEFAULT 't' NOT NULL, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "category" varchar(25) NOT NULL) [0m
+  [4;35;1mSQL (38.3ms)[0m   [0mCREATE INDEX "index_rates_on_contract_id" ON "rates" ("contract_id")[0m
+  [4;36;1mSQL (1.0ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (18.0ms)[0m   [0mCREATE TABLE "roles" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(30), "description" varchar(255)) [0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.7ms)[0m   [0mCREATE TABLE "scheduled_task_logs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "scheduled_task_id" integer, "start" datetime, "end" datetime, "success" boolean, "info" varchar(255)) [0m
+  [4;36;1mSQL (1.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.3ms)[0m   [0mCREATE TABLE "scheduled_tasks" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "task_id" integer, "frequency_id" integer, "time_of_day" integer DEFAULT 0 NOT NULL) [0m
+  [4;36;1mSQL (1.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (4.5ms)[0m   [0mCREATE TABLE "settings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255) NOT NULL, "effectiveDate" date, "value" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [4;36;1mSQL (2.3ms)[0m   [0;1mCREATE INDEX "index_settings_on_name" ON "settings" ("name")[0m
+  [4;35;1mSQL (1.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (29.1ms)[0m   [0;1mCREATE TABLE "tasks" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "class_name" varchar(255), "method_name" varchar(255), "is_running" boolean DEFAULT 'f') [0m
+  [4;35;1mSQL (39.0ms)[0m   [0mCREATE UNIQUE INDEX "uq_tasks_name" ON "tasks" ("name")[0m
+  [4;36;1mSQL (1.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (23.5ms)[0m   [0mCREATE TABLE "timesheet_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "dateValue" date NOT NULL, "timesheet_id" integer NOT NULL, "hours" varchar(5), "disabled" boolean DEFAULT 'f', "created_at" datetime, "updated_at" datetime, "netAmount" float, "startTime" varchar(5), "finishTime" varchar(5), "breakHours" varchar(5), "manual" boolean DEFAULT 'f' NOT NULL, "chargeRate" decimal(8,2), "rate_id" integer, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "dayValue" decimal(8,2), "deleted" integer(1) DEFAULT 0 NOT NULL) [0m
+  [4;36;1mSQL (53.5ms)[0m   [0;1mCREATE INDEX "index_timesheet_entries_on_timesheet_id" ON "timesheet_entries" ("timesheet_id")[0m
+  [4;35;1mSQL (1.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (23.4ms)[0m   [0;1mCREATE TABLE "timesheet_entry_histories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "dateValue" date NOT NULL, "timesheet_history_id" integer NOT NULL, "hours" varchar(5), "disabled" boolean DEFAULT 'f', "created_at" datetime, "updated_at" datetime, "netAmount" float, "startTime" varchar(5), "finishTime" varchar(5), "breakHours" varchar(5), "manual" boolean DEFAULT 'f' NOT NULL, "chargeRate" decimal(8,2), "rate_id" integer, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "dayValue" decimal(8,2), "original_timesheet_id" integer) [0m
+  [4;35;1mSQL (33.2ms)[0m   [0mCREATE INDEX "index_timesheet_entry_histories_on_original_timesheet_id" ON "timesheet_entry_histories" ("original_timesheet_id")[0m
+  [4;36;1mSQL (2.9ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (64.2ms)[0m   [0mCREATE TABLE "timesheet_histories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "startDate" date NOT NULL, "totalDays" decimal(8,2), "totalHours" varchar(6), "invoiced" boolean DEFAULT 'f', "status" varchar(20) DEFAULT 'DRAFT' NOT NULL, "userName" varchar(75), "note" varchar(255), "created_at" datetime, "updated_at" datetime, "lastExportedDateTime" datetime, "netAmount" float, "taxAmount" float, "original_timesheet_id" integer) [0m
+  [4;36;1mSQL (32.4ms)[0m   [0;1mCREATE INDEX "index_timesheet_histories_on_original_timesheet_id" ON "timesheet_histories" ("original_timesheet_id")[0m
+  [4;35;1mSQL (1.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.4ms)[0m   [0;1mCREATE TABLE "timesheets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "startDate" date NOT NULL, "totalDays" decimal(8,2), "totalHours" varchar(6), "invoiced" boolean DEFAULT 'f', "status" varchar(20) DEFAULT 'DRAFT' NOT NULL, "contractor_id" integer NOT NULL, "contract_id" integer NOT NULL, "note" varchar(255), "created_at" datetime, "updated_at" datetime, "lastExportedDateTime" datetime, "netAmount" float, "taxAmount" float, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "userName" varchar(75)) [0m
+  [4;35;1mSQL (2.3ms)[0m   [0mCREATE INDEX "index_timesheets_on_contract_id" ON "timesheets" ("contract_id")[0m
+  [4;36;1mSQL (2.7ms)[0m   [0;1mCREATE INDEX "index_timesheets_on_contractor_id" ON "timesheets" ("contractor_id")[0m
+  [4;35;1mSQL (2.5ms)[0m   [0mCREATE INDEX "index_timesheets_on_startDate" ON "timesheets" ("startDate")[0m
+  [4;36;1mSQL (1.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (6.2ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "login" varchar(15) NOT NULL, "remember_token" varchar(255), "email" varchar(100) NOT NULL, "firstName" varchar(25) NOT NULL, "lastName" varchar(25) NOT NULL, "crypted_password" varchar(40) NOT NULL, "password_reset_code" varchar(40) NOT NULL, "salt" varchar(40), "activation_code" varchar(40), "remember_token_expires_at" datetime, "activated_at" datetime, "deleted_at" datetime, "state" varchar(255) DEFAULT 'pending', "phone" varchar(30), "mobile" varchar(30), "addr1" varchar(75), "addr2" varchar(75), "addr3" varchar(75), "city" varchar(75), "region" varchar(75), "postCode" varchar(15), "userType" varchar(255), "created_at" datetime, "updated_at" datetime, "contractor_id" integer, "agency_id" integer, "title" varchar(5)) [0m
+  [4;36;1mSQL (2.0ms)[0m   [0;1mCREATE INDEX "index_users_on_agency_id" ON "users" ("agency_id")[0m
+  [4;35;1mSQL (2.6ms)[0m   [0mCREATE INDEX "index_users_on_contractor_id" ON "users" ("contractor_id")[0m
+  [4;36;1mSQL (3.1ms)[0m   [0;1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [4;35;1mSQL (2.7ms)[0m   [0mCREATE INDEX "index_users_on_firstName" ON "users" ("firstName")[0m
+  [4;36;1mSQL (2.8ms)[0m   [0;1mCREATE INDEX "index_users_on_lastName" ON "users" ("lastName")[0m
+  [4;35;1mSQL (2.8ms)[0m   [0mCREATE UNIQUE INDEX "index_users_on_login" ON "users" ("login")[0m
+  [4;36;1mSQL (1.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.6ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;36;1mSQL (3.4ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (1.6ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM "schema_migrations"[0m
+  [4;35;1mSQL (1.9ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20091015112852')[0m
+  [4;36;1mSQL (4.2ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090615094405')[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090615105240')[0m
+  [4;36;1mSQL (2.4ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090616105935')[0m
+  [4;35;1mSQL (2.5ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090702091823')[0m
+  [4;36;1mSQL (2.2ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090707080331')[0m
+  [4;35;1mSQL (3.3ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090707083428')[0m
+  [4;36;1mSQL (2.3ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090707085111')[0m
+  [4;35;1mSQL (2.1ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090707160549')[0m
+  [4;36;1mSQL (2.3ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090708164921')[0m
+  [4;35;1mSQL (2.5ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090827102800')[0m
+  [4;36;1mSQL (1.7ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090903124411')[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090903150156')[0m
+  [4;36;1mSQL (2.4ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090914130421')[0m
+  [4;35;1mSQL (2.4ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20091012061412')[0m
+  [4;36;1mSQL (2.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20091012063247')[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20091012112804')[0m
+  [4;36;1mSettings Create (0.5ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('ni_rate', '2009-03-07', '2009-12-01 21:13:31', '2009-12-01 21:13:31', '12.8')[0m
+  [4;35;1mSettings Create (0.4ms)[0m   [0mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('hol_accrual_rate', '2009-03-07', '2009-12-01 21:13:31', '2009-12-01 21:13:31', '12.07')[0m
+  [4;36;1mSettings Create (0.4ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('next_invoice_number', NULL, '2009-12-01 21:13:31', '2009-12-01 21:13:31', '1')[0m
+  [4;35;1mSettings Create (27.3ms)[0m   [0mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('vat_rate', '2009-03-07', '2009-12-01 21:13:31', '2009-12-01 21:13:31', '15')[0m
+  [4;36;1mSettings Create (15.1ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('invoice_address', NULL, '2009-12-01 21:13:31', '2009-12-01 21:13:31', '2nd Floor,145-157 St John St,London,EC1V 4PY')[0m
+  [4;35;1mSettings Create (11.0ms)[0m   [0mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('vat_number', NULL, '2009-12-01 21:13:31', '2009-12-01 21:13:31', '906 1781 27')[0m
+  [4;36;1mSettings Create (0.6ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('company_number', NULL, '2009-12-01 21:13:31', '2009-12-01 21:13:31', '06132404')[0m
+  [4;35;1mRate Create (18.3ms)[0m   [0mINSERT INTO "rates" ("name", "chargeRate", "comment", "effectiveDate", "created_at", "category", "updated_at", "default", "rateType", "endDate", "payRate", "contract_id", "active") VALUES('Sickness', 0.0, 'Default Sickness Rate', NULL, '2009-12-01 21:13:31', 'Sickness', '2009-12-01 21:13:31', 't', 'Hour', NULL, 0.0, 0, 't')[0m
+  [4;36;1mRate Create (13.3ms)[0m   [0;1mINSERT INTO "rates" ("name", "chargeRate", "comment", "effectiveDate", "created_at", "category", "updated_at", "default", "rateType", "endDate", "payRate", "contract_id", "active") VALUES('Unpaid', 0.0, 'Default Unpaid Rate', NULL, '2009-12-01 21:13:31', 'Unpaid', '2009-12-01 21:13:31', 't', 'Hour', NULL, 0.0, 0, 't')[0m
+  [4;35;1mRole Create (7.8ms)[0m   [0mINSERT INTO "roles" ("name", "description") VALUES('Clients', 'Client management role')[0m
+  [4;36;1mRole Create (0.8ms)[0m   [0;1mINSERT INTO "roles" ("name", "description") VALUES('Contracts', 'Contract management role')[0m
+  [4;35;1mRole Create (0.3ms)[0m   [0mINSERT INTO "roles" ("name", "description") VALUES('Rates', 'Rates management role')[0m
+  [4;36;1mRole Create (0.3ms)[0m   [0;1mINSERT INTO "roles" ("name", "description") VALUES('Invoicing', 'Invoicing role')[0m
+  [4;35;1mRole Create (0.4ms)[0m   [0mINSERT INTO "roles" ("name", "description") VALUES('Settings', 'Settings role')[0m
+  [4;36;1mRole Create (0.3ms)[0m   [0;1mINSERT INTO "roles" ("name", "description") VALUES('Users', 'Users role')[0m
+  [4;35;1mAgency Create (0.5ms)[0m   [0mINSERT INTO "agencies" ("name", "addr1", "city", "region", "addr2", "created_at", "addr3", "trial", "updated_at", "postCode", "nextInvoiceNumber", "useInvoicing", "autoReminder", "cutOffTime", "phone", "fax", "calculatePAYE", "defaultMargin", "cutOffDay", "sageNominalCode", "email", "active", "invoicing") VALUES('247 Recruitment Ltd', '185 Lombard Street', 'London', NULL, NULL, '2009-12-01 21:13:31', NULL, 'f', '2009-12-01 21:13:31', 'EC1M 9YD', 251, 't', 't', '2000-01-01 10:30:00', '020 7827 9322', '020 7827 9333', 't', 10.5, 2, '4011', '247solutions@intura.co.uk', 't', 'f')[0m
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;36;1mUser Create (0.7ms)[0m   [0;1mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('a7b73196413ce202f4733d283bea3e716907d3f7', NULL, NULL, NULL, 'Brand', '2009-12-01 21:13:32', NULL, '2009-12-01 21:13:32', '36c15a557debacef71af841eb8667d3ff9d91afd', NULL, NULL, 'Mr', 'b6823a68427a0262e05af22b682b28effc8bb7ad', NULL, '2009-12-01 21:13:32', 'aecca20a374aa76c8bce327800906b58d5c53fd4', NULL, 'agency', NULL, NULL, NULL, 'James', '020 7827 9323', 'jamesbrand', 'james.brand@intura.co.uk', 'active', 1)[0m
+Sent mail to james.brand@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:32 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: james.brand@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Brand,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/aecca20a374aa76c8bce327800906b58d5c53fd4">http://localhost:3000/activate/aecca20a374aa76c8bce327800906b58d5c53fd4</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+Sent mail to james.brand@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:32 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: james.brand@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Brand,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>jamesbrand</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+  [4;35;1mPermission Create (62.2ms)[0m   [0mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(6, 'f', 1)[0m
+  [4;36;1mPermission Create (0.5ms)[0m   [0;1mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(1, 'f', 1)[0m
+  [4;35;1mPermission Create (11.0ms)[0m   [0mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(2, 'f', 1)[0m
+  [4;36;1mPermission Create (4.8ms)[0m   [0;1mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(4, 'f', 1)[0m
+  [4;35;1mPermission Create (0.4ms)[0m   [0mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(5, 'f', 1)[0m
+  [4;36;1mPermission Create (0.5ms)[0m   [0;1mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(3, 'f', 1)[0m
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;35;1mUser Create (0.7ms)[0m   [0mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('888a76be6881c95e5a57a63e7ddfb14676c91a18', NULL, NULL, NULL, 'Braine', '2009-12-01 21:13:33', NULL, '2009-12-01 21:13:33', 'cf0970263940939e5e40d0ce26fee1aa90a27038', NULL, NULL, 'Mr', '73e7f4fe2762f2abefc103fe3d36e442389533cc', NULL, '2009-12-01 21:13:33', 'ce12aed062ec49940d1f695c7c57ffcbf8743990', NULL, 'agency', NULL, NULL, NULL, 'Alan', '020 7827 9324', 'alanbraine', 'alan.braine@intura.co.uk', 'active', 1)[0m
+Sent mail to alan.braine@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:33 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: alan.braine@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Braine,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/ce12aed062ec49940d1f695c7c57ffcbf8743990">http://localhost:3000/activate/ce12aed062ec49940d1f695c7c57ffcbf8743990</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+Sent mail to alan.braine@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:33 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: alan.braine@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Braine,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>alanbraine</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+  [4;36;1mPermission Create (0.7ms)[0m   [0;1mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(1, 'f', 2)[0m
+  [4;35;1mPermission Create (15.1ms)[0m   [0mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(2, 't', 2)[0m
+  [4;36;1mPermission Create (0.5ms)[0m   [0;1mINSERT INTO "permissions" ("role_id", "readOnly", "user_id") VALUES(3, 't', 2)[0m
+  [4;35;1mClient Load (0.3ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'ABN250' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (2.0ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('ABN Amro', '250 Bishopsgate', 'London', 'London', 'ABN250', NULL, '2009-12-01 21:13:33', 'WEEKLY', NULL, '2009-12-01 21:13:33', 9.25, 'EC1M 2TF', 1, 1, 'f')[0m
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;35;1mUser Create (0.6ms)[0m   [0mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('86f61e9856e163e397a794e8073b4a4224559d6f', NULL, NULL, NULL, 'Norris', '2009-12-01 21:13:33', NULL, '2009-12-01 21:13:33', 'deb0976e91c2930162c92253fe0584d4d5667a3e', NULL, NULL, 'Mr', '19a1aedc99e5e2b24e27c2529946f1a5f9a528e3', NULL, '2009-12-01 21:13:33', '7cccf3cb5cb71e98eb876adbf57beedf2b1c69fd', NULL, 'approver', NULL, NULL, NULL, 'Mark', '020 7719 7366', 'marknorris', 'mark.norris@intura.co.uk', 'active', NULL)[0m
+Sent mail to mark.norris@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:33 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: mark.norris@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Norris,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/7cccf3cb5cb71e98eb876adbf57beedf2b1c69fd">http://localhost:3000/activate/7cccf3cb5cb71e98eb876adbf57beedf2b1c69fd</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+Sent mail to mark.norris@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:33 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: mark.norris@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Norris,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>marknorris</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+  [4;36;1mSQL (10.8ms)[0m   [0;1mINSERT INTO "clients_users" ("user_id", "client_id") VALUES (3, 1)[0m
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;35;1mUser Create (5.6ms)[0m   [0mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('88e1c41cfa10ca10ab44c6def5376b983844cac3', NULL, NULL, NULL, 'Peters', '2009-12-01 21:13:33', NULL, '2009-12-01 21:13:33', 'bad0100a03f745b50c888f3e331bdf762936234c', NULL, NULL, 'Mr', '9bfcb2b5e7c71db8d3cc99c5ec68a3f7e7db83b6', NULL, '2009-12-01 21:13:33', 'c92167684f399eb8545e776fdd572c516a969867', NULL, 'approver', NULL, NULL, NULL, 'Owen', '020 7719 7398', 'owenpeters', 'owen.peters@intura.co.uk', 'active', NULL)[0m
+Sent mail to owen.peters@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:33 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: owen.peters@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Peters,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/c92167684f399eb8545e776fdd572c516a969867">http://localhost:3000/activate/c92167684f399eb8545e776fdd572c516a969867</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+Sent mail to owen.peters@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:33 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: owen.peters@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Peters,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>owenpeters</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+  [4;36;1mSQL (9.1ms)[0m   [0;1mINSERT INTO "clients_users" ("user_id", "client_id") VALUES (4, 1)[0m
+  [4;35;1mClient Load (0.4ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'ARX01' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (4.6ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('ARX Media Ltd', '405 Chancery Lane', 'London', 'London', 'ARX01', NULL, '2009-12-01 21:13:33', 'MONTHLY', NULL, '2009-12-01 21:13:33', 12.5, 'WC2 8ND', 1, 1, 'f')[0m
+  [4;35;1mClient Load (0.3ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'BORTEX' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (5.5ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Bortex Industries Ltd', 'UNIT 12B', 'Luton', 'Bedfordshire', 'BORTEX', 'Castleton Industrial Estate', '2009-12-01 21:13:33', 'WEEKLY', 'Bramingham', '2009-12-01 21:13:33', 11.0, 'LU2 7SD', 1, 1, 'f')[0m
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;35;1mUser Create (1.8ms)[0m   [0mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('1a9c8e96f7fd1c7c57238ee63d06e84699d3537f', NULL, NULL, NULL, 'Bennett', '2009-12-01 21:13:33', NULL, '2009-12-01 21:13:33', 'df0a737e2f9d1463aa79c8cef70e916255686707', NULL, NULL, 'Mr', 'b0027e3a0c47acef70c1340cb8d755f2fa65a73f', NULL, '2009-12-01 21:13:33', 'ecec983c4c56830b5fe1677dbc30a1f703c3809e', NULL, 'approver', NULL, NULL, NULL, 'Graham', '01523 736 288', 'grahambennett', 'graham.bennett@intura.co.uk', 'active', NULL)[0m
+Sent mail to graham.bennett@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:33 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: graham.bennett@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Bennett,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/ecec983c4c56830b5fe1677dbc30a1f703c3809e">http://localhost:3000/activate/ecec983c4c56830b5fe1677dbc30a1f703c3809e</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+Sent mail to graham.bennett@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:34 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: graham.bennett@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Bennett,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>grahambennett</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+  [4;36;1mSQL (0.4ms)[0m   [0;1mINSERT INTO "clients_users" ("user_id", "client_id") VALUES (5, 3)[0m
+  [4;35;1mClient Load (0.3ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'CORAL' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (0.4ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Coral Trade Bathrooms', '120 High Street', 'Uxbridge', 'Middlesex', 'CORAL', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 10.0, 'UB4 8SP', 1, 1, 'f')[0m
+  [4;35;1mClient Load (0.3ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'CDEX' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (0.4ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('C-DEX Software Ltd', '7a Warpole Street', 'Harrow', 'Middlesex', 'CDEX', NULL, '2009-12-01 21:13:34', 'MONTHLY', NULL, '2009-12-01 21:13:34', 9.75, 'HA2 3YS', 15, 1, 'f')[0m
+  [4;35;1mClient Load (0.3ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'DYNTECH' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (0.4ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Dynamic Technology Ltd', '100 Gershon Road', 'Harrow', 'Middlesex', 'DYNTECH', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 9.75, 'HA1 4PE', 1, 1, 'f')[0m
+  [4;35;1mClient Load (0.2ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'DORIAN' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (0.4ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Dorian & Co Solicitors', '22 Station Road', 'Harrow', 'Middlesex', 'DORIAN', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 10.0, 'HA2 5PR', 1, 1, 'f')[0m
+  [4;35;1mClient Load (0.4ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'EXXON' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Create (0.7ms)[0m   [0;1mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Exxon Oil (UK) Ltd', '16 Broadgate', 'London', 'London', 'EXXON', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 9.75, 'EC2M 4YE', 1, 1, 'f')[0m
+  [4;35;1mClient Load (0.8ms)[0m   [0mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'CDEX' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;36;1mClient Load (0.2ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'GOLDMAN' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.4ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Goldman Sachs', '100 London Wall', 'London', 'London', 'GOLDMAN', NULL, '2009-12-01 21:13:34', 'MONTHLY', NULL, '2009-12-01 21:13:34', 12.5, 'EC1V 1SS', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.3ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'HIRST' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (2.5ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Hirst Management Ltd', '54 Liverpool Street', 'London', 'London', 'HIRST', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 10.0, 'EC2M 8RH', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.2ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'HSBC' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (39.9ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('HSBC', 'HSBC Tower', 'Canary Wharf', 'London', 'HSBC', '3rd Floor', '2009-12-01 21:13:34', 'MONTHLY', 'Canada Water', '2009-12-01 21:13:34', 14.0, 'E14 7DO', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.3ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'INDIGO' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.5ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Indigo Media Ltd', '7 Carnaby Street', 'London', 'London', 'INDIGO', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 9.0, 'W3 7CS', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.2ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'KIRBY' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.5ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Kirby Cleaning Contracts Ltd', '77 Ruislip Road', 'Greeenford', 'Middlesex', 'KIRBY', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 8.25, 'UB1 2YY', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.3ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'LEAMINGTON' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.4ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Leamington Capital Ltd', '89 Prince Street', 'London', 'London', 'LEAMINGTON', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 12.0, 'EC1M 9HD', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.2ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'MERILL' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.6ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Merill Lynch', '120 The Strand', 'London', 'London', 'MERILL', NULL, '2009-12-01 21:13:34', 'MONTHLY', NULL, '2009-12-01 21:13:34', 11.75, 'WC1D 7FG', 10, 1, 'f')[0m
+  [4;36;1mClient Load (0.2ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'NORRIS' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.8ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Norris Hill Ltd', '69 Boundary Road', 'Pinner', 'Middlesex', 'NORRIS', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 8.0, 'HA4 1PP', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.5ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'PEAR' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.5ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Pear Tree Solutions Ltd', '1 Bridge Street', 'Pinner', 'Middlesex', 'PEAR', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 9.0, 'HA5 4AW', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.2ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'RUSTOK' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.4ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Rustock Imports Ltd', 'Unit 4F', 'Edgware', 'Middlesex', 'RUSTOK', 'Greenway Industial Estate', '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 8.75, 'HA9 6LG', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.4ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'STEVENSON' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.4ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Steveson Fund Management Ltd', '135 Pirelli Street', 'London', 'London', 'STEVENSON', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 10.0, 'WC4A 7RD', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.2ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'TRUST' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.4ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Trustware Ltd', '12 High Street', 'Twickenham', 'Surrey', 'TRUST', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 10.5, 'TW4 8EJ', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.6ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'VECTOR' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (2.2ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Vector Industries Ltd', '80 Cannon Lane', 'Pinner', 'Middlesex', 'VECTOR', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 8.25, 'HA5 6TR', 1, 1, 'f')[0m
+  [4;36;1mClient Load (0.3ms)[0m   [0;1mSELECT "clients".id FROM "clients" WHERE ("clients"."externalClientRef" = 'WHEELER' AND "clients".agency_id = 1) LIMIT 1[0m
+  [4;35;1mClient Create (0.4ms)[0m   [0mINSERT INTO "clients" ("name", "addr1", "city", "region", "externalClientRef", "addr2", "created_at", "invoicePeriod", "addr3", "updated_at", "margin", "postCode", "monthlyInvoicePeriodStartDay", "agency_id", "invoiceTimesheetsSeparately") VALUES('Wheeler Software Ltd', '96 Bishopsgate', 'London', 'London', 'WHEELER', NULL, '2009-12-01 21:13:34', 'WEEKLY', NULL, '2009-12-01 21:13:34', 7.75, 'EC8A 8DV', 1, 1, 'f')[0m
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;36;1mContractor Create (0.5ms)[0m   [0;1mINSERT INTO "contractors" ("vatNumber", "companyName", "created_at", "updated_at", "companyNumber", "user_id") VALUES('977 6534 187', 'BlueBox Software Ltd', '2009-12-01 21:13:34', '2009-12-01 21:13:34', '086548277', NULL)[0m
+  [4;35;1mUser Create (0.4ms)[0m   [0mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('b841f77ee88debc8cdfbfccc8438146ca32e50c2', '70 Frensham Close', 'Southall', 'Middlesex', 'Daly', NULL, NULL, '2009-12-01 21:13:34', 'a04b29ba25e78c1d2eaa039325f3b254cf669af1', NULL, NULL, 'Mr', '7d6355701d32064d27e762cb88f97474074ce15c', NULL, '2009-12-01 21:13:34', '162f2a506a12e8959dd542e0b00cdbf087f8aa09', 'UB1 2YQ', 'contractor', 1, NULL, NULL, 'Charles', '020 8876 2233', 'charlesdaly', 'charles.daly@intura.co.uk', 'pending', NULL)[0m
+Sent mail to charles.daly@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:34 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: charles.daly@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Daly,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/162f2a506a12e8959dd542e0b00cdbf087f8aa09">http://localhost:3000/activate/162f2a506a12e8959dd542e0b00cdbf087f8aa09</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+  [4;36;1mUser Update (9.1ms)[0m   [0;1mUPDATE "users" SET "updated_at" = '2009-12-01 21:13:34', "activated_at" = '2009-12-01 21:13:34', "activation_code" = NULL, "state" = 'active' WHERE "id" = 6[0m
+Sent mail to charles.daly@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:34 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: charles.daly@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Daly,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>charlesdaly</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;35;1mContractor Create (14.7ms)[0m   [0mINSERT INTO "contractors" ("vatNumber", "companyName", "created_at", "updated_at", "companyNumber", "user_id") VALUES(NULL, NULL, '2009-12-01 21:13:34', '2009-12-01 21:13:34', NULL, NULL)[0m
+  [4;36;1mUser Create (0.5ms)[0m   [0;1mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('d099c45d5ee0112bfb399599d6e4cebc2e644dce', '100 Whitton Road', 'Maidenhead', 'Berkshire', 'Smith', NULL, NULL, '2009-12-01 21:13:34', '0239db338b8952960834e2ac239674a94608cb53', NULL, NULL, 'Miss', '28abd21e5fd4094cf23fcd0ae094126e3cf73f04', NULL, '2009-12-01 21:13:34', '80547b5407eb924b98a00ff1bc3086e33264b9b3', 'MD2 3KD', 'contractor', 2, NULL, NULL, 'Mary', '01628 132 967', 'marysmith', 'mary.smith@intura.co.uk', 'pending', NULL)[0m
+Sent mail to mary.smith@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:34 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: mary.smith@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Miss Smith,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/80547b5407eb924b98a00ff1bc3086e33264b9b3">http://localhost:3000/activate/80547b5407eb924b98a00ff1bc3086e33264b9b3</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+  [4;35;1mUser Update (13.4ms)[0m   [0mUPDATE "users" SET "updated_at" = '2009-12-01 21:13:34', "activated_at" = '2009-12-01 21:13:34', "activation_code" = NULL, "state" = 'active' WHERE "id" = 7[0m
+Sent mail to mary.smith@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:34 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: mary.smith@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Miss Smith,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>marysmith</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+WARNING: Can't mass-assign these protected attributes: setup, state
+  [4;36;1mContractor Create (0.5ms)[0m   [0;1mINSERT INTO "contractors" ("vatNumber", "companyName", "created_at", "updated_at", "companyNumber", "user_id") VALUES(NULL, NULL, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, NULL)[0m
+  [4;35;1mUser Create (0.5ms)[0m   [0mINSERT INTO "users" ("salt", "addr1", "city", "region", "lastName", "activated_at", "addr2", "created_at", "crypted_password", "remember_token_expires_at", "addr3", "title", "password_reset_code", "deleted_at", "updated_at", "activation_code", "postCode", "userType", "contractor_id", "mobile", "remember_token", "firstName", "phone", "login", "email", "state", "agency_id") VALUES('709e162ab370cb30de5e747638ab5ecd504e979b', '12a Diamond Road', 'Harrow', 'Middlesex', 'Vance', NULL, NULL, '2009-12-01 21:13:35', 'd8c2c53841fc2a45a6c5c123fa94d3bddb7395d2', NULL, NULL, 'Mr', 'c5692f3d8c4ea1fd9b7c4b8a720970f2f2f89b61', NULL, '2009-12-01 21:13:35', 'fc8bc7a52751fe6217b271ce99adcadc7741fa98', 'HA1 3CF', 'contractor', 3, NULL, NULL, 'Terry', '020 8866 1112', 'terryvance', 'terry.vance@intura.co.uk', 'pending', NULL)[0m
+Sent mail to terry.vance@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:35 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: terry.vance@intura.co.uk
+Subject: Welcome to ClockOff.com
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Vance,
+
+<p>Your new ClockOff.com account has been created and now needs to be activate.</p>
+
+<p>To complete this process please click the following link:</p>
+
+<p><a href="http://localhost:3000/activate/fc8bc7a52751fe6217b271ce99adcadc7741fa98">http://localhost:3000/activate/fc8bc7a52751fe6217b271ce99adcadc7741fa98</a></p>
+
+<p>Once activation is complete you will receive another email confirming your login details and you can login immediately.</p>
+
+<p>Regards,</p>
+
+<p>The ClockOff.com team.</p>
+  [4;36;1mUser Update (0.7ms)[0m   [0;1mUPDATE "users" SET "updated_at" = '2009-12-01 21:13:35', "activated_at" = '2009-12-01 21:13:35', "activation_code" = NULL, "state" = 'active' WHERE "id" = 8[0m
+Sent mail to terry.vance@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:35 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: terry.vance@intura.co.uk
+Subject: ClockOff.com activation complete
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Vance,
+
+<p>Thank you for registering with clockoff.com. Your account has been activated and is ready for you to use. You details are below:</p>
+
+<p>
+<table>
+  <tr><td>Username :</td><td>terryvance</td></tr>
+  <tr><td>Password :</td><td>123456</td></tr>
+</table>
+</p>
+
+<p>To login, please visit <a href="https://timesheets.clockoff.com">https://timesheets.clockoff.com</a>.</p>
+
+<p>Regards,</p>
+
+<p>The clockoff.com team.</p>
+  [4;35;1mContract Create (0.6ms)[0m   [0mINSERT INTO "contracts" ("position", "created_at", "allowOvertime", "calcChargeRateAsPAYE", "allowBankHolidays", "updated_at", "margin", "requireTimes", "rateType", "startDate", "client_id", "ref", "endDate", "status", "requireFullWeek") VALUES('Technical Documentation Specialist', '2009-12-01 21:13:35', 'f', 't', 'f', '2009-12-01 21:13:35', 9.25, 'f', 'Day', '2009-07-27', 1, 'ABN17872', '2009-09-21', 'INACTIVE', 'f')[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO "contractors_contracts" ("contractor_id", "contract_id") VALUES (3, 1)[0m
+  [4;35;1mRate Create (0.3ms)[0m   [0mINSERT INTO "rates" ("name", "chargeRate", "comment", "effectiveDate", "created_at", "category", "updated_at", "default", "rateType", "endDate", "payRate", "contract_id", "active") VALUES('Standard Rate', 460.95, 'Standard rate', NULL, '2009-12-01 21:13:35', 'Standard', '2009-12-01 21:13:35', 't', 'Day', NULL, 420.0, 1, 't')[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "rates" WHERE (category = 'Overtime' and active = 't' and contract_id = 1) [0m
+  [4;35;1mTimesheet Load (0.3ms)[0m   [0mselect * from timesheets where contract_id = 1 order by id desc LIMIT 1;[0m
+  [4;36;1mContract Load (1.0ms)[0m   [0;1mSELECT * FROM "contracts" WHERE ("contracts"."id" = 1) [0m
+  [4;35;1mRate Load (1.7ms)[0m   [0mselect * from rates where contract_id = 0 or contract_id = 1[0m
+  [4;36;1mBankHoliday Load (0.2ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-07-27') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-07-28') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-07-29') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-07-30') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-07-31') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-01') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-02') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mTimesheet Create (0.5ms)[0m   [0mINSERT INTO "timesheets" ("userName", "created_at", "updated_at", "totalHours", "rateType", "startDate", "totalDays", "invoiced", "contractor_id", "note", "taxAmount", "lastExportedDateTime", "status", "contract_id", "netAmount") VALUES('System', '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 'Day', '2009-07-27', NULL, 'f', 3, NULL, NULL, NULL, 'DRAFT', 1, NULL)[0m
+  [4;36;1mTimesheetEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "timesheet_entries" WHERE ("timesheet_entries".timesheet_id = NULL) ORDER BY dateValue asc, manual[0m
+  [4;35;1mTimesheetEntry Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-07-27', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-07-28', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-07-29', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-07-30', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-07-31', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 2, 'Day', '2009-08-01', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 2, 'Day', '2009-08-02', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheet Load (1.2ms)[0m   [0;1mSELECT * FROM "timesheets" WHERE ("timesheets"."id" = 1) [0m
+  [4;35;1mTimesheetEntry Load (2.3ms)[0m   [0mSELECT * FROM "timesheet_entries" WHERE (timesheet_id = 1) [0m
+  [4;36;1mTimesheetHistory Create (0.5ms)[0m   [0;1mINSERT INTO "timesheet_histories" ("userName", "original_timesheet_id", "created_at", "updated_at", "totalHours", "startDate", "totalDays", "invoiced", "note", "taxAmount", "lastExportedDateTime", "status", "netAmount") VALUES('System', 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, '2009-07-27', NULL, 'f', NULL, NULL, NULL, 'DRAFT', NULL)[0m
+  [4;35;1mContract Load (0.7ms)[0m   [0mSELECT * FROM "contracts" WHERE ("contracts"."id" = 1) [0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" INNER JOIN "contracts_users" ON "users".id = "contracts_users".user_id WHERE ("contracts_users".contract_id = 1 ) [0m
+  [4;35;1mTimesheet Update (0.2ms)[0m   [0mUPDATE "timesheets" SET "updated_at" = '2009-12-01 21:13:35', "status" = 'SUBMITTED' WHERE "id" = 1[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 1[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 2[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 3[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 4[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 5[0m
+  [4;35;1mTimesheet Load (0.7ms)[0m   [0mSELECT * FROM "timesheets" WHERE ("timesheets"."id" = 1) [0m
+  [4;36;1mTimesheetEntry Load (2.2ms)[0m   [0;1mSELECT * FROM "timesheet_entries" WHERE (timesheet_id = 1) [0m
+  [4;35;1mTimesheetHistory Create (0.4ms)[0m   [0mINSERT INTO "timesheet_histories" ("userName", "original_timesheet_id", "created_at", "updated_at", "totalHours", "startDate", "totalDays", "invoiced", "note", "taxAmount", "lastExportedDateTime", "status", "netAmount") VALUES('System', 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, '2009-07-27', NULL, 'f', NULL, NULL, NULL, 'SUBMITTED', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-07-27', NULL, 2, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntryHistory Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-07-28', NULL, 2, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-07-29', NULL, 2, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntryHistory Create (1.7ms)[0m   [0mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-07-30', NULL, 2, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 1, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-07-31', NULL, 2, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mRate Load (0.6ms)[0m   [0mSELECT * FROM "rates" WHERE ("rates"."id" = 2) [0m
+  [4;36;1mRate Load (0.5ms)[0m   [0;1mSELECT * FROM "rates" WHERE ("rates"."id" = 2) [0m
+  [4;35;1mClient Load (0.7ms)[0m   [0mSELECT * FROM "clients" WHERE ("clients"."id" = 1) [0m
+  [4;36;1mClient Load (0.6ms)[0m   [0;1mSELECT * FROM "clients" WHERE ("clients"."id" = 1) [0m
+  [4;35;1mInvoice Load (0.3ms)[0m   [0mSELECT * FROM "invoices" WHERE ((client_id = 1) AND (invoiceDate = '2009-08-02')) [0m
+  [4;36;1mAgency Load (1.2ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;35;1mAgency Load (0.8ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;36;1mAgency Update (0.3ms)[0m   [0;1mUPDATE "agencies" SET "updated_at" = '2009-12-01 21:13:35', "nextInvoiceNumber" = 252 WHERE "id" = 1[0m
+  [4;35;1mSettings Load (0.5ms)[0m   [0mSELECT * FROM "settings" WHERE (name = 'vat_rate' and (effectiveDate <= '2009-08-02' or effectiveDate is null)) ORDER BY effectiveDate DESC LIMIT 1[0m
+  [4;36;1mTimesheet Load (0.2ms)[0m   [0;1mSELECT "timesheets".id FROM "timesheets" INNER JOIN "invoices_timesheets" ON "timesheets".id = "invoices_timesheets".timesheet_id WHERE ("timesheets"."id" = 1) AND ("invoices_timesheets".invoice_id = NULL ) ORDER BY timesheets.startDate LIMIT 1[0m
+  [4;35;1mInvoice Create (0.3ms)[0m   [0mINSERT INTO "invoices" ("created_at", "taxRate", "updated_at", "margin", "txnDetails", "lastExportDate", "inactive", "invoiceDate", "grossAmount", "client_id", "taxAmount", "ref", "netAmount") VALUES('2009-12-01 21:13:35', 15.0, '2009-12-01 21:13:35', 0.0, NULL, NULL, 'f', '2009-08-02', 2650.4625, 1, 345.7125, 'CO_0251', 2304.75)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO "invoices_timesheets" ("timesheet_id", "invoice_id") VALUES (1, 1)[0m
+  [4;35;1mContractor Load (0.4ms)[0m   [0mSELECT * FROM "contractors" WHERE ("contractors"."id" = 3) [0m
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users".contractor_id = 3) LIMIT 1[0m
+Sent mail to terry.vance@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:35 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: terry.vance@intura.co.uk
+Subject: Your timesheet has been approved
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Vance,
+
+<p>
+  Your timesheet for the week 27/07/2009 - 03/08/2009
+  was approved by System on 01/12/2009.
+   
+</p>
+
+
+<p>Thank you.</p>
+  [4;35;1mTimesheet Update (0.7ms)[0m   [0mUPDATE "timesheets" SET "updated_at" = '2009-12-01 21:13:35', "note" = 'Job well done!', "netAmount" = 2304.75, "status" = 'APPROVED' WHERE "id" = 1[0m
+  [4;36;1mTimesheetEntry Update (0.3ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 1[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 2[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 3[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 4[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 5[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 0.0, "netAmount" = 0.0 WHERE "id" = 6[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 0.0, "netAmount" = 0.0 WHERE "id" = 7[0m
+  [4;35;1mTimesheet Load (0.9ms)[0m   [0mselect * from timesheets where contract_id = 1 order by id desc LIMIT 1;[0m
+  [4;36;1mContract Load (0.7ms)[0m   [0;1mSELECT * FROM "contracts" WHERE ("contracts"."id" = 1) [0m
+  [4;35;1mRate Load (1.2ms)[0m   [0mselect * from rates where contract_id = 0 or contract_id = 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-03') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-04') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-05') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-06') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-07') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-08') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-09') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mTimesheet Create (0.4ms)[0m   [0mINSERT INTO "timesheets" ("userName", "created_at", "updated_at", "totalHours", "rateType", "startDate", "totalDays", "invoiced", "contractor_id", "note", "taxAmount", "lastExportedDateTime", "status", "contract_id", "netAmount") VALUES('System', '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 'Day', '2009-08-03', NULL, 'f', 3, NULL, NULL, NULL, 'DRAFT', 1, NULL)[0m
+  [4;36;1mTimesheetEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "timesheet_entries" WHERE ("timesheet_entries".timesheet_id = NULL) ORDER BY dateValue asc, manual[0m
+  [4;35;1mTimesheetEntry Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-03', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-04', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-05', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-06', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-07', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 2, 'Day', '2009-08-08', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 2, 'Day', '2009-08-09', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheet Load (0.7ms)[0m   [0;1mSELECT * FROM "timesheets" WHERE ("timesheets"."id" = 2) [0m
+  [4;35;1mTimesheetEntry Load (3.6ms)[0m   [0mSELECT * FROM "timesheet_entries" WHERE (timesheet_id = 2) [0m
+  [4;36;1mTimesheetHistory Create (0.5ms)[0m   [0;1mINSERT INTO "timesheet_histories" ("userName", "original_timesheet_id", "created_at", "updated_at", "totalHours", "startDate", "totalDays", "invoiced", "note", "taxAmount", "lastExportedDateTime", "status", "netAmount") VALUES('System', 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, '2009-08-03', NULL, 'f', NULL, NULL, NULL, 'DRAFT', NULL)[0m
+  [4;35;1mContract Load (0.7ms)[0m   [0mSELECT * FROM "contracts" WHERE ("contracts"."id" = 1) [0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" INNER JOIN "contracts_users" ON "users".id = "contracts_users".user_id WHERE ("contracts_users".contract_id = 1 ) [0m
+  [4;35;1mTimesheet Update (0.2ms)[0m   [0mUPDATE "timesheets" SET "updated_at" = '2009-12-01 21:13:35', "status" = 'SUBMITTED' WHERE "id" = 2[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 8[0m
+  [4;35;1mTimesheetEntry Update (0.3ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 9[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 10[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 11[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 12[0m
+  [4;35;1mTimesheet Load (0.7ms)[0m   [0mSELECT * FROM "timesheets" WHERE ("timesheets"."id" = 2) [0m
+  [4;36;1mTimesheetEntry Load (2.6ms)[0m   [0;1mSELECT * FROM "timesheet_entries" WHERE (timesheet_id = 2) [0m
+  [4;35;1mTimesheetHistory Create (0.5ms)[0m   [0mINSERT INTO "timesheet_histories" ("userName", "original_timesheet_id", "created_at", "updated_at", "totalHours", "startDate", "totalDays", "invoiced", "note", "taxAmount", "lastExportedDateTime", "status", "netAmount") VALUES('System', 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, '2009-08-03', NULL, 'f', NULL, NULL, NULL, 'SUBMITTED', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.3ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-03', NULL, 4, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntryHistory Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-04', NULL, 4, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-05', NULL, 4, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntryHistory Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-06', NULL, 4, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 2, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-07', NULL, 4, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mRate Load (0.6ms)[0m   [0mSELECT * FROM "rates" WHERE ("rates"."id" = 2) [0m
+  [4;36;1mRate Load (0.5ms)[0m   [0;1mSELECT * FROM "rates" WHERE ("rates"."id" = 2) [0m
+  [4;35;1mClient Load (0.6ms)[0m   [0mSELECT * FROM "clients" WHERE ("clients"."id" = 1) [0m
+  [4;36;1mClient Load (0.6ms)[0m   [0;1mSELECT * FROM "clients" WHERE ("clients"."id" = 1) [0m
+  [4;35;1mInvoice Load (0.1ms)[0m   [0mSELECT * FROM "invoices" WHERE ((client_id = 1) AND (invoiceDate = '2009-08-09')) [0m
+  [4;36;1mAgency Load (0.8ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;35;1mAgency Load (1.2ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;36;1mAgency Update (0.3ms)[0m   [0;1mUPDATE "agencies" SET "updated_at" = '2009-12-01 21:13:35', "nextInvoiceNumber" = 253 WHERE "id" = 1[0m
+  [4;35;1mSettings Load (0.5ms)[0m   [0mSELECT * FROM "settings" WHERE (name = 'vat_rate' and (effectiveDate <= '2009-08-09' or effectiveDate is null)) ORDER BY effectiveDate DESC LIMIT 1[0m
+  [4;36;1mTimesheet Load (0.2ms)[0m   [0;1mSELECT "timesheets".id FROM "timesheets" INNER JOIN "invoices_timesheets" ON "timesheets".id = "invoices_timesheets".timesheet_id WHERE ("timesheets"."id" = 2) AND ("invoices_timesheets".invoice_id = NULL ) ORDER BY timesheets.startDate LIMIT 1[0m
+  [4;35;1mInvoice Create (0.3ms)[0m   [0mINSERT INTO "invoices" ("created_at", "taxRate", "updated_at", "margin", "txnDetails", "lastExportDate", "inactive", "invoiceDate", "grossAmount", "client_id", "taxAmount", "ref", "netAmount") VALUES('2009-12-01 21:13:35', 15.0, '2009-12-01 21:13:35', 0.0, NULL, NULL, 'f', '2009-08-09', 2650.4625, 1, 345.7125, 'CO_0252', 2304.75)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO "invoices_timesheets" ("timesheet_id", "invoice_id") VALUES (2, 2)[0m
+  [4;35;1mContractor Load (0.4ms)[0m   [0mSELECT * FROM "contractors" WHERE ("contractors"."id" = 3) [0m
+  [4;36;1mUser Load (1.1ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users".contractor_id = 3) LIMIT 1[0m
+Sent mail to terry.vance@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:35 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: terry.vance@intura.co.uk
+Subject: Your timesheet has been approved
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Vance,
+
+<p>
+  Your timesheet for the week 03/08/2009 - 10/08/2009
+  was approved by System on 01/12/2009.
+   
+</p>
+
+
+<p>Thank you.</p>
+  [4;35;1mTimesheet Update (0.5ms)[0m   [0mUPDATE "timesheets" SET "updated_at" = '2009-12-01 21:13:35', "netAmount" = 2304.75, "status" = 'APPROVED' WHERE "id" = 2[0m
+  [4;36;1mTimesheetEntry Update (0.3ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 8[0m
+  [4;35;1mTimesheetEntry Update (0.2ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 9[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 10[0m
+  [4;35;1mTimesheetEntry Update (0.2ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 11[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 12[0m
+  [4;35;1mTimesheetEntry Update (0.2ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 0.0, "netAmount" = 0.0 WHERE "id" = 13[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "chargeRate" = 0.0, "netAmount" = 0.0 WHERE "id" = 14[0m
+  [4;35;1mTimesheet Load (1.2ms)[0m   [0mselect * from timesheets where contract_id = 1 order by id desc LIMIT 1;[0m
+  [4;36;1mContract Load (0.9ms)[0m   [0;1mSELECT * FROM "contracts" WHERE ("contracts"."id" = 1) [0m
+  [4;35;1mRate Load (1.8ms)[0m   [0mselect * from rates where contract_id = 0 or contract_id = 1[0m
+  [4;36;1mBankHoliday Load (0.4ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-10') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-11') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-12') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-13') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-14') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mBankHoliday Load (0.1ms)[0m   [0mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-15') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;36;1mBankHoliday Load (0.1ms)[0m   [0;1mSELECT "bank_holidays".id FROM "bank_holidays" WHERE ((holidayDate = '2009-08-16') AND (countryCode = 'UK')) LIMIT 1[0m
+  [4;35;1mTimesheet Create (0.5ms)[0m   [0mINSERT INTO "timesheets" ("userName", "created_at", "updated_at", "totalHours", "rateType", "startDate", "totalDays", "invoiced", "contractor_id", "note", "taxAmount", "lastExportedDateTime", "status", "contract_id", "netAmount") VALUES('System', '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 'Day', '2009-08-10', NULL, 'f', 3, NULL, NULL, NULL, 'DRAFT', 1, NULL)[0m
+  [4;36;1mTimesheetEntry Load (0.2ms)[0m   [0;1mSELECT * FROM "timesheet_entries" WHERE ("timesheet_entries".timesheet_id = NULL) ORDER BY dateValue asc, manual[0m
+  [4;35;1mTimesheetEntry Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-10', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-11', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-12', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-13', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 3, 'Day', '2009-08-14', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntry Create (0.1ms)[0m   [0;1mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 2, 'Day', '2009-08-15', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntry Create (0.1ms)[0m   [0mINSERT INTO "timesheet_entries" ("finishTime", "chargeRate", "timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "deleted", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, 2, 'Day', '2009-08-16', NULL, 0, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheet Load (0.8ms)[0m   [0;1mSELECT * FROM "timesheets" WHERE ("timesheets"."id" = 3) [0m
+  [4;35;1mTimesheetEntry Load (2.6ms)[0m   [0mSELECT * FROM "timesheet_entries" WHERE (timesheet_id = 3) [0m
+  [4;36;1mTimesheetHistory Create (0.5ms)[0m   [0;1mINSERT INTO "timesheet_histories" ("userName", "original_timesheet_id", "created_at", "updated_at", "totalHours", "startDate", "totalDays", "invoiced", "note", "taxAmount", "lastExportedDateTime", "status", "netAmount") VALUES('System', 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, '2009-08-10', NULL, 'f', NULL, NULL, NULL, 'DRAFT', NULL)[0m
+  [4;35;1mContract Load (0.8ms)[0m   [0mSELECT * FROM "contracts" WHERE ("contracts"."id" = 1) [0m
+  [4;36;1mUser Load (0.4ms)[0m   [0;1mSELECT * FROM "users" INNER JOIN "contracts_users" ON "users".id = "contracts_users".user_id WHERE ("contracts_users".contract_id = 1 ) [0m
+  [4;35;1mTimesheet Update (0.2ms)[0m   [0mUPDATE "timesheets" SET "updated_at" = '2009-12-01 21:13:35', "status" = 'SUBMITTED' WHERE "id" = 3[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 15[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 16[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 17[0m
+  [4;35;1mTimesheetEntry Update (0.1ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0 WHERE "id" = 18[0m
+  [4;36;1mTimesheetEntry Update (0.1ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:35', "dayValue" = 1.0, "rate_id" = 2 WHERE "id" = 19[0m
+  [4;35;1mTimesheet Load (0.8ms)[0m   [0mSELECT * FROM "timesheets" WHERE ("timesheets"."id" = 3) [0m
+  [4;36;1mTimesheetEntry Load (2.4ms)[0m   [0;1mSELECT * FROM "timesheet_entries" WHERE (timesheet_id = 3) [0m
+  [4;35;1mTimesheetHistory Create (0.4ms)[0m   [0mINSERT INTO "timesheet_histories" ("userName", "original_timesheet_id", "created_at", "updated_at", "totalHours", "startDate", "totalDays", "invoiced", "note", "taxAmount", "lastExportedDateTime", "status", "netAmount") VALUES('System', 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', NULL, '2009-08-10', NULL, 'f', NULL, NULL, NULL, 'SUBMITTED', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.4ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-10', NULL, 6, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntryHistory Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-11', NULL, 6, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-12', NULL, 6, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mTimesheetEntryHistory Create (0.2ms)[0m   [0mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 3, 'Day', '2009-08-13', NULL, 6, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;36;1mTimesheetEntryHistory Create (0.2ms)[0m   [0;1mINSERT INTO "timesheet_entry_histories" ("finishTime", "chargeRate", "original_timesheet_id", "created_at", "updated_at", "dayValue", "rate_id", "rateType", "dateValue", "breakHours", "timesheet_history_id", "hours", "disabled", "startTime", "manual", "netAmount") VALUES(NULL, NULL, 3, '2009-12-01 21:13:35', '2009-12-01 21:13:35', 1.0, 2, 'Day', '2009-08-14', NULL, 6, NULL, 'f', NULL, 'f', NULL)[0m
+  [4;35;1mRate Load (0.6ms)[0m   [0mSELECT * FROM "rates" WHERE ("rates"."id" = 2) [0m
+  [4;36;1mRate Load (0.5ms)[0m   [0;1mSELECT * FROM "rates" WHERE ("rates"."id" = 2) [0m
+  [4;35;1mClient Load (0.6ms)[0m   [0mSELECT * FROM "clients" WHERE ("clients"."id" = 1) [0m
+  [4;36;1mClient Load (0.6ms)[0m   [0;1mSELECT * FROM "clients" WHERE ("clients"."id" = 1) [0m
+  [4;35;1mInvoice Load (0.1ms)[0m   [0mSELECT * FROM "invoices" WHERE ((client_id = 1) AND (invoiceDate = '2009-08-16')) [0m
+  [4;36;1mAgency Load (0.8ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;35;1mAgency Load (0.8ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;36;1mAgency Update (0.2ms)[0m   [0;1mUPDATE "agencies" SET "updated_at" = '2009-12-01 21:13:36', "nextInvoiceNumber" = 254 WHERE "id" = 1[0m
+  [4;35;1mSettings Load (0.4ms)[0m   [0mSELECT * FROM "settings" WHERE (name = 'vat_rate' and (effectiveDate <= '2009-08-16' or effectiveDate is null)) ORDER BY effectiveDate DESC LIMIT 1[0m
+  [4;36;1mTimesheet Load (0.1ms)[0m   [0;1mSELECT "timesheets".id FROM "timesheets" INNER JOIN "invoices_timesheets" ON "timesheets".id = "invoices_timesheets".timesheet_id WHERE ("timesheets"."id" = 3) AND ("invoices_timesheets".invoice_id = NULL ) ORDER BY timesheets.startDate LIMIT 1[0m
+  [4;35;1mInvoice Create (0.4ms)[0m   [0mINSERT INTO "invoices" ("created_at", "taxRate", "updated_at", "margin", "txnDetails", "lastExportDate", "inactive", "invoiceDate", "grossAmount", "client_id", "taxAmount", "ref", "netAmount") VALUES('2009-12-01 21:13:36', 15.0, '2009-12-01 21:13:36', 0.0, NULL, NULL, 'f', '2009-08-16', 2120.37, 1, 276.57, 'CO_0253', 1843.8)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO "invoices_timesheets" ("timesheet_id", "invoice_id") VALUES (3, 3)[0m
+  [4;35;1mContractor Load (0.4ms)[0m   [0mSELECT * FROM "contractors" WHERE ("contractors"."id" = 3) [0m
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users".contractor_id = 3) LIMIT 1[0m
+Sent mail to terry.vance@intura.co.uk
+
+Date: Tue, 1 Dec 2009 19:13:36 -0200
+From: "ClockOff.com" <no-reply@intura.co.uk>
+Reply-To: no-reply@intura.co.uk
+To: terry.vance@intura.co.uk
+Subject: Your timesheet has been approved
+Mime-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+Dear Mr Vance,
+
+<p>
+  Your timesheet for the week 10/08/2009 - 17/08/2009
+  was approved by System on 01/12/2009.
+   
+</p>
+
+
+<p>Thank you.</p>
+  [4;35;1mTimesheet Update (0.7ms)[0m   [0mUPDATE "timesheets" SET "updated_at" = '2009-12-01 21:13:36', "netAmount" = 1843.8, "status" = 'APPROVED' WHERE "id" = 3[0m
+  [4;36;1mTimesheetEntry Update (0.4ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:36', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 15[0m
+  [4;35;1mTimesheetEntry Update (0.2ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:36', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 16[0m
+  [4;36;1mTimesheetEntry Update (0.3ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:36', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 17[0m
+  [4;35;1mTimesheetEntry Update (0.2ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:36', "chargeRate" = 460.95, "netAmount" = 460.95 WHERE "id" = 18[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:36', "chargeRate" = 0.0, "netAmount" = 0.0 WHERE "id" = 19[0m
+  [4;35;1mTimesheetEntry Update (0.2ms)[0m   [0mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:36', "chargeRate" = 0.0, "netAmount" = 0.0 WHERE "id" = 20[0m
+  [4;36;1mTimesheetEntry Update (0.2ms)[0m   [0;1mUPDATE "timesheet_entries" SET "updated_at" = '2009-12-01 21:13:36', "chargeRate" = 0.0, "netAmount" = 0.0 WHERE "id" = 21[0m
+
+
+Processing SessionController#create (for 127.0.0.1 at 2009-12-01 19:30:46) [POST]
+  Parameters: {"commit"=>"login", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "login"=>"jamesbrand", "password"=>"123456"}
+  [4;36;1mUser Load (2.4ms)[0m   [0;1mSELECT * FROM "users" WHERE (login = 'jamesbrand' and activated_at IS NOT NULL) LIMIT 1[0m
+  [4;35;1mAgency Load (1.1ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Redirected to http://localhost:3000/agencies/1/outstanding
+Completed in 109ms (DB: 3) | 302 Found [http://localhost/session]
+
+
+Processing AgenciesController#outstanding (for 127.0.0.1 at 2009-12-01 19:30:46) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mAgency Load (1.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;35;1mTimesheet Load (0.4ms)[0m   [0mSELECT "timesheets".* FROM "timesheets" , contracts, clients, agencies, contractors, users WHERE ((contracts.id = timesheets.contract_id and timesheets.contractor_id = contractors.id and contractors.user_id = users.id and clients.id = contracts.client_id and clients.agency_id = 1) AND (timesheets.status IN ('DENIED', 'DRAFT', 'SUBMITTED', 'MANUAL', 'REJECTED'))) ORDER BY timesheets.startDate ASC LIMIT 26 OFFSET 0[0m
+Rendering template within layouts/agencydashboard
+Rendering agencies/outstanding
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;35;1mRole Load (1.2ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+Rendered _agency_navigation (99.6ms)
+Rendered _agency_dashboard_navigation (1.1ms)
+Completed in 155ms (View: 131, DB: 4) | 200 OK [http://localhost/agencies/1/outstanding]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 19:30:49) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (1.1ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (0.9ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (0.9ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (0.9ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.0ms)
+Completed in 62ms (View: 21, DB: 5) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#update (for 127.0.0.1 at 2009-12-01 19:40:38) [PUT]
+  Parameters: {"x"=>"9", "y"=>"10", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "id"=>"1", "agency"=>{"region"=>"", "city"=>"London", "addr1"=>"185 Lombard Street", "name"=>"247 Recruitment Ltd", "addr2"=>"", "addr3"=>"", "cutOffTime(1i)"=>"2000", "cutOffTime(2i)"=>"1", "postCode"=>"EC1M 9YD", "useInvoicing"=>"1", "cutOffTime(3i)"=>"1", "autoReminder"=>"1", "cutOffTime(4i)"=>"10", "calculatePAYE"=>"1", "cutOffTime(5i)"=>"30", "fax"=>"020 7827 9333", "phone"=>"020 7827 9322", "defaultMargin"=>"10.5", "cutOffDay"=>"2", "agency_logo"=>#<File:/var/folders/99/99rFwN2OGdmmkg3Ufm4zLU+++TI/-Tmp-/RackMultipart20091201-636-72myvu-0>, "sageNominalCode"=>"4011", "email"=>"247solutions@intura.co.uk"}}
+  [4;35;1mUser Load (0.9ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mAgency Load (0.9ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+  [4;35;1mAgency Update (0.9ms)[0m   [0mUPDATE "agencies" SET "updated_at" = '2009-12-01 21:40:38', "region" = '', "addr3" = '', "addr2" = '' WHERE "id" = 1[0m
+Redirected to http://localhost:3000/agencies/1/settings
+Completed in 31ms (DB: 3) | 302 Found [http://localhost/agencies/1]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 19:40:38) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (0.9ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (0.9ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (0.9ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 76ms (View: 18, DB: 5) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#update (for 127.0.0.1 at 2009-12-01 20:34:24) [PUT]
+  Parameters: {"x"=>"9", "y"=>"12", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "id"=>"1", "agency"=>{"region"=>"", "city"=>"London", "addr1"=>"185 Lombard Street", "name"=>"247 Recruitment Ltd", "addr2"=>"", "addr3"=>"", "cutOffTime(1i)"=>"2000", "cutOffTime(2i)"=>"1", "postCode"=>"EC1M 9YD", "useInvoicing"=>"1", "cutOffTime(3i)"=>"1", "autoReminder"=>"1", "cutOffTime(4i)"=>"10", "calculatePAYE"=>"1", "cutOffTime(5i)"=>"30", "fax"=>"020 7827 9333", "phone"=>"020 7827 9322", "defaultMargin"=>"10.5", "cutOffDay"=>"2", "agency_logo"=>#<File:/var/folders/99/99rFwN2OGdmmkg3Ufm4zLU+++TI/-Tmp-/RackMultipart20091201-636-5szhgt-0>, "sageNominalCode"=>"4011", "email"=>"247solutions@intura.co.uk"}}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mAgency Load (1.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Redirected to http://localhost:3000/agencies/1/settings
+Completed in 32ms (DB: 2) | 302 Found [http://localhost/agencies/1]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:34:24) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mUser Load (1.1ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;36;1mRole Load (0.9ms)[0m   [0;1mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;35;1mPermission Load (0.8ms)[0m   [0mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;36;1mRole Load (0.5ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;36;1mAgency Load (0.9ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 158ms (View: 15, DB: 5) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:38:30) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (1.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (0.9ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (0.8ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (0.9ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+
+ActionView::TemplateError (undefined method `has_agency_logo?' for #<ActionView::Helpers::FormBuilder:0x105e386a8>) on line #117 of app/views/agencies/settings.html.erb:
+114:                   <td>
+115:                     <%= f.file_field :agency_logo, :size => 30 %>
+116:                     <br />
+117:                     <% if f.has_agency_logo? %>
+118:                       <%= "<img src='#{f.url_to_agency_logo}' width=100 height=100>" %>
+119:                     <% end %>
+120:                   </td>
+
+    app/views/agencies/settings.html.erb:117
+    app/views/agencies/settings.html.erb:1
+
+Rendered rescues/_trace (40.7ms)
+Rendered rescues/_request_and_response (1.4ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:38:52) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (1.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (0.9ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (0.8ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.5ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (1.0ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.2ms)
+Completed in 161ms (View: 120, DB: 6) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:40:12) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;36;1mRole Load (1.0ms)[0m   [0;1mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;35;1mPermission Load (0.9ms)[0m   [0mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;35;1mRole Load (0.6ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;36;1mRole Load (0.6ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;36;1mAgency Load (1.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 172ms (View: 19, DB: 6) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:40:48) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (1.1ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (0.9ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (0.9ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (0.9ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.2ms)
+Completed in 61ms (View: 20, DB: 5) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#update (for 127.0.0.1 at 2009-12-01 20:41:07) [PUT]
+  Parameters: {"x"=>"5", "y"=>"8", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "id"=>"1", "agency"=>{"region"=>"", "city"=>"London", "addr1"=>"185 Lombard Street", "name"=>"247 Recruitment Ltd", "addr2"=>"", "addr3"=>"", "cutOffTime(1i)"=>"2000", "cutOffTime(2i)"=>"1", "postCode"=>"EC1M 9YD", "useInvoicing"=>"1", "cutOffTime(3i)"=>"1", "autoReminder"=>"1", "cutOffTime(4i)"=>"10", "calculatePAYE"=>"1", "cutOffTime(5i)"=>"30", "fax"=>"020 7827 9333", "phone"=>"020 7827 9322", "defaultMargin"=>"10.5", "cutOffDay"=>"2", "agency_logo"=>#<File:/var/folders/99/99rFwN2OGdmmkg3Ufm4zLU+++TI/-Tmp-/RackMultipart20091201-636-1v27875-0>, "sageNominalCode"=>"4011", "email"=>"247solutions@intura.co.uk"}}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mAgency Load (0.9ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Redirected to http://localhost:3000/agencies/1/settings
+Completed in 27ms (DB: 2) | 302 Found [http://localhost/agencies/1]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:41:08) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;36;1mRole Load (0.9ms)[0m   [0;1mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;35;1mPermission Load (0.9ms)[0m   [0mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;35;1mRole Load (3.4ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;36;1mAgency Load (0.9ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 57ms (View: 14, DB: 8) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:41:12) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (1.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (0.9ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (0.9ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.4ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (0.9ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 54ms (View: 12, DB: 5) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#update (for 127.0.0.1 at 2009-12-01 20:41:36) [PUT]
+  Parameters: {"x"=>"5", "y"=>"3", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "id"=>"1", "agency"=>{"region"=>"", "city"=>"London", "addr1"=>"185 Lombard Street", "name"=>"247 Recruitment Ltd", "addr2"=>"", "addr3"=>"", "cutOffTime(1i)"=>"2000", "cutOffTime(2i)"=>"1", "postCode"=>"EC1M 9YD", "useInvoicing"=>"1", "cutOffTime(3i)"=>"1", "autoReminder"=>"1", "cutOffTime(4i)"=>"10", "calculatePAYE"=>"1", "cutOffTime(5i)"=>"30", "fax"=>"020 7827 9333", "phone"=>"020 7827 9322", "defaultMargin"=>"10.5", "cutOffDay"=>"2", "agency_logo"=>#<File:/var/folders/99/99rFwN2OGdmmkg3Ufm4zLU+++TI/-Tmp-/RackMultipart20091201-636-d77ixw-0>, "sageNominalCode"=>"4011", "email"=>"247solutions@intura.co.uk"}}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mAgency Load (1.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Redirected to http://localhost:3000/agencies/1/settings
+Completed in 32ms (DB: 2) | 302 Found [http://localhost/agencies/1]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:41:36) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;36;1mRole Load (0.9ms)[0m   [0;1mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;35;1mPermission Load (0.9ms)[0m   [0mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;36;1mAgency Load (1.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 55ms (View: 15, DB: 5) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:41:38) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (1.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (0.9ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (0.8ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (0.9ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 53ms (View: 13, DB: 5) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:43:50) [GET]
+  Parameters: {"id"=>"1"}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;36;1mRole Load (0.9ms)[0m   [0;1mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;35;1mPermission Load (0.9ms)[0m   [0mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;36;1mRole Load (0.4ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;36;1mAgency Load (2.7ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.1ms)
+Completed in 60ms (View: 18, DB: 7) | 200 OK [http://localhost/agencies/1/settings]
+
+
+Processing AgenciesController#update (for 127.0.0.1 at 2009-12-01 20:43:59) [PUT]
+  Parameters: {"x"=>"12", "y"=>"10", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "id"=>"1", "agency"=>{"region"=>"", "city"=>"London", "addr1"=>"185 Lombard Street", "name"=>"247 Recruitment Ltd", "addr2"=>"", "addr3"=>"", "cutOffTime(1i)"=>"2000", "cutOffTime(2i)"=>"1", "postCode"=>"EC1M 9YD", "useInvoicing"=>"1", "cutOffTime(3i)"=>"1", "autoReminder"=>"1", "cutOffTime(4i)"=>"10", "calculatePAYE"=>"1", "cutOffTime(5i)"=>"30", "fax"=>"020 7827 9333", "phone"=>"020 7827 9322", "defaultMargin"=>"10.5", "cutOffDay"=>"2", "agency_logo"=>#<File:/var/folders/99/99rFwN2OGdmmkg3Ufm4zLU+++TI/-Tmp-/RackMultipart20091201-636-pdizbb-0>, "sageNominalCode"=>"4011", "email"=>"247solutions@intura.co.uk"}}
+  [4;36;1mUser Load (1.1ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mAgency Load (0.9ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Redirected to http://localhost:3000/agencies/1/settings
+Completed in 29ms (DB: 2) | 302 Found [http://localhost/agencies/1]
+
+
+Processing AgenciesController#settings (for 127.0.0.1 at 2009-12-01 20:43:59) [GET]
+  Parameters: {"id"=>"1"}
+  [4;36;1mUser Load (1.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+check_role(Settings)
+  [4;35;1mRole Load (1.0ms)[0m   [0mSELECT "roles".* FROM "roles" INNER JOIN "permissions" ON "roles".id = "permissions".role_id WHERE (("permissions".user_id = 1)) [0m
+user James Brand has the Settings role
+  [4;36;1mPermission Load (1.0ms)[0m   [0;1mSELECT * FROM "permissions" WHERE ("permissions".user_id = 1) [0m
+  [4;35;1mRole Load (0.3ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 6) [0m
+  [4;36;1mRole Load (0.3ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 1) [0m
+  [4;35;1mRole Load (0.2ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 2) [0m
+  [4;36;1mRole Load (0.2ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 4) [0m
+  [4;35;1mRole Load (2.6ms)[0m   [0mSELECT * FROM "roles" WHERE ("roles"."id" = 5) [0m
+  [4;36;1mRole Load (0.4ms)[0m   [0;1mSELECT * FROM "roles" WHERE ("roles"."id" = 3) [0m
+  [4;35;1mAgency Load (1.1ms)[0m   [0mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendering template within layouts/agency
+Rendering agencies/settings
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "agencies" WHERE ("agencies"."id" = 1) [0m
+Rendered _agency_navigation (1.5ms)
+Completed in 68ms (View: 15, DB: 8) | 200 OK [http://localhost/agencies/1/settings]
