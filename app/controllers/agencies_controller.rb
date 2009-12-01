@@ -93,6 +93,14 @@ class AgenciesController < ApplicationController
     
     @selected = 'dashboard'
     
+    # get basic statistics
+    @no_of_clients = Agency.find(session[:agencyId]).clients.length
+    @no_of_active_clients = Client.get_all_active(session[:agencyId], nil, nil, 'id').length
+    #@active_clients_percent = ((@no_of_active_clients / @no_of_clients.to_f) * 100).round(2)
+    #@no_of_active_contracts = Contract.get_all_active(session[:agencyId], nil, nil, 'id').length
+    @clients_by_timesheets = Client.get_by_timesheets(session[:agencyId])
+    @clients_with_approvers = Client.get_all_with_approvers(session[AagencyId])
+    
   end
   
   #----------------------------------------------------------------------------
@@ -101,7 +109,7 @@ class AgenciesController < ApplicationController
   def view_history
     
     @current = Timesheet.find(params[:original_id])
-    @histories = TimesheetHistory.find(:all, :conditions => "original_timesheet_id = " + @current.id.to_s, :order => "updated_at desc")
+    @histories = TimesheetHistory.find(:all, :conditions => "original_timesheet_id = #{@current.id.to_s}", :order => "updated_at desc")
     
     if params[:selected_id]
       @selected = @histories.select {|t| t.id == params[:selected_id].to_i}[0]
@@ -901,7 +909,6 @@ class AgenciesController < ApplicationController
           @user.title = params[:selected_title]
           @user.agency_id = @agency.id
           @user.userType = 'agency'
-          @user.admin = true
           @user.only_basic_validation = true
           
           # save the user
