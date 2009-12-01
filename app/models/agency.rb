@@ -4,8 +4,8 @@ class Agency < ActiveRecord::Base
   #############################################################################
   IMAGE_STORE = File.join RAILS_ROOT, 'public', 'agency_files'
 
-  after_save     :save_image
-  before_destroy :remove_image 
+  after_save     :save_all_images
+  before_destroy :remove_all_images
   
   #############################################################################
   # Relationships

@@ -1,0 +1,11 @@
+.DS_Store
+log/*
+tmp/**/*
+doc/api
+doc/app
+db/*.sqlite3
+public/stylesheets/cache/*
+public/javascripts/cache/*
+config/development.sphinx.conf
+db/sphinx/development/*
+nbproject/*

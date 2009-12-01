@@ -1501,3 +1501,244 @@ ActionController::UnknownAction (No action responded to index. Actions: active_c
   
 
 Rendering rescues/layout (not_found)
+
+
+Processing SessionController#new (for 127.0.0.1 at 2009-12-01 18:56:54) [GET]
+Rendering template within layouts/login
+Rendering session/new
+Completed in 44ms (View: 15, DB: 0) | 200 OK [http://localhost/login]
+
+
+Processing SessionController#create (for 127.0.0.1 at 2009-12-01 19:01:41) [POST]
+  Parameters: {"commit"=>"login", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "login"=>"jamesbrand", "password"=>"123456"}
+  [4;36;1mUser Load (0.0ms)[0m   [0;1mSQLite3::SQLException: no such table: users: SELECT * FROM "users" WHERE (login = 'jamesbrand' and activated_at IS NOT NULL) LIMIT 1[0m
+
+ActiveRecord::StatementInvalid (SQLite3::SQLException: no such table: users: SELECT * FROM "users" WHERE (login = 'jamesbrand' and activated_at IS NOT NULL)  LIMIT 1):
+  app/models/user.rb:244:in `authenticate'
+  app/controllers/session_controller.rb:39:in `create'
+
+Rendered rescues/_trace (119.9ms)
+Rendered rescues/_request_and_response (1.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing SessionController#new (for 127.0.0.1 at 2009-12-01 19:02:02) [GET]
+Rendering template within layouts/login
+Rendering session/new
+Completed in 5ms (View: 2, DB: 0) | 200 OK [http://localhost/login]
+
+
+Processing SessionController#create (for 127.0.0.1 at 2009-12-01 19:02:27) [POST]
+  Parameters: {"commit"=>"login", "authenticity_token"=>"Z/ytBTaOYg/kui3cCfoL2LhexEZ3nnjUJTqSYblk2tg=", "login"=>"jamesbrand", "password"=>"123456"}
+  [4;35;1mUser Load (0.0ms)[0m   [0mSQLite3::SQLException: no such table: users: SELECT * FROM "users" WHERE (login = 'jamesbrand' and activated_at IS NOT NULL) LIMIT 1[0m
+
+ActiveRecord::StatementInvalid (SQLite3::SQLException: no such table: users: SELECT * FROM "users" WHERE (login = 'jamesbrand' and activated_at IS NOT NULL)  LIMIT 1):
+  app/models/user.rb:244:in `authenticate'
+  app/controllers/session_controller.rb:39:in `create'
+
+Rendered rescues/_trace (36.8ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.4ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (18.7ms)[0m   [0;1mCREATE TABLE "agencies" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) NOT NULL, "addr1" varchar(75) NOT NULL, "addr2" varchar(75), "addr3" varchar(75), "city" varchar(75) NOT NULL, "region" varchar(255), "postCode" varchar(15) NOT NULL, "phone" varchar(30) NOT NULL, "fax" varchar(30) NOT NULL, "email" varchar(100) NOT NULL, "active" boolean, "created_at" datetime, "updated_at" datetime, "sageNominalCode" varchar(15), "trial" boolean DEFAULT 't' NOT NULL, "invoicing" boolean DEFAULT 'f' NOT NULL, "nextInvoiceNumber" integer DEFAULT 1 NOT NULL, "defaultMargin" decimal(8,2) DEFAULT 0.0, "useInvoicing" boolean DEFAULT 't' NOT NULL, "calculatePAYE" boolean DEFAULT 't' NOT NULL, "autoReminder" boolean DEFAULT 'f' NOT NULL, "cutOffDay" integer, "cutOffTime" time) [0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.2ms)[0m   [0;1mCREATE TABLE "agency_invoice_details" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "agency_invoice_id" integer NOT NULL, "contract_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [4;35;1mSQL (8.1ms)[0m   [0mCREATE INDEX "index_agency_invoice_detail_on_agency_id" ON "agency_invoice_details" ("agency_invoice_id")[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE INDEX "index_agency_invoice_detail_on_contract_id" ON "agency_invoice_details" ("contract_id")[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.4ms)[0m   [0;1mCREATE TABLE "agency_invoices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "invoiceDate" date NOT NULL, "agency_id" integer NOT NULL, "netAmount" decimal(8,2) NOT NULL, "taxAmount" decimal(8,2) NOT NULL, "grossAmount" decimal(8,2) NOT NULL, "created_at" datetime, "updated_at" datetime, "invoiceNumber" integer NOT NULL) [0m
+  [4;35;1mSQL (4.9ms)[0m   [0mCREATE INDEX "index_agency_invoice_on_agency_id" ON "agency_invoices" ("agency_id")[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.9ms)[0m   [0mCREATE TABLE "approver_requests" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "client_id" integer NOT NULL, "code" varchar(40), "status" varchar(15), "created_at" datetime, "updated_at" datetime) [0m
+  [4;36;1mSQL (27.9ms)[0m   [0;1mCREATE UNIQUE INDEX "index_approver_requests_on_user_id_and_client_id" ON "approver_requests" ("user_id", "client_id")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (5.1ms)[0m   [0;1mCREATE TABLE "bank_holidays" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "holidayDate" date NOT NULL, "countryCode" varchar(2) NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [4;35;1mSQL (0.6ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.0ms)[0m   [0;1mCREATE TABLE "clients" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) NOT NULL, "addr1" varchar(75) NOT NULL, "addr2" varchar(75), "addr3" varchar(75), "city" varchar(75) NOT NULL, "region" varchar(75), "postCode" varchar(15), "agency_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime, "externalClientRef" varchar(20), "margin" decimal(8,2) NOT NULL, "monthlyInvoicePeriodStartDay" integer DEFAULT 1 NOT NULL, "invoicePeriod" varchar(10) DEFAULT 'Monthly' NOT NULL, "invoiceTimesheetsSeparately" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (3.1ms)[0m   [0mCREATE INDEX "index_clients_on_agency_id" ON "clients" ("agency_id")[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE INDEX "index_clients_on_city" ON "clients" ("city")[0m
+  [4;35;1mSQL (3.5ms)[0m   [0mCREATE INDEX "index_clients_on_name" ON "clients" ("name")[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.3ms)[0m   [0mCREATE TABLE "clients_users" ("client_id" integer NOT NULL, "user_id" integer NOT NULL) [0m
+  [4;36;1mSQL (2.7ms)[0m   [0;1mCREATE UNIQUE INDEX "index_clients_users_on_client_id_and_user_id" ON "clients_users" ("client_id", "user_id")[0m
+  [4;35;1mSQL (0.7ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.1ms)[0m   [0;1mCREATE TABLE "contractors" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "companyName" varchar(100), "vatNumber" varchar(30), "companyNumber" varchar(30), "user_id" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [4;35;1mSQL (9.4ms)[0m   [0mCREATE INDEX "index_contractors_on_companyName" ON "contractors" ("companyName")[0m
+  [4;36;1mSQL (3.0ms)[0m   [0;1mCREATE INDEX "index_contractors_on_user_id" ON "contractors" ("user_id")[0m
+  [4;35;1mSQL (0.7ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.9ms)[0m   [0;1mCREATE TABLE "contractors_contracts" ("contractor_id" integer NOT NULL, "contract_id" integer NOT NULL, "terminationDate" date) [0m
+  [4;35;1mSQL (3.5ms)[0m   [0mCREATE UNIQUE INDEX "index_contractors_contracts_on_contractor_id_and_contract_id" ON "contractors_contracts" ("contractor_id", "contract_id")[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.2ms)[0m   [0mCREATE TABLE "contracts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "startDate" date NOT NULL, "endDate" date NOT NULL, "position" varchar(75) NOT NULL, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "ref" varchar(15) NOT NULL, "client_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime, "status" varchar(15) DEFAULT 'INACTIVE' NOT NULL, "margin" decimal(8,2), "requireTimes" boolean DEFAULT 'f' NOT NULL, "requireFullWeek" boolean DEFAULT 'f' NOT NULL, "calcChargeRateAsPAYE" boolean DEFAULT 't' NOT NULL, "allowOvertime" boolean DEFAULT 'f' NOT NULL, "allowBankHolidays" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;36;1mSQL (3.3ms)[0m   [0;1mCREATE INDEX "index_contracts_on_client_id" ON "contracts" ("client_id")[0m
+  [4;35;1mSQL (4.7ms)[0m   [0mCREATE INDEX "index_contracts_on_endDate" ON "contracts" ("endDate")[0m
+  [4;36;1mSQL (11.0ms)[0m   [0;1mCREATE INDEX "index_contracts_on_ref" ON "contracts" ("ref")[0m
+  [4;35;1mSQL (3.7ms)[0m   [0mCREATE INDEX "index_contracts_on_startDate" ON "contracts" ("startDate")[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.3ms)[0m   [0mCREATE TABLE "contracts_users" ("contract_id" integer NOT NULL, "user_id" integer NOT NULL, "isDefault" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;36;1mSQL (3.1ms)[0m   [0;1mCREATE UNIQUE INDEX "index_contracts_users_on_contract_id_and_user_id" ON "contracts_users" ("contract_id", "user_id")[0m
+  [4;35;1mSQL (0.9ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE TABLE "invoices" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "netAmount" float NOT NULL, "taxAmount" decimal(10,2), "grossAmount" decimal(10,2) NOT NULL, "ref" varchar(20), "client_id" integer NOT NULL, "txnDetails" varchar(255), "created_at" datetime, "updated_at" datetime, "invoiceDate" date NOT NULL, "lastExportDate" datetime, "margin" float DEFAULT 0.0 NOT NULL, "inactive" boolean DEFAULT 'f' NOT NULL, "taxRate" decimal(8,2) NOT NULL) [0m
+  [4;35;1mSQL (4.2ms)[0m   [0mCREATE INDEX "index_invoices_on_client_id" ON "invoices" ("client_id")[0m
+  [4;36;1mSQL (0.9ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.6ms)[0m   [0mCREATE TABLE "invoices_timesheets" ("invoice_id" integer NOT NULL, "timesheet_id" integer NOT NULL) [0m
+  [4;36;1mSQL (3.3ms)[0m   [0;1mCREATE UNIQUE INDEX "index_invoices_timesheets_on_invoice_id_and_timesheet_id" ON "invoices_timesheets" ("invoice_id", "timesheet_id")[0m
+  [4;35;1mSQL (0.9ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE TABLE "permissions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "role_id" integer, "user_id" integer, "readOnly" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (1.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (4.4ms)[0m   [0;1mCREATE TABLE "rates" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(30) NOT NULL, "payRate" float, "chargeRate" float, "comment" varchar(100), "effectiveDate" date, "contract_id" integer NOT NULL, "created_at" datetime, "updated_at" datetime, "default" boolean DEFAULT 'f' NOT NULL, "endDate" date, "active" boolean DEFAULT 't' NOT NULL, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "category" varchar(25) NOT NULL) [0m
+  [4;35;1mSQL (2.4ms)[0m   [0mCREATE INDEX "index_rates_on_contract_id" ON "rates" ("contract_id")[0m
+  [4;36;1mSQL (1.0ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.4ms)[0m   [0mCREATE TABLE "roles" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(30), "description" varchar(255)) [0m
+  [4;36;1mSQL (1.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.6ms)[0m   [0mCREATE TABLE "scheduled_task_logs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "scheduled_task_id" integer, "start" datetime, "end" datetime, "success" boolean, "info" varchar(255)) [0m
+  [4;36;1mSQL (1.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.0ms)[0m   [0mCREATE TABLE "scheduled_tasks" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "task_id" integer, "frequency_id" integer, "time_of_day" integer DEFAULT 0 NOT NULL) [0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (5.4ms)[0m   [0mCREATE TABLE "settings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255) NOT NULL, "effectiveDate" date, "value" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [4;36;1mSQL (2.7ms)[0m   [0;1mCREATE INDEX "index_settings_on_name" ON "settings" ("name")[0m
+  [4;35;1mSQL (1.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.2ms)[0m   [0;1mCREATE TABLE "tasks" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "class_name" varchar(255), "method_name" varchar(255), "is_running" boolean DEFAULT 'f') [0m
+  [4;35;1mSQL (3.2ms)[0m   [0mCREATE UNIQUE INDEX "uq_tasks_name" ON "tasks" ("name")[0m
+  [4;36;1mSQL (1.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.4ms)[0m   [0mCREATE TABLE "timesheet_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "dateValue" date NOT NULL, "timesheet_id" integer NOT NULL, "hours" varchar(5), "disabled" boolean DEFAULT 'f', "created_at" datetime, "updated_at" datetime, "netAmount" float, "startTime" varchar(5), "finishTime" varchar(5), "breakHours" varchar(5), "manual" boolean DEFAULT 'f' NOT NULL, "chargeRate" decimal(8,2), "rate_id" integer, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "dayValue" decimal(8,2), "deleted" integer(1) DEFAULT 0 NOT NULL) [0m
+  [4;36;1mSQL (2.0ms)[0m   [0;1mCREATE INDEX "index_timesheet_entries_on_timesheet_id" ON "timesheet_entries" ("timesheet_id")[0m
+  [4;35;1mSQL (1.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.4ms)[0m   [0;1mCREATE TABLE "timesheet_entry_histories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "dateValue" date NOT NULL, "timesheet_history_id" integer NOT NULL, "hours" varchar(5), "disabled" boolean DEFAULT 'f', "created_at" datetime, "updated_at" datetime, "netAmount" float, "startTime" varchar(5), "finishTime" varchar(5), "breakHours" varchar(5), "manual" boolean DEFAULT 'f' NOT NULL, "chargeRate" decimal(8,2), "rate_id" integer, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "dayValue" decimal(8,2), "original_timesheet_id" integer) [0m
+  [4;35;1mSQL (2.1ms)[0m   [0mCREATE INDEX "index_timesheet_entry_histories_on_original_timesheet_id" ON "timesheet_entry_histories" ("original_timesheet_id")[0m
+  [4;36;1mSQL (1.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (14.7ms)[0m   [0mCREATE TABLE "timesheet_histories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "startDate" date NOT NULL, "totalDays" decimal(8,2), "totalHours" varchar(6), "invoiced" boolean DEFAULT 'f', "status" varchar(20) DEFAULT 'DRAFT' NOT NULL, "userName" varchar(75), "note" varchar(255), "created_at" datetime, "updated_at" datetime, "lastExportedDateTime" datetime, "netAmount" float, "taxAmount" float, "original_timesheet_id" integer) [0m
+  [4;36;1mSQL (2.2ms)[0m   [0;1mCREATE INDEX "index_timesheet_histories_on_original_timesheet_id" ON "timesheet_histories" ("original_timesheet_id")[0m
+  [4;35;1mSQL (1.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE TABLE "timesheets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "startDate" date NOT NULL, "totalDays" decimal(8,2), "totalHours" varchar(6), "invoiced" boolean DEFAULT 'f', "status" varchar(20) DEFAULT 'DRAFT' NOT NULL, "contractor_id" integer NOT NULL, "contract_id" integer NOT NULL, "note" varchar(255), "created_at" datetime, "updated_at" datetime, "lastExportedDateTime" datetime, "netAmount" float, "taxAmount" float, "rateType" varchar(10) DEFAULT 'Hour' NOT NULL, "userName" varchar(75)) [0m
+  [4;35;1mSQL (2.5ms)[0m   [0mCREATE INDEX "index_timesheets_on_contract_id" ON "timesheets" ("contract_id")[0m
+  [4;36;1mSQL (25.8ms)[0m   [0;1mCREATE INDEX "index_timesheets_on_contractor_id" ON "timesheets" ("contractor_id")[0m
+  [4;35;1mSQL (3.1ms)[0m   [0mCREATE INDEX "index_timesheets_on_startDate" ON "timesheets" ("startDate")[0m
+  [4;36;1mSQL (4.9ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.3ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "login" varchar(15) NOT NULL, "remember_token" varchar(255), "email" varchar(100) NOT NULL, "firstName" varchar(25) NOT NULL, "lastName" varchar(25) NOT NULL, "crypted_password" varchar(40) NOT NULL, "password_reset_code" varchar(40) NOT NULL, "salt" varchar(40), "activation_code" varchar(40), "remember_token_expires_at" datetime, "activated_at" datetime, "deleted_at" datetime, "state" varchar(255) DEFAULT 'pending', "phone" varchar(30), "mobile" varchar(30), "addr1" varchar(75), "addr2" varchar(75), "addr3" varchar(75), "city" varchar(75), "region" varchar(75), "postCode" varchar(15), "userType" varchar(255), "created_at" datetime, "updated_at" datetime, "contractor_id" integer, "agency_id" integer, "title" varchar(5)) [0m
+  [4;36;1mSQL (2.0ms)[0m   [0;1mCREATE INDEX "index_users_on_agency_id" ON "users" ("agency_id")[0m
+  [4;35;1mSQL (3.0ms)[0m   [0mCREATE INDEX "index_users_on_contractor_id" ON "users" ("contractor_id")[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [4;35;1mSQL (4.7ms)[0m   [0mCREATE INDEX "index_users_on_firstName" ON "users" ("firstName")[0m
+  [4;36;1mSQL (2.7ms)[0m   [0;1mCREATE INDEX "index_users_on_lastName" ON "users" ("lastName")[0m
+  [4;35;1mSQL (2.4ms)[0m   [0mCREATE UNIQUE INDEX "index_users_on_login" ON "users" ("login")[0m
+  [4;36;1mSQL (1.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;36;1mSQL (3.1ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (1.6ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM "schema_migrations"[0m
+  [4;35;1mSQL (2.9ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20091015112852')[0m
+  [4;36;1mSQL (2.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090615094405')[0m
+  [4;35;1mSQL (1.9ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090615105240')[0m
+  [4;36;1mSQL (2.3ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090616105935')[0m
+  [4;35;1mSQL (2.2ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090702091823')[0m
+  [4;36;1mSQL (1.9ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090707080331')[0m
+  [4;35;1mSQL (4.6ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090707083428')[0m
+  [4;36;1mSQL (2.0ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090707085111')[0m
+  [4;35;1mSQL (2.2ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090707160549')[0m
+  [4;36;1mSQL (2.5ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090708164921')[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090827102800')[0m
+  [4;36;1mSQL (2.1ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090903124411')[0m
+  [4;35;1mSQL (1.9ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090903150156')[0m
+  [4;36;1mSQL (3.0ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090914130421')[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20091012061412')[0m
+  [4;36;1mSQL (2.2ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20091012063247')[0m
+  [4;35;1mSQL (2.2ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20091012112804')[0m
+  [4;36;1mSettings Create (0.5ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('ni_rate', '2009-03-07', '2009-12-01 21:03:13', '2009-12-01 21:03:13', '12.8')[0m
+  [4;35;1mSettings Create (0.4ms)[0m   [0mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('hol_accrual_rate', '2009-03-07', '2009-12-01 21:03:13', '2009-12-01 21:03:13', '12.07')[0m
+  [4;36;1mSettings Create (0.3ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('next_invoice_number', NULL, '2009-12-01 21:03:13', '2009-12-01 21:03:13', '1')[0m
+  [4;35;1mSettings Create (0.4ms)[0m   [0mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('vat_rate', '2009-03-07', '2009-12-01 21:03:13', '2009-12-01 21:03:13', '15')[0m
+  [4;36;1mSettings Create (0.3ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('invoice_address', NULL, '2009-12-01 21:03:13', '2009-12-01 21:03:13', '2nd Floor,145-157 St John St,London,EC1V 4PY')[0m
+  [4;35;1mSettings Create (0.4ms)[0m   [0mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('vat_number', NULL, '2009-12-01 21:03:13', '2009-12-01 21:03:13', '906 1781 27')[0m
+  [4;36;1mSettings Create (0.4ms)[0m   [0;1mINSERT INTO "settings" ("name", "effectiveDate", "created_at", "updated_at", "value") VALUES('company_number', NULL, '2009-12-01 21:03:13', '2009-12-01 21:03:13', '06132404')[0m
+  [4;35;1mRate Create (0.4ms)[0m   [0mINSERT INTO "rates" ("name", "chargeRate", "comment", "effectiveDate", "created_at", "category", "updated_at", "default", "rateType", "endDate", "payRate", "contract_id", "active") VALUES('Sickness', 0.0, 'Default Sickness Rate', NULL, '2009-12-01 21:03:13', 'Sickness', '2009-12-01 21:03:13', 't', 'Hour', NULL, 0.0, 0, 't')[0m
+  [4;36;1mRate Create (0.3ms)[0m   [0;1mINSERT INTO "rates" ("name", "chargeRate", "comment", "effectiveDate", "created_at", "category", "updated_at", "default", "rateType", "endDate", "payRate", "contract_id", "active") VALUES('Unpaid', 0.0, 'Default Unpaid Rate', NULL, '2009-12-01 21:03:13', 'Unpaid', '2009-12-01 21:03:13', 't', 'Hour', NULL, 0.0, 0, 't')[0m
+  [4;35;1mRole Create (0.4ms)[0m   [0mINSERT INTO "roles" ("name", "description") VALUES('Clients', 'Client management role')[0m
+  [4;36;1mRole Create (0.3ms)[0m   [0;1mINSERT INTO "roles" ("name", "description") VALUES('Contracts', 'Contract management role')[0m
+  [4;35;1mRole Create (0.3ms)[0m   [0mINSERT INTO "roles" ("name", "description") VALUES('Rates', 'Rates management role')[0m
+  [4;36;1mRole Create (0.5ms)[0m   [0;1mINSERT INTO "roles" ("name", "description") VALUES('Invoicing', 'Invoicing role')[0m
+  [4;35;1mRole Create (0.3ms)[0m   [0mINSERT INTO "roles" ("name", "description") VALUES('Settings', 'Settings role')[0m
+  [4;36;1mRole Create (0.4ms)[0m   [0;1mINSERT INTO "roles" ("name", "description") VALUES('Users', 'Users role')[0m
+  [4;35;1mAgency Create (0.5ms)[0m   [0mINSERT INTO "agencies" ("name", "addr1", "city", "region", "addr2", "created_at", "addr3", "trial", "updated_at", "postCode", "nextInvoiceNumber", "useInvoicing", "autoReminder", "cutOffTime", "phone", "fax", "calculatePAYE", "defaultMargin", "cutOffDay", "sageNominalCode", "email", "active", "invoicing") VALUES('247 Recruitment Ltd', '185 Lombard Street', 'London', NULL, NULL, '2009-12-01 21:03:13', NULL, 'f', '2009-12-01 21:03:13', 'EC1M 9YD', 251, 't', 't', '2000-01-01 10:30:00', '020 7827 9322', '020 7827 9333', 't', 10.5, 2, '4011', '247solutions@intura.co.uk', 't', 'f')[0m
