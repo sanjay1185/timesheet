@@ -447,62 +447,10 @@ namespace :clockoff do
   
   task :cleardown => :configure do
     
-    puts "*** Clearing down existing data ***"
-    
-    puts "Deleting clients..."
-    Client.delete_all
-    puts "Deleting contracts..."
-    Contract.delete_all
-    puts "Deleting timesheets..."
-    Timesheet.delete_all
-    puts "Deleting timesheet history"
-    TimesheetHistory.delete_all
-    puts "Deleting timesheet entries..."
-    TimesheetEntry.delete_all
-    puts "Deleting timesheet entries history"
-    TimesheetEntryHistory.delete_all
-    puts "Deleting invoices..."
-    Invoice.delete_all
-    puts "Deleting rates..."
-    Rate.delete_all
-    puts "Deleting agency invoices..."
-    AgencyInvoice.delete_all
-    AgencyInvoiceDetail.delete_all
-    puts "Deleting approver requests..."
-    ApproverRequest.delete_all
-    puts "Deleting Agencies"
-    Agency.delete_all
-    puts "Deleting users"
-    User.delete_all
-    puts "Deleting permissions..."
-    Permission.delete_all
-    puts "Deleting roles..."
-    Role.delete_all
-    puts "Deleting settings"
-    Settings.delete_all
-    puts "Deleting additional join tables..."
-    ActiveRecord::Base.connection.execute("delete from invoices_timesheets")
-    ActiveRecord::Base.connection.execute("delete from contracts_users")
-    ActiveRecord::Base.connection.execute("delete from clients_users")
-    ActiveRecord::Base.connection.execute("delete from contractors_contracts")
-
-    puts "*** Setting AUTO_INCREMENT for tables back to 1 ***"
-    ActiveRecord::Base.connection.execute("ALTER TABLE `agencies` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `users` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `clients` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `contracts` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `timesheets` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `timesheet_entries` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `timesheet_histories` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `timesheet_entry_histories` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `roles` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `permissions` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `approver_requests` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `bank_holidays` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `invoices` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `rates` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `settings` AUTO_INCREMENT = 1;")
-    ActiveRecord::Base.connection.execute("ALTER TABLE `tasks` AUTO_INCREMENT = 1;")
+    puts "Cleaning the current database"
+    Rake::Task[ "db:drop" ].execute
+    Rake::Task[ "db:create" ].execute
+    Rake::Task[ "db:schema:load" ].execute
     
   end
   

@@ -1,4 +1,11 @@
 class Agency < ActiveRecord::Base
+  #############################################################################
+  # For image upload
+  #############################################################################
+  IMAGE_STORE = File.join RAILS_ROOT, 'public', 'agency_files'
+
+  after_save     :save_image
+  before_destroy :remove_image 
   
   #############################################################################
   # Relationships
@@ -87,6 +94,52 @@ class Agency < ActiveRecord::Base
 
     end
 
+  end
+
+  #----------------------------------------------------------------------------
+  # The functions below are just for image manipulation
+  #----------------------------------------------------------------------------
+  def agency_logo_filename
+    File.join IMAGE_STORE, agency_logo_path
+  end
+
+  def agency_logo_path
+    "#{id.to_s.rjust(10, '0')}/agency_logo_#{id}.jpg"
+  end
+
+  def agency_logo=(agency_logo_data)
+    unless agency_logo_data.blank?
+      @agency_logo_data = agency_logo_data
+    end
+  end
+
+  def has_agency_logo?
+    File.exists? agency_logo_filename
+  end
+
+  def url_to_agency_logo
+    "/agency_files/#{agency_logo_path}"
+  end
+
+  private
+  def remove_all_images
+    begin
+      FileUtils.remove_dir("#{IMAGE_STORE}/#{id.to_s.rjust(10, '0')}", true)
+    rescue Exception => ex
+      # do nothing
+    end
+
+  end
+
+  def save_all_images
+    FileUtils.mkdir_p "#{IMAGE_STORE}/#{id.to_s.rjust(10, '0')}"
+
+    if @agency_logo_data
+      File.open(agency_logo_filename, 'wb') do |f|
+        f.write(@agency_logo_data.read)
+      end
+      @agency_logo_data = nil
+    end
   end
   
 end
