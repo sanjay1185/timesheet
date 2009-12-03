@@ -6,6 +6,6 @@ doc/app
 db/*.sqlite3
 public/stylesheets/cache/*
 public/javascripts/cache/*
-config/development.sphinx.conf
+config/database.yml
 db/sphinx/development/*
 nbproject/*

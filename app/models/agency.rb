@@ -2,6 +2,8 @@ class Agency < ActiveRecord::Base
   #############################################################################
   # For image upload
   #############################################################################
+  require 'RMagick'
+  
   IMAGE_STORE = File.join RAILS_ROOT, 'public', 'agency_files'
 
   after_save     :save_all_images
@@ -120,6 +122,12 @@ class Agency < ActiveRecord::Base
   def url_to_agency_logo
     "/agency_files/#{agency_logo_path}"
   end
+  
+  def validates_image
+    puts agency_logo_filename
+    img = Magick::Image::read(agency_logo_filename).first
+    puts "Geometry = #{img.columns} x #{img.rows}"
+  end
 
   private
   def remove_all_images
@@ -140,6 +148,10 @@ class Agency < ActiveRecord::Base
       end
       @agency_logo_data = nil
     end
+
+    # validates image size
+    self.validates_image
+    
   end
   
 end
