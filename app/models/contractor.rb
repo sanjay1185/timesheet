@@ -36,15 +36,11 @@ class Contractor < ActiveRecord::Base
   #----------------------------------------------------------------------------
   # Get contractors that have active contracts
   #----------------------------------------------------------------------------
-  def self.get_all_active
+  def self.get_all_active(agency_id)
     
-    conditions = []
-    conditions.add_condition!("c.id = cc.contractor_id")
-    conditions.add_condition!("cc.contract_id = ct.id")
-    conditions.add_condition!("u.id = c.user_id")
-    conditions.add_condition!("ct.status != 'COMPLETE'")
-    
-    self.find(:all, :conditions => conditions, :select => "c.id, CONCAT(u.firstName, ' ', u.lastName) as name", :joins => "c, contractors_contracts cc, contracts ct, users u", :order => "u.lastName asc")
+    contractors = {}
+    Client.find(:all, ["agency_id = ?", agency_id]).select {|cl| cl.contracts.select { |c| contractors[c.contractors[0].user.full_name] = c.contractors[0].id } }
+    return contractors
     
   end
   

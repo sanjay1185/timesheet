@@ -259,7 +259,7 @@ class Contract < ActiveRecord::Base
 
     conditions.add_condition!('c.client_id = cl.id')
     conditions.add_condition!(['cl.agency_id = ?', agency_id])
-    conditions.add_condition!(["c.status = ?", status])
+    conditions.add_condition!(['c.status = ?', status])
     
     return Contract.find(:all, :conditions => conditions, :joins => "c, clients cl", :select => "c.*")
     
