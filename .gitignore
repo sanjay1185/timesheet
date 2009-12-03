@@ -9,3 +9,5 @@ public/javascripts/cache/*
 config/database.yml
 db/sphinx/development/*
 nbproject/*
+public/agency_files/*
+
