@@ -297,14 +297,15 @@ namespace :clockoff do
     charles_daly.method(:make_password_reset_code)
     
     charles_daly_contractor = Contractor.new()
-    charles_daly_contractor.user = charles_daly
+    
     charles_daly_contractor.companyName = 'BlueBox Software Ltd'
     charles_daly_contractor.vatNumber = '977 6534 187'
     charles_daly_contractor.companyNumber = '086548277'
     charles_daly_contractor.save(false)
- 
     charles_daly.contractor_id = charles_daly_contractor.id
     charles_daly.activate
+    charles_daly_contractor.user_id = charles_daly.id
+    charles_daly_contractor.save(false)
     
     puts '...Mary Smith'
     mary_smith = User.new(
@@ -328,11 +329,12 @@ namespace :clockoff do
     mary_smith.method(:make_password_reset_code)
     
     mary_smith_contractor = Contractor.new()
-    mary_smith_contractor.user = mary_smith
-    mary_smith_contractor.save(false)
     
+    mary_smith_contractor.save(false)
     mary_smith.contractor_id = mary_smith_contractor.id
     mary_smith.activate
+    mary_smith_contractor.user_id = mary_smith.id
+    mary_smith_contractor.save(false)
     
     puts '...Terry Vance'
     terry_vance = User.new(
@@ -356,11 +358,11 @@ namespace :clockoff do
     terry_vance.method(:make_password_reset_code)
     
     terry_vance_contractor = Contractor.new()
-    terry_vance_contractor.user = terry_vance
     terry_vance_contractor.save(false)
-    
     terry_vance.contractor_id = terry_vance_contractor.id
     terry_vance.activate
+    terry_vance_contractor.user_id = terry_vance.id
+    terry_vance_contractor.save(false)
     
     puts "*** Creating contract (ABN17872) for ABN Amro ***"
     puts "...Terry Vance, 8 Weeks, Daily Paid, 420"
@@ -376,9 +378,10 @@ namespace :clockoff do
     abn_contract1_std = Rate.new({:name => 'Standard Rate', :payRate => 420, :chargeRate => 460.95, :comment => 'Standard rate', :default => true, :active => true, :rateType => 'Day', :category => 'Standard' })
     abn_contract1.contractors << terry_vance_contractor
     abn_contract1.rates << abn_contract1_std
+    abn_contract1.status = "ACTIVE" # todo: BH: need to change this
     abn_contract1.save(false)
     
-    puts "*** Creating timesheets for Terry Vance (ABM17872) ***"
+    puts "*** Creating timesheets for Terry Vance (ABN17872) ***"
     abn_c1_ts1 = abn_contract1.create_next_timesheet
     abn_c1_ts1.timesheet_entries[0].dayValue = 1
     abn_c1_ts1.timesheet_entries[0].rate = abn_contract1_std

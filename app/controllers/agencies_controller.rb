@@ -51,7 +51,7 @@ class AgenciesController < ApplicationController
       
       if session[:tools_criteria] == @criteria
       
-        if session[:tools_results]
+        if session[:tools_results] && session[:tools_results].length > 0
           
           @results = SearchResult.sort(session[:tools_results], sort_order('end_date'))
         
@@ -74,7 +74,7 @@ class AgenciesController < ApplicationController
     
     # get active contract list
     @active_contracts = Contract.get_by_agency_and_status(session[:agencyId], 'ACTIVE')
-    @active_workers = Contractor.get_all_active
+    @active_workers = Contractor.get_all_active(session[:agencyId])
     
     # get outstanding timesheets
     #@timesheets = Timesheet.get_all_requiring_action(session[:agencyId], 1, 10)
@@ -99,7 +99,7 @@ class AgenciesController < ApplicationController
     #@active_clients_percent = ((@no_of_active_clients / @no_of_clients.to_f) * 100).round(2)
     #@no_of_active_contracts = Contract.get_all_active(session[:agencyId], nil, nil, 'id').length
     @clients_by_timesheets = Client.get_by_timesheets(session[:agencyId])
-    @clients_with_approvers = Client.get_all_with_approvers(session[AagencyId])
+    @clients_with_approvers = Client.get_all_with_approvers(session[:agencyId])
     
   end
   

@@ -18,6 +18,8 @@ class Client < ActiveRecord::Base
   validates_presence_of :margin, :message => 'Margin cannot be blank'
   validates_uniqueness_of :externalClientRef, :scope => [:agency_id], :message => 'External Ref must be unique', :allow_nil => true
   
+  attr_accessor :total
+  
   #############################################################################
   # Custom Methods
   #############################################################################
@@ -57,7 +59,43 @@ class Client < ActiveRecord::Base
     paginate(:page => page, :per_page => per_page, :conditions => conditions, :select => "c.*, count(ct.id) as contract_count", :joins => "c, contracts ct", :order => order)
     
   end
+  
+  #----------------------------------------------------------------------------
+  # Get all clients that have approvers
+  #----------------------------------------------------------------------------
+  def self.get_all_with_approvers(agency_id)
+    
+    conditions = []
+    conditions.add_condition!("clients.id = clients_users.client_id")
+    conditions.add_condition!(["clients.agency_id = ?", agency_id])
+    
+    return Client.find(:all, :conditions => conditions, :joins => "clients, clients_users")
+    
+  end
 
+  #----------------------------------------------------------------------------
+  # Get client names with totals of timesheets
+  #----------------------------------------------------------------------------
+  def self.get_by_timesheets(agency_id)
+    
+    
+    clients =self.select_all("select c.name, count(t.id) as total
+                            from clients c
+                            inner join contracts ct
+                              on c.id = ct.client_id
+                            inner join timesheets t
+                              on ct.id = t.contract_id
+                            where c.agency_id = " + agency_id.to_s +
+                            " and t.status != 'DRAFT'
+                            group by c.name")
+
+    data = []
+    clients.each {|o| data << [o.name, o.total]}
+    
+    return data
+    
+  end
+  
   #----------------------------------------------------------------------------
   # Get all the approvers for a client that are not already an approver
   # for the supplied contract

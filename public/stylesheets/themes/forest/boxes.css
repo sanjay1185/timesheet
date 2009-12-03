@@ -134,3 +134,23 @@ div.nav_header_single {
 #timesheet-type-box .generalButton {
     top: -2px;
 }
+
+/* dashboard */
+
+#quick_menu {
+    position: relative;
+    top: 0px;
+    margin: 0px auto 0px auto;
+    padding: 10px;
+}
+#quick_menu .sb-inner { background-color:#93B2BD; }
+#quick_menu .sb-border { background-color:darkblue;}
+
+#dashboard_menu {
+    position: relative;
+    top: 0px;
+    margin: 0px auto 0px auto;
+    padding: 10px;
+}
+#dashboard_menu .sb-inner { background-color:#E8F1FA; }
+#dashboard_menu .sb-border { background-color:darkblue;}
