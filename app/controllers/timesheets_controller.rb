@@ -294,9 +294,9 @@ class TimesheetsController < ApplicationController
           site = SITE + "/images/#{session[:theme]}/"
         end
         
-        if File::exists?(site + @contract.client.agency.id.to_s + '/logo.gif')
+        if File::exists?(site + @contract.client.agency.url_to_agency_logo)
           
-          @img_tag = "<img src=\" + img + \" alt=\"\"/>"
+          @img_tag = "<img src=\" + @contract.client.agency.url_to_agency_logo + \" alt=\"\"/>"
           
         else
           

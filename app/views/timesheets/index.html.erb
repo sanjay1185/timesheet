@@ -3,7 +3,7 @@
 
 <% html_header = '' %>
 <% html_header << "&nbsp;#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{fast_link(@client.name, 'clients/edit/'+ @client.id.to_s)}" %>
-<% html_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> #{link_to('Contract (' + @contract.ref + ')', edit_client_contract_path(@client, @contract))} >> Timesheets" %>
+<%# html_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> #{link_to('Contract (' + @contract.ref + ')', edit_client_contract_path(@client, @contract))} >> Timesheets" %>
 
   <div id="nav-bar-box">
     <%= two_column_nav_bar_layout2(html_header, link_to('Manage Rates', client_contract_rates_path(@client, @contract))) %>

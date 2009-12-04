@@ -5,6 +5,8 @@ class Agency < ActiveRecord::Base
   require 'RMagick'
   
   IMAGE_STORE = File.join RAILS_ROOT, 'public', 'agency_files'
+  MAX_IMAGE_COLS = 200
+  MAX_IMAGE_ROWS = 80
 
   after_save     :save_all_images
   before_destroy :remove_all_images
@@ -123,12 +125,6 @@ class Agency < ActiveRecord::Base
     "/agency_files/#{agency_logo_path}"
   end
   
-  def validates_image
-    puts agency_logo_filename
-    img = Magick::Image::read(agency_logo_filename).first
-    puts "Geometry = #{img.columns} x #{img.rows}"
-  end
-
   private
   def remove_all_images
     begin
@@ -150,8 +146,15 @@ class Agency < ActiveRecord::Base
     end
 
     # validates image size
-    self.validates_image
-    
+    img = Magick::Image::read(agency_logo_filename).first
+    if img.columns != MAX_IMAGE_COLS or img.rows != MAX_IMAGE_ROWS
+      begin
+        FileUtils.remove_dir("#{IMAGE_STORE}/#{id.to_s.rjust(10, '0')}", true)
+      rescue Exception => ex
+        # do nothing
+      end
+      raise "Invalid picture size. Must be #{MAX_IMAGE_COLS}x#{MAX_IMAGE_ROWS}" 
+    end
   end
-  
 end
+

@@ -948,18 +948,19 @@ class AgenciesController < ApplicationController
     @agency.attributes = params[:agency]
     
     # save the agency
-    if @agency.save
-      
-      flash[:notice] = "Settings saved successfully"
+    begin
+      if @agency.save
+        flash[:notice] = "Settings saved successfully"
+        redirect_to settings_agency_path(@agency)
+        session[:useInvoicing] = @agency.useInvoicing?
+      else
+        render :action => "settings"
+      end
+    rescue Exception => ex
+      flash[:notice] = ex.message
       redirect_to settings_agency_path(@agency)
       session[:useInvoicing] = @agency.useInvoicing?
-      
-    else
-      
-      render :action => "settings"
-      
-    end
-    
+    end        
   end
   
   private
