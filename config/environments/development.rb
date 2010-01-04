@@ -16,23 +16,28 @@ config.action_controller.perform_caching             = false
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = true
 
-config.action_mailer.delivery_method = :sendmail
+if OsFunctions.is_mac? || OsFunctions.is_linux?
+  
+  config.action_mailer.delivery_method = :sendmail
 
-config.action_mailer.sendmail_settings = {
-  :location       => '/usr/sbin/sendmail',
-  :arguments      => "-i -t -f no-reply@clockoff.com"
-}
+  config.action_mailer.sendmail_settings = {
+    :location       => '/usr/sbin/sendmail',
+    :arguments      => "-i -t -f no-reply@clockoff.com"
+  }
+  
+else
+  
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address => "mail.clockoff.com",
+    :port => 25,
+    :domain => "clockoff.com",
+    :authentication => :login,
+    :user_name => "no-reply@clockoff.com",
+    :password => "maximus"
 
-#config.action_mailer.delivery_method = :smtp
-#config.action_mailer.smtp_settings = {
-#  :address => "mail.intura.co.uk",
-#  :port => 25,
-#  :domain => "intura.co.uk",
-#  :authentication => :login,
-#  :user_name => "no-reply@intura.co.uk",
-#  :password => "maximus"
-#
-#}
+  }
+end
 
 SITE="http://localhost:3000"
-OUTGOING_EMAIL_ADDRESS="no-reply@intura.co.uk"
+OUTGOING_EMAIL_ADDRESS="no-reply@clockoff.com"
