@@ -2,13 +2,19 @@ class ImageSize
   
   def examine(file)
     
+    size = []
+    
     if file.downcase.ends_with?('gif')
       
       size = IO.read(file)[6..9].unpack('SS')
       
+    elsif file.downcase.ends_with?('png') 
+      
+      size = IO.read(file)[0x10..0x18].unpack('NN')
+      
     elsif file.downcase.ends_with?('jpg')
       
-      File.open(file, 'rb') { |io| size = query(io) }
+      File.open(file, 'rb') { |io| size = read_jpg(io) }
       
     end
     
@@ -18,7 +24,7 @@ class ImageSize
   
   private
   
-  def query(io)
+  def read_jpg(io)
     
     raise 'malformed JPEG' unless io.getc == 0xFF && io.getc == 0xD8 # SOI
     height = 0

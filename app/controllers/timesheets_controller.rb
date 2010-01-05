@@ -17,6 +17,17 @@ class TimesheetsController < ApplicationController
   before_filter :only => [:index, :view, :reject_timesheet, :manual_approval, :approve] do |controller|
     controller.check_type('agency')
   end
+
+  #----------------------------------------------------------------------------
+  # Create a pdf for this timesheet
+  #----------------------------------------------------------------------------
+  def generate_pdf
+    
+    timesheet = Timesheet.find(params[:id])
+    
+    prawnto :prawn => {:page_layout => :landscape }, :layout => 'none'
+    
+  end
   
   #----------------------------------------------------------------------------
   # Get timesheets for a contract (Edit Contract | View Timesheets)

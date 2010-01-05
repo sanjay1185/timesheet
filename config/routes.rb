@@ -58,7 +58,7 @@ ActionController::Routing::Routes.draw do |map|
   map.approver_logout 'approverdashboard/logout', :controller => 'approverdashboard', :action => 'logout'
 
   map.resources :contractors do |contractor|
-    contractor.resources :timesheets, :member => { :emailapproval => :post, :cancel_timesheet_alert => :get }
+    contractor.resources :timesheets, :member => { :emailapproval => :post, :cancel_timesheet_alert => :get, :generate_pdf => :get }
   end
 
   map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :delete_user => :get }

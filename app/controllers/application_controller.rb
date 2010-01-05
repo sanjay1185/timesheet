@@ -37,51 +37,28 @@ class ApplicationController < ActionController::Base
 
   attr_accessor :readonly
 
-  #----------------------------------------------------------------------------
-  # Render as a pdf instead of erb (NOT USED!)
-  #----------------------------------------------------------------------------
-  def render_to_pdf(options = nil)
-
-    data = render_to_string(options)
-
-    pdf = PDF::HTMLDoc.new
-
-    pdf.set_option :bodycolor, :white
-    pdf.set_option :toc, false
-    pdf.set_option :landscape, true
-    pdf.set_option :links, false
-    pdf.set_option :webpage, true
-    pdf.set_option :left, '2cm'
-    pdf.set_option :right, '2cm'
-
-    pdf << data
-    
-    pdf.generate
-    
-  end
-
-  #----------------------------------------------------------------------------
-  # Render as a pdf using PD4ML
-  #----------------------------------------------------------------------------
-  def render_pdf(orientation, options = nil)
-
-    data = render_to_string(options)
-
-    pdf = PD4ML.new(
-
-      :allow_annotate             => false,
-      :page_orientation           => orientation,
-      :allow_copy                 => true,
-      :allow_modify               => true,
-      :allow_print                => true
-
-    )
-
-    pdf << data
-
-    pdf.generate
-    
-  end
+#  #----------------------------------------------------------------------------
+#  # Render as a pdf instead of erb (NOT USED!)
+#  #----------------------------------------------------------------------------
+#  def render_to_pdf(options = nil)
+#
+#    data = render_to_string(options)
+#
+#    pdf = PDF::HTMLDoc.new
+#
+#    pdf.set_option :bodycolor, :white
+#    pdf.set_option :toc, false
+#    pdf.set_option :landscape, true
+#    pdf.set_option :links, false
+#    pdf.set_option :webpage, true
+#    pdf.set_option :left, '2cm'
+#    pdf.set_option :right, '2cm'
+#
+#    pdf << data
+#    
+#    pdf.generate
+#    
+#  end
 
   #----------------------------------------------------------------------------
   # Defines default sort order for sorting columns

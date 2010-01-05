@@ -2,14 +2,14 @@ class Agency < ActiveRecord::Base
   #############################################################################
   # For image upload
   #############################################################################
-  require 'RMagick'
+  #require 'RMagick'
   
   IMAGE_STORE = File.join RAILS_ROOT, 'public', 'agency_files'
   MAX_IMAGE_COLS = 200
   MAX_IMAGE_ROWS = 80
 
-  after_save     :save_all_images
-  before_destroy :remove_all_images
+  #after_save     :save_all_images
+  #before_destroy :remove_all_images
   
   #############################################################################
   # Relationships

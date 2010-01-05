@@ -1,4 +1,6 @@
 .DS_Store
+.project
+.loadpath
 log/*
 tmp/**/*
 doc/api
@@ -10,4 +12,4 @@ config/database.yml
 db/sphinx/development/*
 nbproject/*
 public/agency_files/*
-
+extras/fonts/*
