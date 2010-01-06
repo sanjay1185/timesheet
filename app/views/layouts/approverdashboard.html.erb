@@ -8,6 +8,7 @@
   <%= stylesheet_link_tag "themes/#{session[:theme]}/navigation" %>
   <%= stylesheet_link_tag "themes/#{session[:theme]}/boxes" %>
   <%= stylesheet_link_tag "themes/#{session[:theme]}/tables" %>
+  <%= stylesheet_link_tag 'modalbox' %>
   <!--[if gte IE 7]>
   <%= stylesheet_link_tag 'ie' %>
   <![endif]-->
@@ -15,6 +16,7 @@
   <%= javascript_include_tag 'effects' %>
   <%= javascript_include_tag 'shadedborder' %>
   <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag 'modalbox' %>
 </head>
 <body>
 <!--[if IE 6]>
@@ -23,6 +25,35 @@
      <br/>We reccommend upgrading to one of the following: Internet Explorer 7+ or Firefox 3+. <a href="http://www.quirksmode.org/upgrade.html" class="norm">More advice on upgrading</a>.
     </div>
 <![endif]-->
+<% if logged_in? %>
+   <div style="position:absolute;top:-8px;right:5px;">
+    <p style="color:white;">Logged in as <%= current_user.login %> |
+    <a href="#" style="color:white" title="Change Password" onclick="
+     Modalbox.show($('new_password'), {title: this.title, width: 400});
+     "> Change Password</a></p>
+   </div>
+
+   <div id="new_password" style="display:none">
+     <% form_for :user, current_user, :url => {:controller => 'approverdashboard', :action => "change_password"} do |form| %>
+      <table class="with_margins" width="100%" align="center" cellspacing="0" cellpadding="0">
+      <tr>
+        <td>Password: </td>
+        <td><%= form.password_field :password, :size => 45, :size => 20, :id => 'pwd', :class => 'spaced_input' %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Confirm: </td>
+        <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input' %>
+                    <%= form.hidden_field :id %>
+        </td>
+        <td>
+          <td colspan="2"><%= submit_tag "Change", :class => 'generalButton' %></td>
+        </td>
+      </tr>
+      </table>
+     <% end %>
+    </div>
+   <%end%>
 <br />
 <div id="container">
 <div style="display: none;" id="error_msgs"></div>

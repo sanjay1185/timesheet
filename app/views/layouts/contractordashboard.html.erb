@@ -25,6 +25,34 @@
             <br/> We reccommend upgrading to one of the following: Internet Explorer 7+, Firefox, Safari or Google Chrome. <a href="http://www.quirksmode.org/upgrade.html" class="norm">More advice on upgrading</a>.
             </div>
         <![endif]-->
+        <% if logged_in? %>
+   <div style="position:absolute;top:-8px;right:5px;">
+    <p style="color:white;">Logged in as <%= current_user.login %> |
+    <a href="#" style="color:white" title="Change Password" onclick="
+     Modalbox.show($('new_password'), {title: this.title, width: 400});
+     "> Change Password</a></p>
+   </div><% if @contractor %>
+   <div id="new_password" style="display:none">
+     <% form_for :user, @contractor.user , :url => {:controller => 'users', :action => "change_password"} do |form| %>
+      <div class="with_margins">
+       <table width="100%" align="center" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>Password: </td>
+          <td><%= form.password_field :password, :size => 20, :id => 'pwd', :class => 'spaced_input'  %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Confirm: </td>
+          <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input'  %>
+            <%= form.hidden_field :id %>
+          </td>
+          <td colspan="2"><%= submit_tag "Change", :class => 'generalButton' %></td>
+        </tr>
+       </table>
+      </div>
+    <% end %>
+    </div><%end%>
+  <%end%>
         <br/>
         <div id="container">
             <div style="display: none;" id="error_msgs">
