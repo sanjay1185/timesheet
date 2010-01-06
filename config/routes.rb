@@ -71,7 +71,7 @@ ActionController::Routing::Routes.draw do |map|
     :send_reminder_to_approvers => :post, :reports => :get, :report => :get, :denied => :get,  
     :invite_workers => :get, :send_invites => :post, :reject_timesheet => :post, :user_update => :post, 
     :view_history => :get, :reject_timesheet_alert => :get, :active_clients => :get, 
-    :active_contracts => :get, :tools => :get, :stats => :get
+    :active_contracts => :get, :tools => :get, :stats => :get, :remove_logo => :get
     }
 
   map.process_request '/process_request', :controller => 'users', :action => 'process_request'

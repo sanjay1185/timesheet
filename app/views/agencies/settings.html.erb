@@ -113,6 +113,13 @@
                   <td class="leftHeader">Logo for Agency:</td>
                   <td><%= f.file_field :agency_logo, :size => 30 %></td>
                 </tr>
+				<tr>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="leftHeader">Uploaded Logo:</td>
+					<td valign="middle"><div style="display:inline;margin-top:5px;text-align:center;width: 200px"><%= @uploaded_image %></div>&nbsp;<div style="display:inline;margin-top:5px;top:2px;"><%= delete_link('Delete Logo?', 'Do you really want to delete this logo?', remove_logo_agency_path, 250, false, 'Logo') if @agency.has_agency_logo? %></div></td>
+				</tr>
 
               </table>
             </div>

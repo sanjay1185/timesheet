@@ -244,6 +244,22 @@ class AgenciesController < ApplicationController
     @user = current_user
     @days = {'Monday' => 1, 'Tuesday' => 2, 'Wednesday' => 3, 'Thursday' => 4, 'Friday' => 5, 'Saturday' => 6, 'Sunday' => 0}.sort {|a,b| a[1] <=> b[1] }
     @title = @readonly == true ? "You do not have permission to save this data" : "Save"
+    @uploaded_image = @agency.has_agency_logo? ? "<img src=\"#{@agency.rel_agency_logo_filename}\" alt=\"Agency Logo\" />" : '&nbsp;No Image Uploaded&nbsp;'
+    
+  end
+  
+  def remove_logo
+  
+    @agency = Agency.find(session[:agencyId])
+    if @agency.has_agency_logo?
+      
+      # remove it
+      @agency.remove_logo
+      
+    end
+    
+    redirect_to settings_agency_path(@agency)
+    
   end
   
   #----------------------------------------------------------------------------

@@ -5,6 +5,7 @@ class Agency < ActiveRecord::Base
   require 'image_size'
   
   IMAGE_STORE = File.join RAILS_ROOT, 'public', 'agency_files'
+  REL_IMAGE_STORE = '/agency_files'
   MAX_IMAGE_WIDTH = 200
   MAX_IMAGE_HEIGHT = 80
 
@@ -107,6 +108,14 @@ class Agency < ActiveRecord::Base
     File.join IMAGE_STORE, agency_logo_path
   end
 
+  def rel_agency_logo_filename
+    File.join REL_IMAGE_STORE, agency_logo_path  
+  end
+  
+  def remove_logo
+    FileUtils.remove_dir("#{IMAGE_STORE}/#{id.to_s.rjust(10, '0')}", true)  
+  end
+  
   def agency_logo_path
     "#{id.to_s.rjust(10, '0')}/agency_logo_#{id}.jpg"
   end
@@ -151,7 +160,7 @@ class Agency < ActiveRecord::Base
     
     if size[0] >= MAX_IMAGE_WIDTH or size[1] >= MAX_IMAGE_HEIGHT
       begin
-        FileUtils.remove_dir("#{IMAGE_STORE}/#{id.to_s.rjust(10, '0')}", true)
+        remove_logo
       rescue Exception => ex
         # do nothing
       end
