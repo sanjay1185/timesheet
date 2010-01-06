@@ -2,14 +2,14 @@ class Agency < ActiveRecord::Base
   #############################################################################
   # For image upload
   #############################################################################
-  #require 'RMagick'
+  require 'image_size'
   
   IMAGE_STORE = File.join RAILS_ROOT, 'public', 'agency_files'
-  MAX_IMAGE_COLS = 200
-  MAX_IMAGE_ROWS = 80
+  MAX_IMAGE_WIDTH = 200
+  MAX_IMAGE_HEIGHT = 80
 
-  #after_save     :save_all_images
-  #before_destroy :remove_all_images
+  after_save     :save_all_images
+  before_destroy :remove_all_images
   
   #############################################################################
   # Relationships
@@ -146,15 +146,16 @@ class Agency < ActiveRecord::Base
     end
 
     # validates image size
-    img = Magick::Image::read(agency_logo_filename).first
-    if img.columns != MAX_IMAGE_COLS or img.rows != MAX_IMAGE_ROWS
+    size = nil
+    File.open(agency_logo_filename, 'rb') {|io| size = ImageSize.new(io).get_size }
+    
+    if size[0] >= MAX_IMAGE_WIDTH or size[1] >= MAX_IMAGE_HEIGHT
       begin
         FileUtils.remove_dir("#{IMAGE_STORE}/#{id.to_s.rjust(10, '0')}", true)
       rescue Exception => ex
         # do nothing
       end
-      raise "Invalid picture size. Must be #{MAX_IMAGE_COLS}x#{MAX_IMAGE_ROWS}" 
+      raise "Invalid picture size. Must be <= #{MAX_IMAGE_WIDTH}x#{MAX_IMAGE_HEIGHT}" 
     end
   end
 end
-

@@ -1,7 +1,7 @@
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.3' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
 #ENV['RAILS_ENV'] = 'production'
 
@@ -17,7 +17,6 @@ Rails::Initializer.run do |config|
   config.gem "fastercsv"
   config.gem "will_paginate"
   config.gem "capistrano"
-  
   
   config.action_controller.session = {
     :session_key => '_clockoff_session',
