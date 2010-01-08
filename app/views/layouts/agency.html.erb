@@ -27,10 +27,32 @@
     </div>
     <![endif]-->
   <% if current_user.agency.trial? %>
-  <div style="position:absolute;top:-8px;right:0px;">
+  <div style="position:absolute;top:-8px;left:0px;">
     <div id="trial-box"><div style="vertical-align:bottom;">Trial ends in <%= session[:days_left] %> days</div></div>
   </div>
   <% end %>
+  <% if logged_in? %>
+   <div style="position:absolute;top:-8px;right:5px;">
+    <p style="color:white;">Logged in as <%= current_user.login %> |
+    <a href="#" style="color:white" title="Change Password" onclick="
+     Modalbox.show($('new_password'), {title: this.title, width: 400});
+     "> Change Password</a></p>
+   </div>
+   <div id="new_password" style="display:none">
+     <% form_for :user, @user, :url => {:controller => 'agencies', :action => "change_password"} do |form| %>
+      <table width="100%" align="center" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>Password: </td>
+          <td><%= form.password_field :password, :size => 20, :id => 'pwd', :class => 'spaced_input' %></td><td></td>
+        </tr>
+        <tr>
+          <td>Confirm: </td>
+          <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input' %></td><td><%= submit_tag "Change", :class => 'generalButton' %></td>
+        </tr>
+      </table>
+      <% end %>
+    </div>
+  <%end%>
   <br />
   <div>
     <div style="display: none;" id="error_msgs"></div>

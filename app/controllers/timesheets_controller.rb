@@ -4,7 +4,7 @@ class TimesheetsController < ApplicationController
   # Set the layout
   #----------------------------------------------------------------------------
   layout :timesheet_layout
-  
+  include ApplicationHelper
   #----------------------------------------------------------------------------
   # Callback events - authenticate & various permissions
   #----------------------------------------------------------------------------
@@ -286,36 +286,36 @@ class TimesheetsController < ApplicationController
         
         te.is_bank_hol = true
         
-      else
-        
+      else        
         te.is_bank_hol = false
-        
       end
     }
     
-    respond_to do |format|
-      
-      format.html
-      
+    respond_to do |format| 
+      format.html      
       format.pdf {
-        
+        address = format_address_lines(@timesheet.contract.client.agency)
+        uniq = address.uniq!
+        addr = ""
+        address = uniq unless uniq.nil?
+          @addr=""
+        address.each  do |a|
+          @addr << "\n" + a
+        end
+         
         if session[:theme].nil?
           site = SITE + "/images/"
         else
           site = SITE + "/images/#{session[:theme]}/"
         end
         
-        if File::exists?(site + @contract.client.agency.url_to_agency_logo)
-          
-          @img_tag = "<img src=\" + @contract.client.agency.url_to_agency_logo + \" alt=\"\"/>"
-          
-        else
-          
-          @img_tag = "<img src=\"" + site + "timesheets_logo.gif\" alt=\"\"/>"
-          
+#        if File::exists?(site + @contract.client.agency.url_to_agency_logo)
+        if File::exists?(@timesheet.contract.client.agency.agency_logo_filename)
+          @img_tag = @timesheet.contract.client.agency.agency_logo_filename
+        else          
+          @img_tag = "#{RAILS_ROOT}"+"/public/images/l_side.png"
         end
-        
-        send_data(render_pdf('LANDSCAPE', { :action => 'timesheet.rpdf', :layout => 'pdf_timesheet' }), :filename => "timesheet.pdf" )
+#        send_data(render_pdf('LANDSCAPE', { :action => 'timesheet.rpdf', :layout => 'pdf_timesheet' }), :filename => "timesheet.pdf" )
       }
       #format.test { render :action => 'timesheet.rpdf', :layout => 'pdf_timesheet.html' }
       
