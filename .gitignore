@@ -1,6 +1,8 @@
 .DS_Store
 .project
 .loadpath
+.tmp*
+Thumbs.db
 log/*
 tmp/**/*
 doc/api
