@@ -19,7 +19,7 @@ class UsersController < ApplicationController
       user.activate
 
       # if its a contractor, set the user_id on the contractor
-      if user.userType == 'contractor'
+      if user.type == 'ContractorUser'
 
         contractor = Contractor.find(user.contractor_id)
         contractor.user_id = user.id
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
     # set the details
     @client_id = @client.id
     @user.title = params[:selected_title]
-    @user.userType = 'approver'
+    @user.type = 'ApproverUser'
     @confirmed = @user.email
 
     # save
@@ -101,8 +101,8 @@ class UsersController < ApplicationController
   #----------------------------------------------------------------------------
   def new
 
-    @user = User.new
-    @contractor = Contractor.new
+#    @user = User.new
+    @contractor = ContractorUser.new
     @statement = "Join us for free and start submitting your timesheets electronically today!"
     @sub_statement = "Registration will just take a minute. You'll only ever need one login to submit timesheets for any registered recruitment agency"
     @header_link = ""
@@ -125,9 +125,9 @@ class UsersController < ApplicationController
     # reset_session
 
     # get contractor
-    @contractor = Contractor.new(params[:contractor])
-    @contractor.user.title = params[:selected_title]
-    @contractor.user.userType = 'contractor'
+    @contractor = ContractorUser.new(params[:contractor_user])
+    @contractor.title = params[:selected_title]
+#    @contractor.user.type = 'ContractorUser'
 
     # Ts & Cs?
     @t_and_c = params[:t_and_c]

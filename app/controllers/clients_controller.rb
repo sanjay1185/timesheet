@@ -44,7 +44,7 @@ class ClientsController < ApplicationController
   def new_approver
 
     @client = Client.find(params[:id])
-    @user = User.new(params[:user])
+    @user = ApproverUser.new(params[:user])
     
   end
 
@@ -57,10 +57,10 @@ class ClientsController < ApplicationController
     @client = Client.find(params[:client_id])
 
     # create a user
-    @user = User.new(params[:user])
+    @user = ApproverUser.new(params[:user])
 
     # set the user type
-    @user.userType = 'approver'
+#    @user.type = 'ApproverUser'
 
     # automatically confirm the pwd
     @user.password_confirmation = @user.generatepassword(8)
@@ -119,7 +119,7 @@ class ClientsController < ApplicationController
       else
 
         # is the registered user an approver or not?
-        if !@usr.nil? && @usr.userType != 'approver'
+        if !@usr.nil? && @usr.type != 'ApproverUser'
 
           flash[:alert] = "This address is already in use by someone who is not an approver"
 

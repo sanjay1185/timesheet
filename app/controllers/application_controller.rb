@@ -90,8 +90,8 @@ class ApplicationController < ActionController::Base
       logger.debug("user #{current_user.full_name} does not have the #{role_required} role")
       
       session[:denied_url] = "#{SITE}#{request.request_uri}"
-      redirect_to("/agencies/#{session[:agencyId]}/denied") if current_user.userType == 'agency'
-      redirect_to("/approverdashboard/denied") if current_user.userType == 'approver'
+      redirect_to("/agencies/#{session[:agencyId]}/denied") if current_user.type == 'AgencyUser'
+      redirect_to("/approverdashboard/denied") if current_user.type == 'ApproverUser'
 
     end
     
@@ -115,12 +115,12 @@ class ApplicationController < ActionController::Base
   #----------------------------------------------------------------------------
   def check_type(required_user_type)
 
-    if current_user.userType != required_user_type
+    if current_user.type != required_user_type
 
       session[:denied_url] = "#{SITE}#{request.request_uri}"
-      redirect_to("/agencies/#{session[:agencyId]}/denied") if current_user.userType == 'agency'
-      redirect_to("/approverdashboard/denied") if current_user.userType == 'approver'
-      redirect_to("/contractors/#{current_user.id}/denied") if current_user.userType == 'contractor'
+      redirect_to("/agencies/#{session[:agencyId]}/denied") if current_user.type == 'AgencyUser'
+      redirect_to("/approverdashboard/denied") if current_user.type == 'ApproverUser'
+      redirect_to("/contractors/#{current_user.id}/denied") if current_user.type == 'ContractorUser'
 
     end
 

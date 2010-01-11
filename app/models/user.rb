@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   # Relationships
   #############################################################################
   belongs_to :agency
-  belongs_to :contractor
+#  belongs_to :contract
   has_many :approver_requests, :dependent => :destroy
   has_and_belongs_to_many :clients
   has_many :permissions

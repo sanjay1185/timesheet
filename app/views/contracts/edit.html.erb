@@ -75,7 +75,7 @@
               <br />
               <% form_tag :action => 'contractor_search', :id => @contract.id, :contracts_page => @contracts_page, :status => @status do %>
               <table class="with_margins" width="100%" cellpadding="0" cellspacing="0" align="center">
-                    <% if @contract.contractors.empty? %>
+                    <% if @contract.user.nil? %>
                       
                     <tr>
                         <td colspan="3">Last Name/Email: <%= text_field 'q', nil, :size => '26'  %>&nbsp;<%= submit_tag 'Search', :class => 'generalButton' %></td>
@@ -84,7 +84,7 @@
                     <% else %>
                      
                     <tr>
-                    	<td><img src="/images/user_48.png" alt="" style="vertical-align: bottom" class="small_icon" />&nbsp;<%= @contract.contractors[0].user.full_name %> (<%= @contract.contractors[0].user.email %>)</td><td style="text-align: right"><%= delete_link("Remove Temp?", "Removing this user will prevent them from adding or editing timesheets for this contract.<p>Do you wish to proceed?</p>", contractor_remove_client_contract_path(@client, @contract, :contractor_id => @contract.contractors[0].id), 300, @readonly, 'remove a contractor from a contract') if @canDelete == true%>
+                    	<td><img src="/images/user_48.png" alt="" style="vertical-align: bottom" class="small_icon" />&nbsp;<%= @contract.user.full_name %> (<%= @contract.user.email %>)</td><td style="text-align: right"><%= delete_link("Remove Temp?", "Removing this user will prevent them from adding or editing timesheets for this contract.<p>Do you wish to proceed?</p>", contractor_remove_client_contract_path(@client, @contract, :contractor_id => @contract.contractors[0].id), 300, @readonly, 'remove a contractor from a contract') if @canDelete == true%>
                     </tr>
                       
                     <% end %>
@@ -102,7 +102,7 @@
                     <tr>
                     	<td class="header row_border_right">Name</td><td style="padding-left:2px" class="header" colspan="2">Email</td>
                     </tr>
-                    <% if @contract.users.count == 0 %>
+                    <% if @contract.user == nil %>
                       <tr>
                         <td colspan="3">&nbsp;</td>
                       </tr>
@@ -110,10 +110,10 @@
                         <td colspan="3" style="text-align: center;">This contract has no approvers assigned<p>Timesheets will have to be submitted manually</p></td>
                       </tr>
                     <% else %>
-                      <% for approver in @contract.users do %>
-                      <tr><td class="row_border_bottom row_border_right"><%= approver.full_name %></td><td class="row_border_bottom"><%= approver.email %></td><td class="row_border_bottom" style="text-align:right"><%= delete_link_readonly(@readonly, "approvers", "Remove Approver?", "Removing this approver will prevent them from approving timesheets for this contract, although it will not delete them from the system.<p>Do you wish to proceed?</p>", remove_approver_client_contract_path(@client, @contract, :user_id => approver.id), 400) unless @disabled == true %></td></tr>
+                     
+                      <tr><td class="row_border_bottom row_border_right"><%= @contract.user.full_name %></td><td class="row_border_bottom"><%= @contract.user.email %></td><td class="row_border_bottom" style="text-align:right"><%= delete_link_readonly(@readonly, "approvers", "Remove Approver?", "Removing this approver will prevent them from approving timesheets for this contract, although it will not delete them from the system.<p>Do you wish to proceed?</p>", remove_approver_client_contract_path(@client, @contract, :user_id => @contract.user.id), 400) unless @disabled == true %></td></tr>
                         
-                      <% end %>
+                      
                     <% end %>
                     </table>
                </div>

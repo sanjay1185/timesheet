@@ -132,7 +132,7 @@ class ContractsController < ApplicationController
       
     else
 
-      @contractors = User.paginate :per_page => 26, :page => params[:page], :conditions => ["(lastName like ? or email = ?) and userType = 'contractor'", '%'+query.to_s+'%', '%'+query.to_s+'%'], :order => 'lastName'
+      @contractors = User.paginate :per_page => 26, :page => params[:page], :conditions => ["(lastName like ? or email = ?) and type = 'ContractorUser'", '%'+query.to_s+'%', '%'+query.to_s+'%'], :order => 'lastName'
       
     end
     

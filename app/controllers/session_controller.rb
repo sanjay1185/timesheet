@@ -105,12 +105,12 @@ private
   def do_redirection
 
     # where should each user be directed?
-    if self.current_user.userType.blank? && self.current_user.login == 'controller'
+    if self.current_user.type.blank? && self.current_user.login == 'controller'
 
       # admin person
       redirect_to('/admin')
 
-    elsif self.current_user.userType == "agency"
+    elsif self.current_user.type == "AgencyUser"
 
       session[:agencyId] = self.current_user.agency_id
       agency = Agency.find(self.current_user.agency_id)
@@ -125,12 +125,12 @@ private
 
       redirect_to(outstanding_agency_path(:id => self.current_user.agency_id))
 
-    elsif self.current_user.userType == "contractor"
+    elsif self.current_user.type == "ContractorUser"
 
       session[:contractorId] = self.current_user.contractor_id
       redirect_to(currenttimesheets_path)
 
-    elsif self.current_user.userType == "approver"
+    elsif self.current_user.type == "ApproverUser"
 
       redirect_to(approverdashboard_path)
 

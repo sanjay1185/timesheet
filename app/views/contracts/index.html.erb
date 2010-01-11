@@ -27,7 +27,7 @@
 
         <% for contract in @contracts %>
           <tr>
-            <% name = contract.contractors.length == 0 ? "&nbsp;" : contract.contractors[0].user.full_name %>
+            <% name = contract.user == nil ? "&nbsp;" : contract.user.full_name %>
             <td class="row_border_bottom row_border_right"><%= link_to contract.ref, edit_client_contract_path(@client, contract) + "?contracts_page=" + contracts_page  + "&status=" + @status %></td>
             <td class="row_border_bottom row_border_right"><%=h contract.startDate.to_s(:uk_date) %></td>
             <td class="row_border_bottom row_border_right"><%=h contract.endDate.to_s(:uk_date) %></td>
