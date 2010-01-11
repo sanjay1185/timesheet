@@ -72,7 +72,7 @@ class UsersController < ApplicationController
     if @user.save
       
       # add to approvers for client
-      @client.users << @user
+      @client.approver_users << @user
       render :action => 'create_approver_complete', :layout => 'blank'
 
     else
@@ -228,9 +228,9 @@ class UsersController < ApplicationController
     User.transaction do
 
       # if not already added... add
-      if !client.users.include?(user)
+      if !client.approver_users.include?(user)
 
-        client.users << user
+        client.approver_users << user
 
       end
 

@@ -4,10 +4,10 @@ class Contract < ActiveRecord::Base
   # Relationships
   #############################################################################
   belongs_to :client
-#  has_and_belongs_to_many :users
+  has_and_belongs_to_many :approver_users
   has_many :timesheets, :dependent => :destroy
-  has_one :user
-
+  belongs_to :contractor_user
+  
   #----------------------------------------------------------------------------
   # Custom finder for fetching rates so that Unpaid and Sickness are included
   #----------------------------------------------------------------------------
@@ -46,7 +46,7 @@ class Contract < ActiveRecord::Base
   accepts_nested_attributes_for :rates
   named_scope :descending, :order => "startDate DESC"
   attr_accessible :status, :rateType, :dayRate, :startDate, :ref, :position, :client_id, :client,
-                  :endDate, :margin, :rates_attributes, :calcChargeRateAsPAYE,
+                  :endDate, :margin, :rates_attributes, :calcChargeRateAsPAYE, 
                   :requireTimes, :requireFullWeek, :allowOvertime, :allowBankHolidays
 
   #############################################################################
@@ -289,7 +289,7 @@ class Contract < ActiveRecord::Base
       new_ts = self.timesheets.build
       new_ts.startDate = last_ts.nil? ? self.startDate : last_ts.startDate + 7
       new_ts.status = "DRAFT"
-      new_ts.contractor_id = self.contractors[0].id
+#      new_ts.contractor_id = self.contractors[0].id
       new_ts.rateType = self.rateType
       new_ts.userName = "System"
       rates_manager = RatesManager.new(self.id)

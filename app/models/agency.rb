@@ -151,10 +151,7 @@ class Agency < ActiveRecord::Base
       File.open(agency_logo_filename, 'wb') do |f|
         f.write(@agency_logo_data.read)
       end
-      @agency_logo_data = nil
-    end
-
-    # validates image size
+       # validates image size
     size = nil
     File.open(agency_logo_filename, 'rb') {|io| size = ImageSize.new(io).get_size }
     
@@ -166,5 +163,9 @@ class Agency < ActiveRecord::Base
       end
       raise "Invalid picture size. Must be <= #{MAX_IMAGE_WIDTH}x#{MAX_IMAGE_HEIGHT}" 
     end
+      @agency_logo_data = nil
+    end
+
+   
   end
 end

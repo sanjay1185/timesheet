@@ -98,7 +98,7 @@ namespace :clockoff do
     agency.save
     
     puts "*** Creating agency user jamesbrand ***"
-    james_brand = User.new(
+    james_brand = AgencyUser.new(
       { :login => 'jamesbrand',
         :email => 'james.brand@intura.co.uk',
         :title => 'Mr',
@@ -107,7 +107,6 @@ namespace :clockoff do
         :password => '123456',
         :agency_id => agency.id,
         :state => 'active',
-        :userType => 'agency',
         :phone => '020 7827 9323',
         :setup => true
       })
@@ -125,7 +124,7 @@ namespace :clockoff do
     james_brand.permissions << Permission.new(:role => rates_role)
 
     puts "*** Creating agency user alanbraine ***"
-    alan_braine = User.new(
+    alan_braine = AgencyUser.new(
       { :login => 'alanbraine',
         :email => 'alan.braine@intura.co.uk',
         :title => 'Mr',
@@ -134,7 +133,6 @@ namespace :clockoff do
         :password => '123456',
         :agency_id => agency.id,
         :state => 'active',
-        :userType => 'agency',
         :phone => '020 7827 9324',
         :setup => true
       })
@@ -153,7 +151,7 @@ namespace :clockoff do
     abn = Client.new(:agency => agency, :name => 'ABN Amro', :addr1 => "250 Bishopsgate", :city => 'London', :region => 'London', :postCode => 'EC1M 2TF', :externalClientRef => 'ABN250', :margin => 9.25, :invoicePeriod => 'WEEKLY')
     abn.save
     puts "......adding approver Mark Norris for ABN Amro"
-    mark_norris = User.new(
+    mark_norris = ApproverUser.new(
       { :login => 'marknorris',
         :email => 'mark.norris@intura.co.uk',
         :title => 'Mr',
@@ -161,17 +159,16 @@ namespace :clockoff do
         :lastName => 'Norris',
         :password => '123456',
         :state => 'active',
-        :userType => 'approver',
         :phone => '020 7719 7366',
         :setup => true
       })
     mark_norris.method(:encrypt_password)
     mark_norris.method(:make_password_reset_code)
     mark_norris.activate
-    abn.users << mark_norris
+    abn.approver_users << mark_norris
     
     puts "......adding approver Owen Peters for ABN Amro"
-    owen_peters = User.new(
+    owen_peters = ApproverUser.new(
       { :login => 'owenpeters',
         :email => 'owen.peters@intura.co.uk',
         :title => 'Mr',
@@ -179,14 +176,13 @@ namespace :clockoff do
         :lastName => 'Peters',
         :password => '123456',
         :state => 'active',
-        :userType => 'approver',
         :phone => '020 7719 7398',
         :setup => true
       })
     owen_peters.method(:encrypt_password)
     owen_peters.method(:make_password_reset_code)
     owen_peters.activate
-    abn.users << owen_peters
+    abn.approver_users << owen_peters
     
     puts "...ARX Media Ltd"
     arx = Client.new(:agency => agency, :name => 'ARX Media Ltd', :addr1 => "405 Chancery Lane", :city => 'London', :region => 'London', :postCode => 'WC2 8ND', :externalClientRef => 'ARX01', :margin => 12.5, :invoicePeriod => 'MONTHLY', :monthlyInvoicePeriodStartDay => 1)
@@ -196,7 +192,7 @@ namespace :clockoff do
     bortex.save
     
     puts "......adding approver Graham Bennett for Bortex Industries Ltd"
-    graham_bennett = User.new(
+    graham_bennett = ApproverUser.new(
       { :login => 'grahambennett',
         :email => 'graham.bennett@intura.co.uk',
         :title => 'Mr',
@@ -204,14 +200,13 @@ namespace :clockoff do
         :lastName => 'Bennett',
         :password => '123456',
         :state => 'active',
-        :userType => 'approver',
         :phone => '01523 736 288',
         :setup => true
       })
     graham_bennett.method(:encrypt_password)
     graham_bennett.method(:make_password_reset_code)
     graham_bennett.activate
-    bortex.users << graham_bennett
+    bortex.approver_users << graham_bennett
     
     puts "...Coral Trade Bathrooms"
     coral = Client.new(:agency => agency, :name => 'Coral Trade Bathrooms', :addr1 => "120 High Street", :city => 'Uxbridge', :region => 'Middlesex', :postCode => 'UB4 8SP', :externalClientRef => 'CORAL', :margin => 10, :invoicePeriod => 'WEEKLY')
@@ -276,7 +271,7 @@ namespace :clockoff do
     
     puts '*** Creating contractors ***'
     puts '...Charles Daly'
-    charles_daly = User.new(
+    charles_daly = ContractorUser.new(
       { :login => 'charlesdaly',
         :email => 'charles.daly@intura.co.uk',
         :title => 'Mr',
@@ -284,7 +279,6 @@ namespace :clockoff do
         :lastName => 'Daly',
         :password => '123456',
         :state => 'active',
-        :userType => 'contractor',
         :phone => '020 8876 2233',
         :addr1 => '70 Frensham Close',
         :city => 'Southall',
@@ -296,19 +290,13 @@ namespace :clockoff do
     charles_daly.method(:encrypt_password)
     charles_daly.method(:make_password_reset_code)
     
-    charles_daly_contractor = Contractor.new()
-    
-    charles_daly_contractor.companyName = 'BlueBox Software Ltd'
-    charles_daly_contractor.vatNumber = '977 6534 187'
-    charles_daly_contractor.companyNumber = '086548277'
-    charles_daly_contractor.save(false)
-    charles_daly.contractor_id = charles_daly_contractor.id
+    charles_daly.companyName = 'BlueBox Software Ltd'
+    charles_daly.vatNumber = '977 6534 187'
+    charles_daly.companyNumber = '086548277'
     charles_daly.activate
-    charles_daly_contractor.user_id = charles_daly.id
-    charles_daly_contractor.save(false)
     
     puts '...Mary Smith'
-    mary_smith = User.new(
+    mary_smith = ContractorUser.new(
       { :login => 'marysmith',
         :email => 'mary.smith@intura.co.uk',
         :title => 'Miss',
@@ -316,7 +304,6 @@ namespace :clockoff do
         :lastName => 'Smith',
         :password => '123456',
         :state => 'active',
-        :userType => 'contractor',
         :phone => '01628 132 967',
         :addr1 => '100 Whitton Road',
         :city => 'Maidenhead',
@@ -328,16 +315,10 @@ namespace :clockoff do
     mary_smith.method(:encrypt_password)
     mary_smith.method(:make_password_reset_code)
     
-    mary_smith_contractor = Contractor.new()
-    
-    mary_smith_contractor.save(false)
-    mary_smith.contractor_id = mary_smith_contractor.id
     mary_smith.activate
-    mary_smith_contractor.user_id = mary_smith.id
-    mary_smith_contractor.save(false)
     
     puts '...Terry Vance'
-    terry_vance = User.new(
+    terry_vance = ContractorUser.new(
       { :login => 'terryvance',
         :email => 'terry.vance@intura.co.uk',
         :title => 'Mr',
@@ -345,7 +326,6 @@ namespace :clockoff do
         :lastName => 'Vance',
         :password => '123456',
         :state => 'active',
-        :userType => 'contractor',
         :phone => '020 8866 1112',
         :addr1 => '12a Diamond Road',
         :city => 'Harrow',
@@ -356,13 +336,7 @@ namespace :clockoff do
 
     terry_vance.method(:encrypt_password)
     terry_vance.method(:make_password_reset_code)
-    
-    terry_vance_contractor = Contractor.new()
-    terry_vance_contractor.save(false)
-    terry_vance.contractor_id = terry_vance_contractor.id
     terry_vance.activate
-    terry_vance_contractor.user_id = terry_vance.id
-    terry_vance_contractor.save(false)
     
     puts "*** Creating contract (ABN17872) for ABN Amro ***"
     puts "...Terry Vance, 8 Weeks, Daily Paid, 420"
@@ -376,10 +350,12 @@ namespace :clockoff do
         :rateType => 'Day',
       })
     abn_contract1_std = Rate.new({:name => 'Standard Rate', :payRate => 420, :chargeRate => 460.95, :comment => 'Standard rate', :default => true, :active => true, :rateType => 'Day', :category => 'Standard' })
-    abn_contract1.contractors << terry_vance_contractor
+    abn_contract1.contractor_user = terry_vance
     abn_contract1.rates << abn_contract1_std
     abn_contract1.status = "ACTIVE" # todo: BH: need to change this
     abn_contract1.save(false)
+    
+    abn_contract1.approver_users << owen_peters
     
     puts "*** Creating timesheets for Terry Vance (ABN17872) ***"
     abn_c1_ts1 = abn_contract1.create_next_timesheet

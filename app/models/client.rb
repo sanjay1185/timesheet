@@ -5,7 +5,7 @@ class Client < ActiveRecord::Base
   #############################################################################
   belongs_to :agency
   has_many :contracts, :dependent => :destroy
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :approver_users
   has_many :invoices, :dependent => :destroy
   has_many :approver_requests, :dependent => :destroy
   
@@ -42,7 +42,7 @@ class Client < ActiveRecord::Base
 
     end
     
-    paginate :per_page => per_page, :page => page, :conditions => conditions, :include => [:users, :contracts], :order => order
+    paginate :per_page => per_page, :page => page, :conditions => conditions, :order => order
 
   end
 

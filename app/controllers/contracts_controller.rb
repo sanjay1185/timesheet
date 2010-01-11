@@ -55,7 +55,7 @@ class ContractsController < ApplicationController
     @approver = User.find(params[:user_id])
 
     # add the approver to the list
-    @contract.users << @approver
+    @contract.approver_users << @approver
 
     # save
     if @contract.save
@@ -104,7 +104,7 @@ class ContractsController < ApplicationController
     if @contract.is_approver?(@approver)
 
       # delete them from the list
-      @contract.users.delete(@approver)
+      @contract.approver_users.delete(@approver)
       
     end
     

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100111045819) do
+ActiveRecord::Schema.define(:version => 20100111214634) do
 
   create_table "agencies", :force => true do |t|
     t.string   "name",              :limit => 100,                                                  :null => false
@@ -71,9 +71,14 @@ ActiveRecord::Schema.define(:version => 20100111045819) do
 
   add_index "approver_requests", ["user_id", "client_id"], :name => "index_approver_requests_on_user_id_and_client_id", :unique => true
 
-  create_table "approvers", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "approver_users_clients", :id => false, :force => true do |t|
+    t.integer "approver_user_id", :null => false
+    t.integer "client_id",        :null => false
+  end
+
+  create_table "approver_users_contracts", :id => false, :force => true do |t|
+    t.integer "approver_user_id", :null => false
+    t.integer "contract_id",      :null => false
   end
 
   create_table "bank_holidays", :force => true do |t|
@@ -105,33 +110,6 @@ ActiveRecord::Schema.define(:version => 20100111045819) do
   add_index "clients", ["city"], :name => "index_clients_on_city"
   add_index "clients", ["name"], :name => "index_clients_on_name"
 
-  create_table "clients_users", :id => false, :force => true do |t|
-    t.integer "client_id", :null => false
-    t.integer "user_id",   :null => false
-  end
-
-  add_index "clients_users", ["client_id", "user_id"], :name => "index_clients_users_on_client_id_and_user_id", :unique => true
-
-  create_table "contractors", :force => true do |t|
-    t.string   "companyName",   :limit => 100
-    t.string   "vatNumber",     :limit => 30
-    t.string   "companyNumber", :limit => 30
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "contractors", ["companyName"], :name => "index_contractors_on_companyName"
-  add_index "contractors", ["user_id"], :name => "index_contractors_on_user_id"
-
-  create_table "contractors_contracts", :id => false, :force => true do |t|
-    t.integer "contractor_id",   :null => false
-    t.integer "contract_id",     :null => false
-    t.date    "terminationDate"
-  end
-
-  add_index "contractors_contracts", ["contractor_id", "contract_id"], :name => "index_contractors_contracts_on_contractor_id_and_contract_id", :unique => true
-
   create_table "contracts", :force => true do |t|
     t.date     "startDate",                                                                                :null => false
     t.date     "endDate",                                                                                  :null => false
@@ -148,20 +126,13 @@ ActiveRecord::Schema.define(:version => 20100111045819) do
     t.boolean  "calcChargeRateAsPAYE",                                             :default => true,       :null => false
     t.boolean  "allowOvertime",                                                    :default => false,      :null => false
     t.boolean  "allowBankHolidays",                                                :default => false,      :null => false
+    t.integer  "contractor_user_id"
   end
 
   add_index "contracts", ["client_id"], :name => "index_contracts_on_client_id"
   add_index "contracts", ["endDate"], :name => "index_contracts_on_endDate"
   add_index "contracts", ["ref"], :name => "index_contracts_on_ref"
   add_index "contracts", ["startDate"], :name => "index_contracts_on_startDate"
-
-  create_table "contracts_users", :id => false, :force => true do |t|
-    t.integer "contract_id",                    :null => false
-    t.integer "user_id",                        :null => false
-    t.boolean "isDefault",   :default => false, :null => false
-  end
-
-  add_index "contracts_users", ["contract_id", "user_id"], :name => "index_contracts_users_on_contract_id_and_user_id", :unique => true
 
   create_table "invoices", :force => true do |t|
     t.float    "netAmount",                                                                      :null => false
@@ -316,7 +287,6 @@ ActiveRecord::Schema.define(:version => 20100111045819) do
     t.string   "totalHours",           :limit => 6
     t.boolean  "invoiced",                                                         :default => false
     t.string   "status",               :limit => 20,                               :default => "DRAFT", :null => false
-    t.integer  "contractor_id",                                                                         :null => false
     t.integer  "contract_id",                                                                           :null => false
     t.string   "note"
     t.datetime "created_at"
@@ -329,7 +299,6 @@ ActiveRecord::Schema.define(:version => 20100111045819) do
   end
 
   add_index "timesheets", ["contract_id"], :name => "index_timesheets_on_contract_id"
-  add_index "timesheets", ["contractor_id"], :name => "index_timesheets_on_contractor_id"
   add_index "timesheets", ["startDate"], :name => "index_timesheets_on_startDate"
 
   create_table "users", :force => true do |t|
@@ -354,14 +323,16 @@ ActiveRecord::Schema.define(:version => 20100111045819) do
     t.string   "city",                      :limit => 75
     t.string   "region",                    :limit => 75
     t.string   "postCode",                  :limit => 15
-    t.string   "userType"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "contractor_id"
     t.integer  "agency_id"
     t.string   "title",                     :limit => 5
     t.string   "type"
-    t.integer  "contract_id",                                                     :null => false
+    t.string   "companyName"
+    t.string   "vatNumber"
+    t.string   "companyNumber"
+    t.integer  "contract_id"
   end
 
   add_index "users", ["agency_id"], :name => "index_users_on_agency_id"

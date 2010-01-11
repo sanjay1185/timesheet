@@ -6,7 +6,7 @@ class Timesheet < ActiveRecord::Base
   # Relationships
   #############################################################################
   belongs_to :contract
-  belongs_to :contractor
+#  belongs_to :contractor
   has_and_belongs_to_many :invoices
   has_many :timesheet_entries, :dependent => :destroy, :order => "dateValue asc, manual"
 
@@ -23,8 +23,7 @@ class Timesheet < ActiveRecord::Base
   # Other attributes
   #############################################################################
   accepts_nested_attributes_for :timesheet_entries
-  attr_accessible :rateType, :startDate, :contract_id, :note, :contractor_id,
-                  :timesheet_entries_attributes, :status, :userName
+  attr_accessible :rateType, :startDate, :contract_id, :note, :timesheet_entries_attributes, :status, :userName
   attr_accessor :resubmit
 
   #############################################################################
@@ -354,7 +353,7 @@ class Timesheet < ActiveRecord::Base
   def self.find_all_by_agency(page, per_page, agency, status, order)
 
     conditions = []
-    conditions.add_condition!(["contracts.id = timesheets.contract_id and timesheets.contractor_id = contractors.id and contractors.user_id = users.id and clients.id = contracts.client_id and clients.agency_id = ?", agency.id])
+    conditions.add_condition!(["contracts.id = timesheets.contract_id and clients.id = contracts.client_id and clients.agency_id = ?", agency.id])
     
     if status != 'ALL'
 
@@ -380,12 +379,12 @@ class Timesheet < ActiveRecord::Base
     when 'totalDays' then 'timesheets.totalDays'
     when 'totalHours' then 'timesheets.totalHours'
     when 'ref' then 'contracts.ref'
-    when 'contractor' then 'users.firstName'
+    when 'contractor' then 'contractor_users.firstName'
     end
 
     ordr += ' ' + o[1]
 
-    paginate(:per_page => per_page, :page => page, :conditions => conditions, :joins => ", contracts, clients, agencies, contractors, users", :order => ordr).uniq
+    paginate(:per_page => per_page, :page => page, :conditions => conditions, :joins => ", contracts, clients, agencies", :order => ordr).uniq
     
   end
 

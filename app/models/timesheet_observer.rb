@@ -9,7 +9,7 @@ class TimesheetObserver < ActiveRecord::Observer
     if timesheet.status == 'SUBMITTED'
       
       #RAILS_DEFAULT_LOGGER.info "\n *** IN after_save \n"
-      for approver in timesheet.contract.users do
+      for approver in timesheet.contract.approver_users do
 
         # send email to approver
         TimesheetMailer.deliver_send_for_approval(timesheet, approver)

@@ -124,7 +124,7 @@ class TimesheetsController < ApplicationController
     # create the rates manager & set contract & get approvers
     rates_manager = RatesManager.new(@contractId)
     @contract = rates_manager.contract
-    @approvers = @contract.users
+    @approvers = @contract.approver_users
     
     # get the agency
     @agency = @contract.client.agency
@@ -133,7 +133,7 @@ class TimesheetsController < ApplicationController
     @input_section_colspan = @contract.rateType == 'Day' ? 7 : 6
     
     # disable submit?
-    set_submit_button(@contract.users.length)
+    set_submit_button(@contract.approver_users.length)
     
     # create a timesheet
     @timesheet = @contractor.timesheets.build
@@ -260,10 +260,10 @@ class TimesheetsController < ApplicationController
     # create the rates manager & set contract & get approvers
     rates_manager = RatesManager.new(@timesheet.contract.id)
     @contract = rates_manager.contract
-    @approvers = @contract.users
+    @approvers = @contract.approver_users
     
     #disable submit?
-    set_submit_button(@contract.users.length)
+    set_submit_button(@contract.approver_users.length)
     
     # define the colspan
     @total_colspan = @contract.rateType == 'Day' ? 12 : 11
@@ -374,14 +374,14 @@ class TimesheetsController < ApplicationController
     @agency = @contract.client.agency
     
     # get the approvers
-    @approvers = @contract.users
+    @approvers = @contract.approver_users
     
     # set the col span
     @total_colspan = @contract.rateType == 'Day' ? 11 : 10
     @input_section_colspan = @total_colspan - 4
     
     # disable submit?
-    set_submit_button(@contract.users.length)
+    set_submit_button(@contract.approver_users.length)
     
     # set the rates up
     @day_rates = rates_manager.get_valid_rates_by_type(@timesheet.startDate, @timesheet.startDate + 6, 'Day').collect {|r| [ r.name, r.id ] }
@@ -512,7 +512,7 @@ class TimesheetsController < ApplicationController
     rates_manager = RatesManager.new(@contract.id)
     
     # get the approvers
-    @approvers = @contract.users
+    @approvers = @contract.approver_users
     
     @notes = TimesheetHistory.get_all_notes(@timesheet.id)
     
@@ -524,7 +524,7 @@ class TimesheetsController < ApplicationController
     total_days = 0
     
     # disable submit?
-    set_submit_button(@contract.users.length)
+    set_submit_button(@contract.approver_users.length)
     
     contract_complete = false
     

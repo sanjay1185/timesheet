@@ -32,6 +32,11 @@ Rails::Initializer.run do |config|
 
 end
 
+
+if "irb" == $0
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+end
+
 ExceptionNotifier.exception_recipients = %w(ben.hinton@intura.co.uk ben.hinton@live.com)
 ExceptionNotifier.sender_address =  %("ClockOff.com Admin" <admin@clockoff.com>)
 

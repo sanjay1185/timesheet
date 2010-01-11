@@ -117,10 +117,10 @@
           <div class="padder"><table width="100%" align="center" cellpadding="0" cellspacing="0">
               <tr><td class="header" colspan="2">Approvers</td></tr>
               <tr><td colspan="2">&nbsp;</td></tr>
-              <% if @contract.users.length == 0 %>
+              <% if @contract.approver_users.length == 0 %>
                 <tr><td colspan="2"><i>No approvers assigned</i></td></tr>
               <% else %>
-                <% for approver in @contract.users do %>
+                <% for approver in @contract.approver_users do %>
                     <tr><td style="text-indent:8px"><%= approver.full_name %></td><td><a href="mailto:<%= approver.email %>"><%= approver.email %></a></td></tr>
                   <% end %>
                 <% end %>

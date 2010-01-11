@@ -5,7 +5,7 @@ class TimesheetMailer < ActionMailer::Base
   #----------------------------------------------------------------------------
   def send_for_approval(timesheet, approver)
     setup_email
-    subject 'Timesheet Approval Required for ' + timesheet.contractor.user.full_name
+    subject 'Timesheet Approval Required for ' + timesheet.contract.contractor_user.full_name
     recipients approver.email
     body[:timesheet] = timesheet
     body[:approver] = approver
@@ -17,9 +17,9 @@ class TimesheetMailer < ActionMailer::Base
   def resubmit_message(timesheet)
     setup_email
     subject "Please resubmit your timesheet for the week #{timesheet.startDate.to_formatted_s(:uk_date)} - #{(timesheet.startDate + 6).to_formatted_s(:uk_date)}"
-    recipients timesheet.contractor.user.email
+    recipients timesheet.contract.contractor_user.email
     body[:timesheet] = timesheet
-    body[:user] = timesheet.contractor.user
+    body[:user] = timesheet.contract.contractor_user
   end
 
   #----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ class TimesheetMailer < ActionMailer::Base
   def send_response_to_contractor(timesheet)
     setup_email
     subject 'Your timesheet has been ' + timesheet.status.downcase
-    recipients timesheet.contractor.user.email
+    recipients timesheet.contract.contractor_user.email
     body[:url] = "#{SITE}"
     body[:timesheet] = timesheet
   end
@@ -38,10 +38,10 @@ class TimesheetMailer < ActionMailer::Base
   #----------------------------------------------------------------------------
   def send_rejected_to_approvers(timesheet)
     setup_email
-    subject "Timesheet for #{timesheet.contractor.user.full_name} has been rejected"
+    subject "Timesheet for #{timesheet.contract.contractor_user.full_name} has been rejected"
 
     approvers = []
-    for approver in timesheet.contract.users
+    for approver in timesheet.contract.approver_users
        approvers << approver.email
     end
 

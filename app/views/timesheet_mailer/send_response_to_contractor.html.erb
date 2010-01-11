@@ -1,4 +1,4 @@
-Dear <%= @timesheet.contractor.user.last_name_with_title %>,
+Dear <%= @timesheet.contract.contractor_user.last_name_with_title %>,
 
 <p>
   Your timesheet for the week <%= @timesheet.startDate.to_formatted_s(:uk_date) %> - <%= (@timesheet.startDate+7).to_formatted_s(:uk_date) %>

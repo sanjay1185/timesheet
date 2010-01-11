@@ -39,7 +39,7 @@
                     <%= contract.ref %>
                 </td>
                 <td class="row_border_right">
-                    <%= contract.contractors[0].user.full_name %>
+                    <%= contract.contractor_user.full_name %>
                 </td>
                 <td align="center">
                     <%= link_to(contract.timesheet_count, contract_timesheets_path(contract)) %>

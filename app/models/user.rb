@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   # Relationships
   #############################################################################
   belongs_to :agency
-#  belongs_to :contract
   has_many :approver_requests, :dependent => :destroy
   has_and_belongs_to_many :clients
   has_many :permissions
@@ -17,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :email_confirmation, :only_basic_validation, :setup
   attr_accessible :login, :email, :password, :password_confirmation, :password_reset_code,
                   :only_basic_validation, :contractor, :agency_id, :contractor_id,
-                  :userType, :admin, :allowEmailApproval, :addr1, :city,
+                  :type, :admin, :allowEmailApproval, :addr1, :city,
                   :title, :lastName, :addr2, :region, :postCode, :addr3, :firstName,
                   :mobile, :phone, :email_confirmation
 
@@ -442,7 +441,7 @@ class User < ActiveRecord::Base
             INNER JOIN contractors_contracts ON contractors_contracts.contractor_id = u.contractor_id
             INNER JOIN contracts ON contracts.id = contractors_contracts.contract_id
             INNER JOIN clients ON clients.id = contracts.client_id
-            WHERE clients.agency_id = #{agencyId.to_s} and u.userType = 'contractor'"
+            WHERE clients.agency_id = #{agencyId.to_s} and u.type = 'ContractorUser'"
 
     if status.nil?
 

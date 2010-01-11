@@ -78,7 +78,7 @@ class ClientsController < ApplicationController
     if @user.save
 
       # success! add to client list of approvers
-      @client.users << @user
+      @client.approver_users << @user
       redirect_to edit_client_path(@client)
 
     else
@@ -111,7 +111,7 @@ class ClientsController < ApplicationController
       @usr = User.find_by_email(@email)
 
       # check if the user is already an approver
-      if @client.users.include?(@usr)
+      if @client.approver_users.include?(@usr)
 
         # doest matter if the @usr is nil!
         flash[:alert] = "This user is already set as an approver"
@@ -198,7 +198,7 @@ class ClientsController < ApplicationController
     end
 
     # get the list of approvers again
-    @approvers = @client.users.paginate(:page => params[:page], :per_page => 20)
+    @approvers = @client.approver_users.paginate(:page => params[:page], :per_page => 20)
     
     render :action => "edit"
     
@@ -225,10 +225,10 @@ class ClientsController < ApplicationController
 
     # are we allowed to delete the client?
     # the rule is that if we have contracts defined or approvers added then NO
-    @can_delete = @client.contracts.length == 0 && @client.users.length == 0
+    @can_delete = @client.contracts.length == 0 && @client.approver_users.length == 0
     
     # fetch the approver
-    @approvers = @client.users.paginate(:page => params[:page], :per_page => 13)
+    @approvers = @client.approver_users.paginate(:page => params[:page], :per_page => 13)
 
   end
 
@@ -296,7 +296,7 @@ class ClientsController < ApplicationController
     @client.invoicePeriod = params[:period]
 
     # get the approvers
-    @approvers = @client.users.paginate(:page => params[:page], :per_page => 20)
+    @approvers = @client.approver_users.paginate(:page => params[:page], :per_page => 20)
     
     # save it
     if @client.save

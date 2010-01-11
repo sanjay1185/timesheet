@@ -6,7 +6,7 @@ Dear <%= @approver.last_name_with_title %>,
 
 <p>
   <table cellpadding="1" cellspacing="0" style="margin: 0px 0px 0px 0px;">
-    <tr><td>Contractor</td><td>:</td><td><%= @timesheet.contractor.user.full_name %></td></tr>
+    <tr><td>Contractor</td><td>:</td><td><%= @timesheet.contract.contractor_user.full_name %></td></tr>
     <tr><td>Contract Ref</td><td>:</td><td><%= @timesheet.contract.ref %></td></tr>
     <tr><td>StartDate</td><td>:</td><td><%= @timesheet.startDate.to_formatted_s(:uk_date_with_day) %></td></tr>
     <tr><td>EndDate</td><td>:</td><td><%= (@timesheet.startDate + 6).to_formatted_s(:uk_date_with_day) %></td></tr>
