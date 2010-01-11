@@ -699,11 +699,11 @@ class TimesheetsController < ApplicationController
       
     else
       
-      if current_user.userType == 'agency'
+      if current_user.type == 'AgencyUser'
         
         "agencydashboard"
         
-      elsif current_user.userType == 'contractor'
+      elsif current_user.type == 'ContractorUser'
         
         "contractordashboard"
         

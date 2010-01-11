@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091015112852) do
+ActiveRecord::Schema.define(:version => 20100111045819) do
 
   create_table "agencies", :force => true do |t|
     t.string   "name",              :limit => 100,                                                  :null => false
@@ -70,6 +70,11 @@ ActiveRecord::Schema.define(:version => 20091015112852) do
   end
 
   add_index "approver_requests", ["user_id", "client_id"], :name => "index_approver_requests_on_user_id_and_client_id", :unique => true
+
+  create_table "approvers", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "bank_holidays", :force => true do |t|
     t.date     "holidayDate",              :null => false
@@ -355,6 +360,8 @@ ActiveRecord::Schema.define(:version => 20091015112852) do
     t.integer  "contractor_id"
     t.integer  "agency_id"
     t.string   "title",                     :limit => 5
+    t.string   "type"
+    t.integer  "contract_id",                                                     :null => false
   end
 
   add_index "users", ["agency_id"], :name => "index_users_on_agency_id"

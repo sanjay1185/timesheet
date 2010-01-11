@@ -1,0 +1,2 @@
+class ApproverUser < User
+end

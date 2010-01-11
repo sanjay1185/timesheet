@@ -496,7 +496,7 @@ class AgenciesController < ApplicationController
     
     # set the agency id & type
     @user.agency_id = session[:agencyId]
-    @user.userType = 'agency'
+    @user.type = 'AgencyUser'
     
     # set the title & pwd & email
     @user.title = params[:selected_title]
@@ -908,7 +908,7 @@ class AgenciesController < ApplicationController
           # setup the user
           @user.title = params[:selected_title]
           @user.agency_id = @agency.id
-          @user.userType = 'agency'
+          @user.type = 'AgencyUser'
           @user.only_basic_validation = true
           
           # save the user

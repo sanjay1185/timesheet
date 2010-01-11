@@ -4,9 +4,9 @@ class Contract < ActiveRecord::Base
   # Relationships
   #############################################################################
   belongs_to :client
-  has_and_belongs_to_many :users
+#  has_and_belongs_to_many :users
   has_many :timesheets, :dependent => :destroy
-  has_and_belongs_to_many :contractors
+  has_one :user
 
   #----------------------------------------------------------------------------
   # Custom finder for fetching rates so that Unpaid and Sickness are included
