@@ -32,7 +32,7 @@
     <% end %>
     <td class="row_border_bottom row_border_right"><%= (timesheet.startDate + 6).to_formatted_s(:uk_date) %></td>
     <td class="row_border_bottom row_border_right"><%= timesheet.contract.ref %></td>
-    <td class="row_border_bottom row_border_right"><%= timesheet.contractor.user.full_name %></td>
+    <td class="row_border_bottom row_border_right"><%= timesheet.contract.contractor_user.full_name %></td>
 	<td class="row_border_bottom row_border_right"><%= timesheet.totalDays.blank? ? "&nbsp;" : timesheet.totalDays %></td>
     <td class="row_border_bottom row_border_right"><%= timesheet.totalHours.blank? ? "&nbsp;" : timesheet.totalHours %></td>
     <td class="row_border_bottom <%= timesheet.status.downcase %>"><%= timesheet.status %></td>

@@ -187,7 +187,7 @@ class ClientsController < ApplicationController
     Client.transaction do
 
       # delete the user
-      @client.users.delete(@user)
+      @client.approver_users.delete(@user)
     
       # delete any requests for this user and client
       ApproverRequest.delete_by_client(@client.id, @user.id)

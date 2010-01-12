@@ -2,7 +2,7 @@
 <%= show_notice(flash[:notice]) %>
 
 <% left_header = "#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{fast_link(@client.name, 'clients/edit/'+ @client.id.to_s)}" %>
-<% left_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> Edit Contract (#{@contract.ref})" %>
+<%# left_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> Edit Contract (#{@contract.ref})" %>
 <% view_timesheets = "#{link_to('View Timesheets', contract_timesheets_path(@contract))}&nbsp;|&nbsp;" if @contract.timesheets.length > 0 %>
 
 <div id="nav-bar-box">

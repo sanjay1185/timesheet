@@ -247,7 +247,8 @@ class Contract < ActiveRecord::Base
   # check whether the user is already a worker
   #----------------------------------------------------------------------------
   def is_contractor?(user)
-    self.contractors.include?(user)
+#    self.contractors.include?(user)
+    self.contractor_user=user
   end
 
   #----------------------------------------------------------------------------

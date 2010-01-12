@@ -32,7 +32,7 @@
               <td class="row_border_bottom"><%= check_box_tag "ids[]", timesheet.id %></td>
               <td class="row_border_bottom row_border_right"><a href="<%= url_for :controller => 'approverdashboard', :action => 'view_timesheet', :timesheet_id => timesheet.id %>"><%= timesheet.startDate.to_formatted_s(:uk_date) %></a></td>
               <td class="row_border_bottom row_border_right"><%=h (timesheet.startDate+7).to_formatted_s(:uk_date) %></td>
-              <td class="row_border_bottom row_border_right"><%=h timesheet.contractor.user.full_name %></td>
+              <td class="row_border_bottom row_border_right"><%=h timesheet.contract.contractor_user.full_name %></td>
               <td class="row_border_bottom row_border_right"><%=h timesheet.contract.ref %></td>
               <td class="row_border_bottom row_border_right"><%=h timesheet.totalHours %></td>
               <td class="row_border_bottom row_border_right"><%=h timesheet.updated_at.to_formatted_s(:date_time24) %></td>

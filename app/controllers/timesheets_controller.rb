@@ -226,7 +226,7 @@ class TimesheetsController < ApplicationController
   def list_current_for_contractor
     
     # get the contractor
-    @contractor = current_user.contractor
+    @contractor = ContractorUser.find(current_user.id)
     
     # get the date period
     @selected_date_period = params[:date_period].nil? ? '1' : params[:date_period]
@@ -241,9 +241,10 @@ class TimesheetsController < ApplicationController
     @timesheets = Timesheet.current_for_contractor(@contractor, @selected_timesheet_status, @selected_date_period, params[:page], 10)
     
     # get the current contracts (so we know whether to add a 'create timesheet' button or not)
-    @contracts = @contractor.current_contracts
+#    @contracts = @contractor.current_contracts
+@contracts = Contract.find(:all,:conditions=>["contractor_user_id = ?",@contractor.id])
     @contractID = nil
-    
+    render :layout =>'contractordashboard'
   end
   
   #----------------------------------------------------------------------------

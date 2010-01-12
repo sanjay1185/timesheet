@@ -123,9 +123,9 @@ class Client < ActiveRecord::Base
   #----------------------------------------------------------------------------
   def remove_approver_from_contracts(user)
 
-    self.connection.execute("delete contracts_users from contracts_users \
-      inner join contracts on contracts.id = contracts_users.contract_id \
-      where contracts.client_id = #{id.to_s} and contracts_users.user_id = #{user.id.to_s}")
+    self.connection.execute("delete users from users \
+      inner join contracts on contracts.id = users.contract_id \
+      where contracts.client_id = #{id.to_s} and users.id = #{user.id.to_s}")
 
   end
 

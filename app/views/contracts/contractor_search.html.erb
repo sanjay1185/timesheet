@@ -32,7 +32,7 @@
             <% for user in @contractors %>
             <tr>
                 <td class="row_border_bottom">
-                    <%= link_to image_tag('/images/add_16.gif', :alt => 'Add'), contractor_add_client_contract_path(@client, @contract, :contractor_id => user.contractor.id), :class => 'image' %>
+                    <%= link_to image_tag('/images/add_16.gif', :alt => 'Add'), contractor_add_client_contract_path(@client, @contract, :contractor_id => user.id), :class => 'image' %>
                 </td>
                 <td class="row_border_bottom row_border_right">
                     <%= user.firstName %>

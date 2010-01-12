@@ -6,7 +6,7 @@ class Timesheet < ActiveRecord::Base
   # Relationships
   #############################################################################
   belongs_to :contract
-#  belongs_to :contractor
+  belongs_to :contractor_user
   has_and_belongs_to_many :invoices
   has_many :timesheet_entries, :dependent => :destroy, :order => "dateValue asc, manual"
 
@@ -393,9 +393,9 @@ class Timesheet < ActiveRecord::Base
   #----------------------------------------------------------------------------
   def self.requiring_approval(approver, page, per_page)
 
-    conditions_string = "contracts_users.contract_id=timesheets.contract_id and contracts_users.user_id=? and timesheets.status in ('SUBMITTED', 'REJECTED')"
+    conditions_string = "users.contract_id=timesheets.contract_id and users.id=? and timesheets.status in ('SUBMITTED', 'REJECTED')"
 
-    paginate :page => page, :per_page => per_page, :conditions => [ conditions_string, approver.id ], :joins => ', contracts_users', :order => 'startDate ASC'
+    paginate :page => page, :per_page => per_page, :conditions => [ conditions_string, approver.id ], :joins => ', users', :order => 'startDate ASC'
 
   end
 
@@ -435,7 +435,7 @@ class Timesheet < ActiveRecord::Base
 
     end
 
-    conditions_string = "status" + filter + "and contractor_id = ? and timesheets.startDate >= ?"
+    conditions_string = "status" + filter + "and id = ? and timesheets.startDate >= ?"
     
     paginate(:per_page => per_page, :page => page, :conditions => [conditions_string, contractor.id,  Date.today - date_period.to_i.months], :order => 'timesheets.startDate').uniq
 

@@ -150,15 +150,12 @@ class ContractsController < ApplicationController
     @contract = Contract.find(params[:id])
 
     # get the contractor
-    @contractor = Contractor.find(params[:contractor_id])
+    @contractor = ContractorUser.find(params[:contractor_id])
 
     # if the contractor is not already added, add!
-    unless @contract.contractors.include?(@contractor)
 
-      @contract.contractors << @contractor
-
-    end
-
+      @contract.contractor_user=@contractor
+      @contract.save!
     redirect_to edit_client_contract_path(@client, @contract, :contracts_page => @contracts_page, :status => @status)
 
   end
@@ -175,12 +172,13 @@ class ContractsController < ApplicationController
     @contract = Contract.find(params[:id])
 
     # get the contractor
-    @contractor = Contractor.find(params[:contractor_id])
+    @contractor = ContractorUser.find(params[:contractor_id])
 
     # remove the contractor
     if @contract.is_contractor?(@contractor)
 
-      @contract.contractors.delete(@contractor)
+      @contract.contractor_user=nil
+      @contract.save
       
     end
     

@@ -5,7 +5,7 @@ class ContractorUser < User
   #############################################################################
 
   has_many :timesheets
-  has_many :contracts
+  has_one :contracts
   
   #############################################################################
   # Other attributes
@@ -29,7 +29,7 @@ class ContractorUser < User
   #----------------------------------------------------------------------------
   def current_contracts
 
-    self.contracts.select { |contract| contract.status != 'COMPLETE' }
+    self.contract.select { |contract| contract.status != 'COMPLETE' }
 
   end
 

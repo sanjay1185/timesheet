@@ -33,7 +33,7 @@
      "> Change Password</a></p>
    </div><% if @contractor %>
    <div id="new_password" style="display:none">
-     <% form_for :user, @contractor.user , :url => {:controller => 'users', :action => "change_password"} do |form| %>
+     <% form_for :user, @contractor , :url => {:controller => 'users', :action => "change_password"} do |form| %>
       <div class="with_margins">
        <table width="100%" align="center" cellspacing="0" cellpadding="0">
         <tr>
