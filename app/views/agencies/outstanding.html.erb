@@ -1,65 +1,122 @@
-<% form_tag(outstanding_agency_path(@agency), :method => 'get', :style => 'margin: 0px 0px 0px 0px' ) do %>
-  <%= show_errors('An error occurred...',flash[:alert]) %>
-  <%= show_notice(flash[:notice]) %>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">Dashboard</h1>
+        </div>
+        <div class="innercol">
 
-  <div id="nav-bar-box">
-    <%= two_column_nav_bar_layout2("Outstanding Timesheets", "<div class=\"header_combo_right\">Filter:&nbsp;#{select_tag("status", options_for_select(["ANY", "SUBMITTED", "DENIED", "DRAFT", "MANUAL", "REJECTED" ], @status.nil? ? "ANY" : @status), :onchange => 'this.form.submit();')}</div>") %>
+          <div id="blue-box">
+            <div class="padder">
+              <table width="100%" cellspacing="0" cellpadding="2">
+                <tr>
+                  <td class="header row_border_right"><%= sort_link 'Start Date', :startDate, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'End Date', :endDate, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Contract Ref', :ref, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Worker', :contractor, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Total Days', :totalDays, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Total Hours', :totalHours, @selected_column %></td>
+                  <td class="header"><%= sort_link 'Status', :status, @selected_column %></td>
+                </tr>
+                <% if @timesheets.length > 0 %>
+
+                  <% for timesheet in @timesheets do %>
+
+                      <tr>
+                        <% if timesheet.status.downcase == "draft" %>
+                          <td class="row_border_bottom row_border_right"><%= timesheet.startDate.to_formatted_s(:uk_date) %></td>
+                        <% else %>
+                          <td class="row_border_bottom row_border_right"><%= link_to(timesheet.startDate.to_formatted_s(:uk_date), view_timesheet_agency_path(@agency, :timesheet_id => timesheet.id, :status => @status, :page => params[:page].nil? ? 1 : params[:page])) %></td>
+                        <% end %>
+                        <td class="row_border_bottom row_border_right"><%= (timesheet.startDate + 6).to_formatted_s(:uk_date) %></td>
+                        <td class="row_border_bottom row_border_right"><%= timesheet.contract.ref %></td>
+                        <td class="row_border_bottom row_border_right"><%= timesheet.contract.contractor_user.full_name %></td>
+                        <td class="row_border_bottom row_border_right"><%= timesheet.totalDays.blank? ? "&nbsp;" : timesheet.totalDays %></td>
+                        <td class="row_border_bottom row_border_right"><%= timesheet.totalHours.blank? ? "&nbsp;" : timesheet.totalHours %></td>
+                        <td class="row_border_bottom <%= timesheet.status.downcase %>"><%= timesheet.status %></td>
+                      </tr>
+
+                    <% end %>
+                  <% else %>
+                    <tr>
+                      <td colspan="6">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" align="center">There are no outstanding timesheets</td>
+                    </tr>
+                  <% end %>
+                  <tr>
+                    <td colspan="6">&nbsp;</td>
+                  </tr>
+                  <tr><td colspan="6"><%= will_paginate(@timesheets) %></td></tr>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <div id="add_new_task" class="sidebar_form new_task">
+              <div class="inner task">
+                <div class="header">
+                  <h1>
+                    Outstanding Timesheets
+                  </h1>
+                </div>
+                <div class="body">
+                  <% form_tag(outstanding_agency_path(@agency), :method => 'get', :style => 'margin: 0px 0px 0px 0px' ) do %>
+                    <%= show_errors('An error occurred...',flash[:alert]) %>
+                    <%= show_notice(flash[:notice]) %>
+
+                    <div id="nav-bar-box" >
+                      <%= single_column_layout("", "Filter:&nbsp;<br>#{select_tag("status", options_for_select(["ANY", "SUBMITTED", "DENIED", "DRAFT", "MANUAL", "REJECTED" ], @status.nil? ? "ANY" : @status), :onchange => 'this.form.submit();')}") %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="new_task_wrapper">
+            <div id="add_new_task" class="sidebar_form new_task">
+              <div class="inner task">
+                <div class="header">
+                  <h1>
+
+                  </h1>
+                </div>
+                <div class="body">
+
+                  <table style="" width="100" cellpadding="0" cellspacing="0">
+
+                    <tr>
+                      <td align="center"><div style="margin-bottom:10px"><img src="/images/alarm.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/outstanding">Outstanding Timesheets</a></div></td>
+                    </tr><tr> <td align="center"><div style="margin-bottom:10px"><img src="/images/calendar.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/active_contracts">Active Contracts</a></div></td>
+                    </tr>
+                    <tr>
+                      <td align="center"><div style="margin-bottom:10px"><img src="/images/addressbook.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/active_clients">Active Clients</a></div></td>
+                    </tr><tr><td align="center"><div style="margin-bottom:10px"><img src="/images/configure.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/tools">Tools</a></div></td>
+                    </tr>
+
+                    <tr>
+                      <td align="center"><div style="margin-bottom:10px"><img src="/images/chart.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/stats">Statistics</a></div></td>
+                    </tr><tr><td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+
+    <div style="clear: both"></div>
   </div>
-
-<% end %>
-
-<div id="blue-box">
-    <div class="padder">
-  <table width="100%" cellspacing="0" cellpadding="2">
-  <tr>
-    <td class="header row_border_right"><%= sort_link 'Start Date', :startDate, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'End Date', :endDate, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'Contract Ref', :ref, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'Worker', :contractor, @selected_column %></td>
-	<td class="header row_border_right"><%= sort_link 'Total Days', :totalDays, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'Total Hours', :totalHours, @selected_column %></td>
-    <td class="header"><%= sort_link 'Status', :status, @selected_column %></td>
-  </tr>
-<% if @timesheets.length > 0 %>
-
-  <% for timesheet in @timesheets do %>
-    
-  <tr>
-    <% if timesheet.status.downcase == "draft" %>
-    <td class="row_border_bottom row_border_right"><%= timesheet.startDate.to_formatted_s(:uk_date) %></td>
-    <% else %>
-    <td class="row_border_bottom row_border_right"><%= link_to(timesheet.startDate.to_formatted_s(:uk_date), view_timesheet_agency_path(@agency, :timesheet_id => timesheet.id, :status => @status, :page => params[:page].nil? ? 1 : params[:page])) %></td>
-    <% end %>
-    <td class="row_border_bottom row_border_right"><%= (timesheet.startDate + 6).to_formatted_s(:uk_date) %></td>
-    <td class="row_border_bottom row_border_right"><%= timesheet.contract.ref %></td>
-    <td class="row_border_bottom row_border_right"><%= timesheet.contract.contractor_user.full_name %></td>
-	<td class="row_border_bottom row_border_right"><%= timesheet.totalDays.blank? ? "&nbsp;" : timesheet.totalDays %></td>
-    <td class="row_border_bottom row_border_right"><%= timesheet.totalHours.blank? ? "&nbsp;" : timesheet.totalHours %></td>
-    <td class="row_border_bottom <%= timesheet.status.downcase %>"><%= timesheet.status %></td>
-  </tr>
-
-  <% end %>
-<% else %>
-  <tr>
-    <td colspan="6">&nbsp;</td>
-  </tr>
-  <tr>
-    <td colspan="6" align="center">There are no outstanding timesheets</td>
-  </tr>
-<% end %>
-  <tr>
-    <td colspan="6">&nbsp;</td>
-  </tr>
-<tr><td colspan="6"><%= will_paginate(@timesheets) %></td></tr>
-</table>
-
-</div>
-</div>
-<script type="text/javascript">
-
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-
-</script>

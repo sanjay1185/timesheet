@@ -3,7 +3,7 @@ class AgenciesController < ApplicationController
   #----------------------------------------------------------------------------
   # Set the layout
   #----------------------------------------------------------------------------
-  layout 'agency'
+  layout 'new_agency'
   
   #----------------------------------------------------------------------------
   # Callback events - authenticate & various permissions....
@@ -369,7 +369,7 @@ class AgenciesController < ApplicationController
     # go go go
     @timesheets = Timesheet.find_all_by_agency(params[:page], 26, @agency, @status ||= 'ANY', sort_order('startDate'))
     
-    render :layout => 'agencydashboard'
+    render :layout => 'new_agencydashboard'
     
   end
   

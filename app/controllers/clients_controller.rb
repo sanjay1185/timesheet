@@ -3,7 +3,7 @@ class ClientsController < ApplicationController
   #----------------------------------------------------------------------------
   # Set the layout
   #----------------------------------------------------------------------------
-  layout 'agency'
+  layout 'new_agency'
 
   #----------------------------------------------------------------------------
   # Callback events - authenticate & only let agencies see this page

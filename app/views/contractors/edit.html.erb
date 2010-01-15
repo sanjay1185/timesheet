@@ -1,150 +1,170 @@
-<% form_for(@contractor) do |f| %>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">Contractor dashboard</h1>
+        </div>
+        <div class="innercol">
+                      <% form_for(@contractor) do |f| %>
 
-  <% if flash[:alert] %>
-    <% msg = flash[:alert] %>
-  <% else %>
-    <% msg = f.error_messages %>
-  <% end %>
-  <%= show_notice(flash[:notice]) %>
-  <%= show_errors('Please fix the following errors', msg) %>
+                        <% if flash[:alert] %>
+                          <% msg = flash[:alert] %>
+                        <% else %>
+                          <% msg = f.error_messages %>
+                        <% end %>
+                        <%= show_notice(flash[:notice]) %>
+                        <%= show_errors('Please fix the following errors', msg) %>
 
-  <div id="nav-bar-box">
-    <%= two_column_nav_bar_layout2('Edit My Details', "#{image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')}") %>
-  </div>
+                        <div id="nav-bar-box">
+                          <%= two_column_nav_bar_layout2('Edit My Details', "#{image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')}") %>
+                        </div>
 
-  <div id="blue-box">
-    <div class="padder">
-      <table width="100%" cellpadding="0" cellspacing="0">
-        <tr>
-          <td class="left_side_cell">
-            <div id="left-header-box" >
-              <%= two_column_nav_bar_layout2('Personal Details', "") %>
-            </div>
+                        <div id="blue-box">
+                          <div class="padder">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                              <tr>
+                                <td class="left_side_cell">
+                                  <div id="left-header-box" >
+                                    <%= two_column_nav_bar_layout2('Personal Details', "") %>
+                                  </div>
 
-            <br />
-            <% f.fields_for :user, @contractor.user do |usr_form| %>
-            <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
-              
-                <tr style="height:25px">
-                  <td class="leftHeader" >Login: </td>
-                  <td>&nbsp;<%=h @contractor.user.login %></td>
-                </tr>
-                <tr>
-                  <% @titles = ['Select', 'Mr', 'Mrs', 'Miss'] %>
-                  <td class="leftHeader">Title: <span style="color:red">*</span></td>
-                  <td><%= select_tag 'selected_title', options_for_select(@titles, @contractor.user.title.nil? ? 'Select' : @contractor.user.title), :id => 'title', :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">First name: <span style="color:red">*</span></td>
-                  <td><%= usr_form.text_field :firstName, :id => 'firstName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Last name: <span style="color:red">*</span></td>
-                  <td><%= usr_form.text_field :lastName, :id => 'lastName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Email: <span style="color:red">*</span></td>
-                  <td><%= usr_form.text_field :email, :id => 'email', :size => 25, :maxlength => 100, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Phone: </td>
-                  <td><%= usr_form.text_field :phone, :id => 'phone', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Mobile: </td>
-                  <td><%= usr_form.text_field :mobile, :id => 'mobile', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Addr1: <span style="color:red">*</span></td>
-                  <td><%= usr_form.text_field :addr1, :id => 'addr1', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Addr2: </td>
-                  <td><%= usr_form.text_field :addr2, :id => 'addr2', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Addr3: </td>
-                  <td><%= usr_form.text_field :addr3, :id => 'addr3', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">City: <span style="color:red">*</span></td>
-                  <td><%= usr_form.text_field :city, :id => 'city', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Region: </td>
-                  <td><%= usr_form.text_field :region, :id => 'region', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                </tr>
-                <tr>
-                  <td class="leftHeader">Post Code: <span style="color:red">*</span></td>
-                  <td><%= usr_form.text_field :postCode, :id => 'postCode', :size => 10, :maxlength => 15, :class => 'spaced_input'  %><%= usr_form.hidden_field :contractor_id, :value => @contractor.id %>
-                  </td>
-                </tr>
-              </table>
-            <br />
-            
-          </td> <!-- cell -->
-          <% end %>
-          <td class="right_side_cell" valign="top">
-            <div id="right-header-box">
-              <%= two_column_nav_bar_layout2('Company Details (if applicable)', "") %>
-            </div>
-            <br />
-            <div class="with_margins">
-            <table width="100%" align="center" cellspacing="0" cellpadding="0" >
+                                  <br />
+                                  <% f.fields_for :user, @contractor do |usr_form| %>
+                                  <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
 
-              <tr>
-                <td class="leftHeader" >Company Name:</td>
-                <td><%= f.text_field :companyName, :id => 'companyName', :size => 23, :maxlength => 100, :class => 'spaced_input'  %></td>
-              </tr>
-              <tr>
-                <td class="leftHeader">Company N&ordm;: </td>
-                <td><%= f.text_field :companyNumber, :id => 'companyNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
-              </tr>
-              <tr>
-                <td class="leftHeader">VAT N&ordm;: </td>
-                <td><%= f.text_field :vatNumber, :id => 'vatNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
-              </tr>
+                                      <tr style="height:25px">
+                                        <td class="leftHeader" >Login: </td>
+                                        <td>&nbsp;<%=h @contractor.login %></td>
+                                      </tr>
+                                      <tr>
+                                        <% @titles = ['Select', 'Mr', 'Mrs', 'Miss'] %>
+                                        <td class="leftHeader">Title: <span style="color:red">*</span></td>
+                                        <td><%= select_tag 'selected_title', options_for_select(@titles, @contractor.title.nil? ? 'Select' : @contractor.title), :id => 'title', :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">First name: <span style="color:red">*</span></td>
+                                        <td><%= usr_form.text_field :firstName, :id => 'firstName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Last name: <span style="color:red">*</span></td>
+                                        <td><%= usr_form.text_field :lastName, :id => 'lastName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Email: <span style="color:red">*</span></td>
+                                        <td><%= usr_form.text_field :email, :id => 'email', :size => 25, :maxlength => 100, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Phone: </td>
+                                        <td><%= usr_form.text_field :phone, :id => 'phone', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Mobile: </td>
+                                        <td><%= usr_form.text_field :mobile, :id => 'mobile', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Addr1: <span style="color:red">*</span></td>
+                                        <td><%= usr_form.text_field :addr1, :id => 'addr1', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Addr2: </td>
+                                        <td><%= usr_form.text_field :addr2, :id => 'addr2', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Addr3: </td>
+                                        <td><%= usr_form.text_field :addr3, :id => 'addr3', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">City: <span style="color:red">*</span></td>
+                                        <td><%= usr_form.text_field :city, :id => 'city', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Region: </td>
+                                        <td><%= usr_form.text_field :region, :id => 'region', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                                      </tr>
+                                      <tr>
+                                        <td class="leftHeader">Post Code: <span style="color:red">*</span></td>
+                                        <td><%= usr_form.text_field :postCode, :id => 'postCode', :size => 10, :maxlength => 15, :class => 'spaced_input'  %><%= usr_form.hidden_field :contractor_id, :value => @contractor.id %>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  <br />
 
-            </table>
-            </div>
-            <br />
+                                </td> <!-- cell -->
+                                <% end %>
+                                <td class="right_side_cell" valign="top">
+                                  <div id="right-header-box">
+                                    <%= two_column_nav_bar_layout2('Company Details (if applicable)', "") %>
+                                  </div>
+                                  <br />
+                                  <div class="with_margins">
+                                  <table width="100%" align="center" cellspacing="0" cellpadding="0" >
 
-            
-          <% end %>
-          <div id="right-header-box2">
-            <%= two_column_nav_bar_layout2('Change Password', "") %>
-          </div>
-            
-          <br />
-          
-          <% form_for :user, @contractor.user, :url => {:controller => 'users', :action => "change_password"} do |form| %>
-            <div class="with_margins">
-            <table width="100%" align="center" cellspacing="0" cellpadding="0">
-              <tr>
-                <td>Password: </td>
-                <td><%= form.password_field :password, :size => 20, :id => 'pwd', :class => 'spaced_input'  %></td>
-              </tr>
-              <tr>
-                <td>Confirm: </td>
-                <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input'  %>
-                  <%= form.hidden_field :id %>
-                </td>
-              </tr>
-              <tr style="height: 30px">
-                <td colspan="2"><%= submit_tag "Change", :class => 'generalButton' %></td>
-              
-            </tr>
-          </table>
-            </div>
-          <% end %>
-          
-            
-        </td> <!-- cell -->
-      </tr> <!-- row -->
-    </table> <!-- table -->
-  </div>
+                                    <tr>
+                                      <td class="leftHeader" >Company Name:</td>
+                                      <td><%= f.text_field :companyName, :id => 'companyName', :size => 23, :maxlength => 100, :class => 'spaced_input'  %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="leftHeader">Company N&ordm;: </td>
+                                      <td><%= f.text_field :companyNumber, :id => 'companyNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="leftHeader">VAT N&ordm;: </td>
+                                      <td><%= f.text_field :vatNumber, :id => 'vatNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
+                                    </tr>
+
+                                  </table>
+                                  </div>
+                                  <br />
+
+
+                                <% end %>
+                                <div id="right-header-box2">
+                                  <%= two_column_nav_bar_layout2('Change Password', "") %>
+                                </div>
+
+                                <br />
+
+                                <% form_for :user, @contractor, :url => {:controller => 'users', :action => "change_password"} do |form| %>
+                                  <div class="with_margins">
+                                  <table width="100%" align="center" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td>Password: </td>
+                                      <td><%= form.password_field :password, :size => 20, :id => 'pwd', :class => 'spaced_input'  %></td>
+                                    </tr>
+                                    <tr>
+                                      <td>Confirm: </td>
+                                      <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input'  %>
+                                        <%= form.hidden_field :id %>
+                                      </td>
+                                    </tr>
+                                    <tr style="height: 30px">
+                                      <td colspan="2"><%= submit_tag "Change", :class => 'generalButton' %></td>
+
+                                  </tr>
+                                </table>
+                                  </div>
+                                <% end %>
+
+
+                              </td> <!-- cell -->
+                            </tr> <!-- row -->
+                          </table> <!-- table -->
+                        </div>
+                      </div>
+                      </div>
+                      </div>
+
+
+
 </div>
 
+<div class="Right">
+</div>
+</div>
+
+<div style="clear: both"></div>
+</div>
 <script type="text/javascript">
 
   var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});

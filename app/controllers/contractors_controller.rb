@@ -3,7 +3,7 @@ class ContractorsController < ApplicationController
   #----------------------------------------------------------------------------
   # Set the layout
   #----------------------------------------------------------------------------
-  layout 'contractordashboard'
+  layout 'new_contractor_dashboard'
 
   #----------------------------------------------------------------------------
   # Callback events - authenticate & only let contractors see this page
@@ -18,9 +18,8 @@ class ContractorsController < ApplicationController
   # Edit contractor details 
   #----------------------------------------------------------------------------
   def edit
-
     session[:selected] = 'my_details'
-    @contractor = Contractor.find(params[:id])
+    @contractor = ContractorUser.find(params[:id])
     
   end
 

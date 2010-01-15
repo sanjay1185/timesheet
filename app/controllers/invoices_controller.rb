@@ -3,7 +3,7 @@ class InvoicesController < ApplicationController
   #----------------------------------------------------------------------------
   # Set the layout
   #----------------------------------------------------------------------------
-  layout 'agency'
+  layout 'new_agency'
 
   #----------------------------------------------------------------------------
   # Callback events - authenticate... agency user with invoicing role

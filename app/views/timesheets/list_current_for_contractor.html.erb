@@ -1,77 +1,73 @@
 <% title = params['timesheet_status'].nil? ? 'Outstanding' : params['timesheet_status'] %>
-<% form_tag('/preparetimesheet', :method => 'get') do %>
-  <% html_header = '' %>
-  <% html_header << "&nbsp;#{title} Timesheets" %>
-  <% html_header_right = '' %>
 
-  <% if @contracts.length > 1 %>
-    <% html_header_right << "Contract : #{collection_select(:contract_obj, 'contract_id' , @contracts, 'id', 'ref')}&nbsp;" %>
-  <% elsif @contracts.length == 1 %>
-  	<% html_header_right << "#{submit_tag 'Create New Timesheet', :class => 'generalButton'}"  %>
-  <% end %>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">Contractor dashboard</h1>
+        </div>
+        <div class="innercol">
+                      <div id="blue-box" style="height:300px">
+                        <div class="padder">
+                          <table width="100%" cellspacing="0" cellpadding="2">
+                            <tr>
+                              <td class="header row_border_right">Start Date</td>
+                              <td class="header row_border_right">Client</td>
+                              <td class="header row_border_right">Contract</td>
+                              <td class="header row_border_right">Day Total</td>
+                              <td class="header row_border_right">Hourly Total</td>
+                              <td class="header">Status</td>
+                            </tr>
 
-  <div id="nav-bar-box">
-    <%= two_column_nav_bar_layout2(html_header, html_header_right) %>
-  </div>
-<% end %>
+                            <% if @timesheets.length == 0 %>
+                              <tr><td colspan="6">&nbsp;</td></tr>
+                              <tr><td colspan="6" style="text-align: center;">There are no <%= title.downcase %> timesheets to display</td></tr>
+                            <% else %>
+                              <% for timesheet in @timesheets %>
+                                <tr>
+                                  <td class="row_border_bottom row_border_right">
+                                    <% if timesheet.status == 'APPROVED' %>
+                                      <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_timesheet_path(@contractor, timesheet) %>
+                                    <% else %>
+                                      <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_timesheet_path(@contractor, timesheet) %>
+                                    <% end %>
+                                  </td>
+                                  <td class="row_border_bottom row_border_right"><%=h timesheet.contract.client.name %></td>
+                                  <td class="row_border_bottom row_border_right"><%=h timesheet.contract.ref %></td>
+                                  <td class="row_border_bottom row_border_right"><%=h timesheet.totalDays %></td>
+                                  <td class="row_border_bottom row_border_right"><%=h timesheet.totalHours %></td>
+                                  <td class="row_border_bottom"><%=h timesheet.status %></td>
+                                </tr>
+                              <% end %>
+                              <tr><td colspan="6" align="center"><%= will_paginate(@timesheets) %></td></tr>
+                            <% end %>
+                          </table>
+                          <br />
+                        </div>
+                      </div>
 
-<% form_tag('currenttimesheets', :method => 'get' ) do %>
-  <div id="timesheet-type-box">
-    <table width="100%">
-      <tr>
-        <td width="70px" style="text-indent:8px">Filter By :</td>
-        <td width="120px"><%= select_tag('timesheet_status', options_for_select(['Outstanding', 'Submitted', 'Approved'], @selected_timesheet_status)) %></td>
-        <td width="70px">For the last:</td>
-        <td><%= select_tag('date_period', options_for_select([['Month', '1'], ['3 Months', '3'], ['6 Months', '6'], ['9 Months', '6'], ['Year', '12']], @selected_date_period)) %>&nbsp;<%= submit_tag 'View', :class => 'generalButton' %></td>
-    </table>
-  </div>
-<% end %>
-
-<div id="blue-box" style="height:300px">
-  <div class="padder">
-    <table width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td class="header row_border_right">Start Date</td>
-        <td class="header row_border_right">Client</td>
-        <td class="header row_border_right">Contract</td>
-        <td class="header row_border_right">Day Total</td>
-        <td class="header row_border_right">Hourly Total</td>
-        <td class="header">Status</td>
-      </tr>
-
-      <% if @timesheets.length == 0 %>
-        <tr><td colspan="6">&nbsp;</td></tr>
-        <tr><td colspan="6" style="text-align: center;">There are no <%= title.downcase %> timesheets to display</td></tr>
-      <% else %>
-        <% for timesheet in @timesheets %>
-          <tr>
-            <td class="row_border_bottom row_border_right">
-              <% if timesheet.status == 'APPROVED' %>
-                <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_timesheet_path(@contractor, timesheet) %>
-              <% else %>
-                <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_timesheet_path(@contractor, timesheet) %>
-              <% end %>
-            </td>
-            <td class="row_border_bottom row_border_right"><%=h timesheet.contract.client.name %></td>
-            <td class="row_border_bottom row_border_right"><%=h timesheet.contract.ref %></td>
-            <td class="row_border_bottom row_border_right"><%=h timesheet.totalDays %></td>
-            <td class="row_border_bottom row_border_right"><%=h timesheet.totalHours %></td>
-            <td class="row_border_bottom"><%=h timesheet.status %></td>
-          </tr>
-        <% end %>
-        <tr><td colspan="6" align="center"><%= will_paginate(@timesheets) %></td></tr>
-      <% end %>
-    </table>
-    <br />
-  </div>
 </div>
+</div>
+</div>
+<div class="Right">
+
+<%=render :partial=>"/new_contractor_dashboard_filter"%>
+
+</div>
+</div>
+
+<div style="clear: both"></div>
+</div>
+
+
 <script type="text/javascript">
 
-  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  var navbarbox = RUZEE.ShadedBorder.create({corner:2, border:1});
   navbarbox.render('nav-bar-box');
-  var type_box = RUZEE.ShadedBorder.create({corner:8, border:1});
+  var type_box = RUZEE.ShadedBorder.create({corner:2, border:1});
   type_box.render('timesheet-type-box');
-  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  var bluebox = RUZEE.ShadedBorder.create({corner:2, border:1});
   bluebox.render('blue-box');
-    
+
 </script>

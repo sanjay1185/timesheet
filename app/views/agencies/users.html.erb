@@ -1,9 +1,16 @@
 <%= show_errors('An error occurred...', flash[:alert]) %>
 <%= show_notice(flash[:notice]) %>
 
-<div id="nav-bar-box">
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index"><div id="nav-bar-box">
 <%= two_column_nav_bar_layout2("User Manager&nbsp;#{help_link('/help/agency_users', 'Help on Users','middle', 500, 400)}", "") %>
-</div>
+</div></h1>
+        </div>
+        <div class="innercol">
 
 <div id="blue-box">
     <div class="padder">
@@ -11,9 +18,7 @@
          <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td class="left_side_cell" valign="top">
-              <div id="left-header-box" >
-                <%= two_column_nav_bar_layout2('User List', link_to_readonly('Add', user_add_agency_path, 'add users', @readonly)) %>
-              </div>
+              
                           
                 <br />
                 <div class="with_margins">
@@ -122,15 +127,38 @@
         </table> <!-- table -->
                   </div>
           </div>
+</div>
+</div>
+
+
+
+</div>
+
+<div class="Right">
+<div class="col sidebar">
+  <div class="new_task_wrapper">
+    <div id="add_new_task" class="sidebar_form new_task">
+      <div class="inner task">
+        <div class="header">
+          <h1>
+           
+          </h1>
+        </div>
+        <div class="body">
+              <div id="left-header-box" >
+                <%= two_column_nav_bar_layout2( link_to_readonly('Add', user_add_agency_path, 'add users', @readonly),'') %>
+              </div>
+        </div>
+      </div>
+    </div>
+   </div>
+
+</div>
+</div>
+</div>
+
+<div style="clear: both"></div>
+</div>
 <script type="text/javascript">
 
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    leftheaderbox.render('left-header-box');
-    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox.render('right-header-box');
-
-</script>
+    </script>

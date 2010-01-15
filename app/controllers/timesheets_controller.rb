@@ -244,7 +244,7 @@ class TimesheetsController < ApplicationController
 #    @contracts = @contractor.current_contracts
 @contracts = Contract.find(:all,:conditions=>["contractor_user_id = ?",@contractor.id])
     @contractID = nil
-    render :layout =>'contractordashboard'
+    render :layout =>'new_contractor_dashboard'
   end
   
   #----------------------------------------------------------------------------

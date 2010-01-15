@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
                  :manual_approval => :get,
                  :approve => :post}
 
-  map.resources :contractors,
+  map.resources :contractor_user,
     :has_many => [ :contracts ],
     :member => { :contracts => :get,
                  :denied => :get,

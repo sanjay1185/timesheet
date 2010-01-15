@@ -427,9 +427,10 @@ class User < ActiveRecord::Base
   # Find all contractors for an agency
   #----------------------------------------------------------------------------
   def self.find_contractor_users_by_agency(agencyId)
-    conditions = []
-    conditions.add_condition!(["contractors_contracts.contractor_id = users.contractor_id and contracts.id = contractors_contracts.contract_id and clients.id = contracts.client_id and clients.agency_id = ?", agencyId])
-    User.find(:all, :conditions => conditions, :order => 'lastName asc', :joins => ', contractors_contracts, contracts, clients').uniq
+#    conditions = []
+#    conditions.add_condition!(["contractors_contracts.contractor_id = users.contractor_id and contracts.id = contractors_contracts.contract_id and clients.id = contracts.client_id and clients.agency_id = ?", agencyId])
+#    User.find(:all, :conditions => conditions, :order => 'lastName asc', :joins => ', contractors_contracts, contracts, clients').uniq
+  User.find(:all, :conditions =>["agency_id =?",agencyId], :order => 'lastName asc').uniq
   end
 
   #----------------------------------------------------------------------------

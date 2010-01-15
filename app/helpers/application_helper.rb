@@ -136,6 +136,12 @@ module ApplicationHelper
     return html
   end
 
+  def single_column_layout(left,right)
+    html = "<table cellpadding=\"3\" width=\"100%\" cellspacing=\"0\">"
+    html << "<tr><td id=\"nav_header_left\">#{left}</td></tr>"
+    html << "<tr><td id=\"nav_header_left\">#{right}</td></tr></table>"
+  end
+
   def multi_column_nav_bar_layout(left, right_cells)
     html = "<table cellpadding=\"0\" width=\"100%\" cellspacing=\"0\">"
     html << "<tr><td id=\"nav_header_left\">#{left}</td>"

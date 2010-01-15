@@ -326,7 +326,7 @@ class Timesheet < ActiveRecord::Base
     conditions.add_condition!(['timesheets.startDate <= ?', Date.strptime(to, "%B %d, %Y")]) unless to.nil?
     conditions.add_condition!(['timesheets.status = ?', status]) unless status == 'ANY'
     conditions.add_condition!(['CAST(timesheets.approvalDateTime AS DATE) = ?', Date.strptime(approvalDate, "%B %d, %Y")]) unless approvalDate.blank? 
-    conditions.add_condition!(:contractor_id => contractor_id) unless contractor_id == '0'
+#    conditions.add_condition!(:contractor_id => contractor_id) unless contractor_id == '0'
     conditions.add_condition!(["timesheets.contract_id = contracts.id and contracts.client_id = ?", client_id]) unless client_id.blank? || client_id == "0"
     conditions.add_condition!(["clients.agency_id = ?", agency_id])
 
