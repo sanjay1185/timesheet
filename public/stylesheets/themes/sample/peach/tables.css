@@ -1,0 +1,63 @@
+/* always vertically align rows in middle */
+tr { vertical-align: middle;}
+
+/* header row height */
+tr.heading {
+    height: 16px;
+}
+/* header row style */
+td.header {
+    border-bottom: #324d68 solid 2px;
+}
+
+/* cell borders */
+td.row_border_bottom {
+    border-bottom: silver solid 1px;
+}
+td.row_border_left {
+    border-left: #324d68 solid 1px;
+}
+td.row_border_right {
+    border-right: #324d68 solid 1px;
+}
+
+td.left_side_cell {
+    width: 50%;
+    padding-right:5px;
+    border-right: black solid 1px;
+    vertical-align: top;
+}
+td.right_side_cell {
+    width: 50%;
+    padding-left: 5px;
+    vertical-align: top;
+}
+td.leftHeader {
+    font-weight: bold;
+    vertical-align: middle;
+}
+#timesheet {
+	z-index: 1;
+}
+#timesheet tr td {
+    padding: 0px 2px 0px 2px;
+}
+tr.totals {
+    background-color: #A4CDFC;
+}
+tr.totals td {
+    border-top: #324d68 solid 1px;
+}
+tr.row_size_icon td {
+    height: 20px;
+}
+tr.row_text_height {
+    height:22px;
+}
+#client_import {
+    border-collapse:collapse;
+    width: 100%
+}
+#client_import tr td {
+    vertical-align: top;
+}

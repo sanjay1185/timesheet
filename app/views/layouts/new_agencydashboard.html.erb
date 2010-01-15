@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <%=  stylesheet_link_tag 'all.css' %>
+
+    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/style" %>
+    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/navigation" %>
+    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/boxes" %>
+    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/tables" %>
+
+    <%= stylesheet_link_tag 'modalbox' %>
+    <!--[if gte IE 7]>
+<%= stylesheet_link_tag 'ie' %>
+        <![endif]-->
+        <%= javascript_include_tag 'prototype' %>
+        <%= javascript_include_tag 'effects' %>
+        <%#= javascript_include_tag 'shaded' %>
+        <%= javascript_include_tag 'application' %>
+        <%= javascript_include_tag 'modalbox' %>
+    <script type="text/javascript">
+      //<![CDATA[
+
+      //]]>
+    </script>
+  </head>
+
+  <body class="overview">
+
+    <div id="quick_show_window" style="display: none">
+      <div class="quick_show_window_position">
+
+        <div class="quick_show_window_wrapper">
+          <div class="quick_show_window_content">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="Header">
+      <div id="global_links">
+
+        <% if !current_user.agency.trial? %>
+          <div style="position:absolute;top:1px;left:0px;">
+            <div id="trial-box"><div style="vertical-align:bottom;"><%=session[:theme]%>Trial ends in <%= session[:days_left] %> days</div></div>
+          </div>
+        <% end %>
+        <% if logged_in? %>
+          <div style="position:absolute;top:1px;right:5px;">
+            <p style="color:white;">Logged in as <%= current_user.login %> |
+              <a href="#" style="color:white" title="Change Password" onclick="
+                Modalbox.show($('new_password'), {title: this.title, width: 400});
+                 "> Change Password</a></p>
+          </div>
+          <div id="new_password" style="display:none">
+            <% form_for :user, @user, :url => {:controller => 'agencies', :action => "change_password"} do |form| %>
+              <table width="100%" align="center" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>Password: </td>
+                  <td><%= form.password_field :password, :size => 20, :id => 'pwd', :class => 'spaced_input' %></td><td></td>
+                </tr>
+                <tr>
+                  <td>Confirm: </td>
+                  <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input' %></td><td><%= submit_tag "Change", :class => 'generalButton' %></td>
+                </tr>
+              </table>
+            <% end %>
+          </div>
+        <%end%>
+      </div>
+      <div id="upgrade_bar">
+        <%=session[:theme]%>
+
+      </div>
+
+      <h1>ClockOff</h1>
+      <div id="Tabs">
+        <%=render :partial=>"/new_agency_navigation"%>
+
+      </div>
+    </div>
+    <div class="wrapper">
+
+      <%=yield%>
+
+      <div class="bottom">
+        <div id="Footer">
+          <img src="" width="38" height="32" alt="Highrise Logo" style="float: left;" />
+
+          <span style="padding-top: 10px; line-height: 1.4em;">
+
+            <a href="" target=_blank>Terms of service</a>
+
+          </span>
+        </div>
+      </div>
+      <br style="clear: both" />
+    </div>
+
+  </body>
+</html>
+

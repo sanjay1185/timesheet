@@ -1,0 +1,148 @@
+body {
+    font: 0.7em Trebuchet, "Trebuchet MS",  Helvetica, Arial, sans-serif;
+    background-color: #18322C;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    color: #000000;
+    display:inline;
+}
+
+/* default links */
+a {
+    font-weight: bold;
+    color: black;
+}
+a:visited {
+    color: black;
+}
+a:hover {
+    color: #00A600;
+}
+a.image:hover {
+    background-color: transparent;
+}
+
+/* header sort links */
+a.sort {
+    text-decoration: none;
+    
+}
+a.sort:hover {
+    background: transparent;
+}
+
+/* force forms to have no margin */
+form {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* small icon size */
+.small_icon {
+    height: 16px;
+    width: 16px;
+}
+/* space input boxes evenly */
+.spaced_input
+{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+/* error style for rails validation */
+.LV_invalid {
+    color:#CC0000;
+}
+/* center container */
+#container
+{
+    margin: 0 auto;
+    width: 90%;
+}
+/* padding for a full size list (just left and right */
+#padder-list {
+    padding: 5px 1px 5px 1px;
+}
+/* all round padding */
+.padder {
+    padding:5px;
+}
+
+/* button styling */
+.generalButton {
+  border: 1px solid #AFAFAF;
+  padding:0px 4px 4px 4px;
+  height: 20px;
+  font-size: 0.9em;
+  color: #575757;
+  font-weight: bold;
+  background: #FFF url(/images/button-bg.gif) repeat-x top left;
+  
+}
+.generalButton:hover {
+  background: #D0EA99;
+}
+.disabledButton {
+  border: 1px solid #AFAFAF;
+  padding:0px 4px 4px 4px;
+  height: 20px;
+  font-size: 0.9em;
+  color: #575757;
+  font-weight: bold;
+  background: #FFF url(/images/button-bg.gif) repeat-x top left;
+  
+}
+/* denotes required field */
+.required {
+    color: red;
+}
+/* bold stuff */
+.bold {
+    font-weight: bold;
+}
+/* larger font */
+.large_text {
+    font-size: 1.2em;
+}
+/* italic */
+.italic {
+    font-style: italic;
+}
+/* timesheet inpt width */
+input.timesheet_input
+{
+    width: 40px;
+}
+/* remove borders from images */
+img {
+    border: 0;
+}
+/* padding on notice alerts msg */
+.alert_msg {
+    padding-top: 8px;
+}
+/* left hand alphabet box for client list links */
+#alphabet-box a {
+    text-decoration: none;
+}
+#alphabet-box a:hover {
+    text-decoration: underline;
+}
+/* margin on left and right */
+.with_margins
+{
+    padding: 0px 10px 0px 10px;
+}
+.import_header
+{
+    width: 100%;
+    font-weight:bold;
+    border-bottom:black solid 2px;
+    font-size:1.2em
+}
+
+.odd_row {
+	background-color: #A1DDF0;
+}
+.odd_row_dull {
+	background-color: #D3DBE2;
+}
