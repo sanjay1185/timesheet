@@ -57,7 +57,7 @@ ActionController::Routing::Routes.draw do |map|
   map.approver_update 'approverdashboard/update_approver', :controller => 'approverdashboard', :action => 'update_approver', :method => :post
   map.approver_logout 'approverdashboard/logout', :controller => 'approverdashboard', :action => 'logout'
 
-  map.resources :contractors do |contractor|
+  map.resources :contractor_users do |contractor|
     contractor.resources :timesheets, :member => { :emailapproval => :post, :cancel_timesheet_alert => :get, :generate_pdf => :get }
   end
 

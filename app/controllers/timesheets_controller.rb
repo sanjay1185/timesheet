@@ -113,7 +113,7 @@ class TimesheetsController < ApplicationController
   def prepare
     
     # set the contractor
-    @contractor = current_user.contractor
+    @contractor = current_user
     
     # get the contracts
     contracts = @contractor.current_contracts
@@ -360,7 +360,7 @@ class TimesheetsController < ApplicationController
     end
     
     # get the contractor
-    @contractor = current_user.contractor
+    @contractor = current_user
     
     # build the timesheet
     @timesheet = @contractor.timesheets.build(params[:timesheet])

@@ -1,4 +1,4 @@
-class ContractorsController < ApplicationController
+class ContractorUserController < ApplicationController
 
   #----------------------------------------------------------------------------
   # Set the layout
@@ -19,7 +19,7 @@ class ContractorsController < ApplicationController
   #----------------------------------------------------------------------------
   def edit
     session[:selected] = 'my_details'
-    @contractor = ContractorUser.find(params[:id])
+    @contractor = current_user
     
   end
 
