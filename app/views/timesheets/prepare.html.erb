@@ -1,4 +1,19 @@
-<% form_for([@contractor, @timesheet]) do |f| %>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for([@contractor, @timesheet]) do |f| %>
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">New Timesheet</h1>
+        </div>
+        <div class="innercol">
+          
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+     
+
   <%= show_errors('Unable to save timesheet', f.error_messages) %>
   <%= show_notice(flash[:notice]) %>
 	
@@ -7,18 +22,14 @@
 <% html_header_right << submit_tag("Save as draft", :class => 'generalButton') %>
 <% html_header_right << "&nbsp;<input type=\"button\" class=\"generalButton\" value=\"Cancel\" onclick=\"nav('#{currenttimesheets_url}');\" />" %>
 
-<div id="nav-bar-box">
-  <%= two_column_nav_bar_layout2("New Timesheet", html_header_right) %>
-</div>
+
 
 <div id="blue-box">
     <div class="padder">
-      <div id="left-header-box">
-      <%= two_column_nav_bar_layout2("Client: #{@contract.client.name}, Contract: #{@contract.ref}", "") %>
-     </div>
-        <br />
-      <table width="100%" id="timesheet" cellspacing="0" cellpadding="0">
-        <tr>
+      
+    
+      <table width="100%" id="timesheet" cellspacing="0" cellpadding="4">
+        <tr class="data_table_header">
            <td class="header">Date</td>
            <td class="header" align="center">Shifts</td>
            <td class="header">Start</td>
@@ -35,13 +46,13 @@
 		<% f.fields_for :timesheet_entries, entry do |entry_form| %>
           <tr>
             <% if (entry.disabled == true) || (entry.is_bank_hol == true && !@contract.allowBankHolidays?) %>
-               <td class="row_border_bottom " style="font-size: 1.1em;width:150px;">
+               <td class="row_border_bottom " style="font-size: 0.7em;width:50px;">
                 <%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %>
 			   </td>
                <td class="row_border_bottom " colspan="<%= @input_section_colspan %>" style="height: 25px;"><%= entry_form.hidden_field :timesheet_id %><%= entry_form.hidden_field :disabled, :value => entry.disabled %><div style="color: gray; border: gray solid 1px;width:98%;text-align: center;"><%= entry.is_bank_hol == true ? "Bank Holidays are not applicable to this contract" : "Not required for this timesheet" %></div></td>
             <% else  %>
-              <td class="row_border_bottom " style="font-size: 1.1em;width:150px;<%= "color:#324d68;font-style: italic" if entry.manual? %>"><%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %></td>
-               <td class="row_border_bottom buttons" align="center" style=""><%= buttons(@contract, entries, entry, count) %></td>
+              <td class="row_border_bottom " style="font-size: 0.7em;<%= "color:#324d68;font-style: italic" if entry.manual? %>"><%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %></td>
+               <td class="row_border_bottom buttons"  align="center" style=""><%= buttons(@contract, entries, entry, count) %></td>
                <td class="row_border_bottom "><%= entry_form.text_field :startTime, :class => 'timesheet_input spaced_input', :id => "startTime#{count.to_s}", :onkeyup => "formatTime('startTime#{count.to_s}')", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
                <td class="row_border_bottom "><%= entry_form.text_field :breakHours, :class => 'timesheet_input spaced_input', :id => "breakHours#{count.to_s}", :onchange => "formatHours('breakHours#{count.to_s}',#{entries_total.to_s})", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
                <td class="row_border_bottom "><%= entry_form.text_field :finishTime, :class => 'timesheet_input spaced_input', :id => "finishTime#{count.to_s}", :onkeyup => "formatTime('finishTime#{count.to_s}')", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
@@ -87,13 +98,13 @@
     </div>
   </div>
   
-<table width="100%" cellpadding="0" cellspacing="0">
+<table width="100%" cellpadding="1" cellspacing="0">
   <tr>
     <td width="55%" valign="top">
       <div id="blue-box1">
           <div class="padder">
             <table width="100%" align="center" cellpadding="0" cellspacing="0" >
-              <tr><td class="header">Add New Note <span style="font-size:0.8em"><i>(only saved when submitted)</i></span></td></tr>
+              <tr class="data_table_header"><td class="header">Add New Note <span style="font-size:0.8em"><i>(only saved when submitted)</i></span></td></tr>
               <tr class="spacer"><td></td></tr>
               <tr><td><%= text_area(:timesheet, :note, :style => 'width: 99%; height:80px', :onKeyDown => 'limitText(this,255)', :onKeyUp => 'limitText(this,255)') %></td></tr>
             </table>
@@ -101,17 +112,22 @@
           </div></div>
     </td> <!-- cell -->
     <td style="padding-left: 5px" valign="top">
-       <div id="blue-box2" style="height: 132px">
+       
+    </td> <!-- cell -->
+  </tr> <!-- row -->
+</table> <!-- table -->
+<input type="hidden" name="selected_date" id="selected_date" />
+<div id="blue-box2" style="height: 132px">
           <div class="padder">
       <table width="100%" align="center" cellpadding="0" cellspacing="0">
-          <tr>
+          <tr class="data_table_header">
             <td class="header row_border_right">Agency Details</td><td class="header"  style="padding-left: 5px">Approver List</td>
           </tr>
           <tr>
             <td class="row_border_right">&nbsp;</td><td>&nbsp;</td>
           </tr>
 		  <tr>
-		  	
+
 			<td class="row_border_right">
 				<div style="height: 90px; overflow:auto;">
 				<span class="bold"><%= @agency.name %></span><br />
@@ -126,24 +142,53 @@
             		<div align="center"><i>None Assigned</i></div>
           		<% else %>
 		          <% for approver in @approvers do %>
-		            
+
 		              <a href="mailto:<%= approver.email %>"><%= approver.full_name %></a><br />
-		
-		            
+
+
 		          <% end %>
 		          <% end %>
 				  </div>
 		  	</td>
 		  </tr>
-          
+
         </table>
         <br />
       </div></div>
-    </td> <!-- cell -->
-  </tr> <!-- row -->
-</table> <!-- table -->
-<input type="hidden" name="selected_date" id="selected_date" />
-<% end %>
+</div>
+</div>
+</div>
+<div class="Right">
+
+<div class="col sidebar">
+  <div class="new_task_wrapper">
+    <div id="add_new_task" class="sidebar_form new_task">
+      <div class="inner task">
+        <div class="header">
+          <h1>
+           
+          </h1>
+        </div>
+        <div class="body">
+          <div id="left-header-box">
+      <%= two_column_nav_bar_layout2("<b>Client:</b> #{@contract.client.name}, Contract: #{@contract.ref}", "") %>
+     </div>
+<div id="nav-bar-box">
+  <%= two_column_nav_bar_layout2("", html_header_right) %>
+</div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+
+</div><% end %>
+</div>
+
+<div style="clear: both"></div>
+</div>
+
+
 
 <script type="text/javascript">
 

@@ -193,7 +193,7 @@ class TimesheetsController < ApplicationController
       @hour_rates = rates_manager.get_valid_rates_by_type(@timesheet.startDate, @timesheet.startDate + 6, 'Hour', @timesheet.rateType == 'Day').collect {|r| [ r.name, r.id ] }
       
     end
-    
+    render :layout=>"new_contractor_dashboard"
   end
   
   #----------------------------------------------------------------------------
@@ -224,7 +224,7 @@ class TimesheetsController < ApplicationController
   # Get the list of timesheets for the contractor
   #----------------------------------------------------------------------------
   def list_current_for_contractor
-    
+    session[:selected] = 'timesheets'
     # get the contractor
     @contractor = ContractorUser.find(current_user.id)
     
@@ -706,7 +706,7 @@ class TimesheetsController < ApplicationController
         
       elsif current_user.type == 'ContractorUser'
         
-        "contractordashboard"
+        "new_contractor_dashboard"
         
       else
         

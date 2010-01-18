@@ -2,11 +2,20 @@
   <div id="screen_body" class="container">
     <div class="Left">
       <div class="col">
+        <% form_for(@contractor) do |f| %>
         <div class="page_header">
-          <h1 class="index">Contractor dashboard</h1>
+          
+          <h1 class="index">
+            <div id="nav-bar-box">
+                          <%= two_column_nav_bar_layout2('Edit My Details', "#{image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')}") %>
+                        </div></h1>
         </div>
         <div class="innercol">
-                      <% form_for(@contractor) do |f| %>
+          <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+                      
 
                         <% if flash[:alert] %>
                           <% msg = flash[:alert] %>
@@ -16,23 +25,21 @@
                         <%= show_notice(flash[:notice]) %>
                         <%= show_errors('Please fix the following errors', msg) %>
 
-                        <div id="nav-bar-box">
-                          <%= two_column_nav_bar_layout2('Edit My Details', "#{image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')}") %>
-                        </div>
+                      
 
                         <div id="blue-box">
                           <div class="padder">
                             <table width="100%" cellpadding="0" cellspacing="0">
                               <tr>
                                 <td class="left_side_cell">
-                                  <div id="left-header-box" >
+                                  <div class="common_header" >
                                     <%= two_column_nav_bar_layout2('Personal Details', "") %>
                                   </div>
 
                                   <br />
                                   <% f.fields_for :user, @contractor do |usr_form| %>
                                   <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
-
+                                      
                                       <tr style="height:25px">
                                         <td class="leftHeader" >Login: </td>
                                         <td>&nbsp;<%=h @contractor.login %></td>
@@ -93,7 +100,7 @@
                                 </td> <!-- cell -->
                                 <% end %>
                                 <td class="right_side_cell" valign="top">
-                                  <div id="right-header-box">
+                                  <div class="common_header">
                                     <%= two_column_nav_bar_layout2('Company Details (if applicable)', "") %>
                                   </div>
                                   <br />
@@ -118,33 +125,10 @@
                                   <br />
 
 
-                                <% end %>
-                                <div id="right-header-box2">
-                                  <%= two_column_nav_bar_layout2('Change Password', "") %>
-                                </div>
+                                
+                                
 
-                                <br />
-
-                                <% form_for :user, @contractor, :url => {:controller => 'users', :action => "change_password"} do |form| %>
-                                  <div class="with_margins">
-                                  <table width="100%" align="center" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                      <td>Password: </td>
-                                      <td><%= form.password_field :password, :size => 20, :id => 'pwd', :class => 'spaced_input'  %></td>
-                                    </tr>
-                                    <tr>
-                                      <td>Confirm: </td>
-                                      <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input'  %>
-                                        <%= form.hidden_field :id %>
-                                      </td>
-                                    </tr>
-                                    <tr style="height: 30px">
-                                      <td colspan="2"><%= submit_tag "Change", :class => 'generalButton' %></td>
-
-                                  </tr>
-                                </table>
-                                  </div>
-                                <% end %>
+                                
 
 
                               </td> <!-- cell -->
@@ -153,6 +137,7 @@
                         </div>
                       </div>
                       </div>
+                      <% end %>
                       </div>
 
 
