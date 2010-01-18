@@ -139,6 +139,7 @@ function limitText(limitField, limitNum) {
 function setEntryDate(id)
 {
     document.getElementById('selected_date').value = document.getElementById('timesheet_timesheet_entries_attributes_' + id + '_dateValue').value;
+	//alert(document.getElementById('selected_date').value);
 	return true;
 
 }

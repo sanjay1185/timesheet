@@ -160,6 +160,14 @@ background:#A4CDFC none repeat scroll 0 0;
 margin:0;
 padding:13px 30px 13px 24px;
 }
+div.right_section_header {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:#A4CDFC none repeat scroll 0 0;
+margin:0;
+padding:3px 30px 3px 24px;
+}
 .Right .col {
 min-width:200px;
 padding:0 0 0 12px;
@@ -460,12 +468,28 @@ font-weight:bold;
 }
 .padder {
 padding:5px;
-
+}
+.generalButton {
+  border: 1px solid #AFAFAF;
+  padding:0px 4px 4px 4px;
+  height: 20px;
+  font-size: 0.9em;
+  color: #575757;
+  font-weight: bold;
+  background: #FFF url(/images/button-bg.gif) repeat-x top left;
+  margin-bottom: 2px;
+}
+.generalButton:hover {
+  background: #D0EA99;
 }
 #blue-box, #blue-box1, #blue-box2 {
 margin-top:5px;
 width:100%;
 background-color:#F0E68C
+}
+div.top_box {
+margin-top:15px;
+width:100%;
 }
 tr.data_table_header{
     background-color:#90EE90;
