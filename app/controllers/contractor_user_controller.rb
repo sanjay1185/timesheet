@@ -29,16 +29,16 @@ class ContractorUserController < ApplicationController
   def update
 
     # get the contractor
-    @contractor = Contractor.find(params[:contractor][:user_attributes][:contractor_id])
+    @contractor = ContractorUser.find(params[:contractor_user][:user][:contractor_id])
 
     # update attributes
     @contractor.attributes = params[:contractor]
 
     # set title
-    @contractor.user.title = params[:selected_title]
+    @contractor.title = params[:selected_title]
 
     # set email confirmation
-    @contractor.user.email_confirmation = @contractor.user.email
+    @contractor.email_confirmation = @contractor.email
 
     # save
     if @contractor.save
@@ -47,7 +47,7 @@ class ContractorUserController < ApplicationController
 
     end
 
-    redirect_to edit_contractor_path(@contractor)
+    redirect_to edit_contractor_user_path(@contractor)
 
   end
 

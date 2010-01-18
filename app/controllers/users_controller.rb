@@ -370,7 +370,7 @@ class UsersController < ApplicationController
 
     end
     
-    redirect_to edit_contractor_path(@user.contractor)
+    redirect_to edit_contractor_user_path(@user)
 
   end
 

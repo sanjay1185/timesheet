@@ -132,9 +132,10 @@ module ApplicationHelper
   def two_column_nav_bar_layout2(left, right)
     html = "<table cellpadding=\"0\" width=\"100%\" cellspacing=\"0\">"
     html << "<tr><td id=\"nav_header_left\">#{left}</td>"
-    html << "<td id=\"nav_header_right\" align=\"right\">#{right}</td></tr></table>"
+    html << "<td id=\"nav_header_right\" align=\"left\">#{right}</td></tr></table>"
     return html
   end
+
 
   def single_column_layout(left,right)
     html = "<table cellpadding=\"3\" width=\"100%\" cellspacing=\"0\">"

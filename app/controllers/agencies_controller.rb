@@ -384,7 +384,7 @@ class AgenciesController < ApplicationController
     
     @clients = Client.get_all_active(session[:agencyId], params[:page], 20, sort_order('name'))
     
-    render :layout => 'agencydashboard'
+    render :layout => 'new_agencydashboard'
     
   end
   
@@ -399,7 +399,7 @@ class AgenciesController < ApplicationController
     
     @contracts = Contract.get_all_active(session[:agencyId], params[:page], 20, sort_order('endDate'))
     
-    render :layout => 'agencydashboard'
+    render :layout => 'new_agencydashboard'
     
   end
   
