@@ -314,7 +314,7 @@ class TimesheetsController < ApplicationController
         if File::exists?(@timesheet.contract.client.agency.agency_logo_filename)
           @img_tag = @timesheet.contract.client.agency.agency_logo_filename
         else          
-          @img_tag = "#{RAILS_ROOT}"+"/public/images/l_side.png"
+          @img_tag = "#{RAILS_ROOT}"+"/public/images/timesheet_logo.png"
         end
 #        send_data(render_pdf('LANDSCAPE', { :action => 'timesheet.rpdf', :layout => 'pdf_timesheet' }), :filename => "timesheet.pdf" )
       }
