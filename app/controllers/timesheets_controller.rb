@@ -402,7 +402,7 @@ class TimesheetsController < ApplicationController
       new_entry.is_bank_hol = BankHoliday.is_holiday(new_entry.dateValue, 'UK')
       @timesheet.timesheet_entries << new_entry
       
-      render :action => 'prepare'
+      render :action => 'prepare',:layout=>"new_contractor_dashboard"
       
       return
       

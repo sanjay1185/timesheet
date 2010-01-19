@@ -216,7 +216,7 @@ color:#FF9900;
 background-color:#FFFFCC;
 padding: 10px 10px 18px 10px;
 margin: 0 auto;
-width: 605px;
+width: 93%;
 border-bottom:1px solid #FF9900;
 border-top:1px solid #FF9900;
 padding:3px 25px;
@@ -517,4 +517,30 @@ background:transparent url(/images/bottom-bg.gif) no-repeat scroll right top;
 font-size:8px;
 padding:12px 0 20px 20px;
 width:94%
+}
+.Right div.module {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:#F5F5F5 none repeat scroll 0 0;
+border-bottom:1px solid #BBBBBB;
+border-right:1px solid #CCCCCC;
+clear:left;
+margin-bottom:8px;
+overflow:hidden;
+}
+.Right div.module div.inner {
+padding:5px 8px 10px 10px;
+}
+.Right div.module div.inner h2 {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent none repeat scroll 0 0;
+border:medium none;
+color:#333333;
+font-size:13px;
+font-weight:bold;
+margin:0;
+padding:0 0 8px;
 }
