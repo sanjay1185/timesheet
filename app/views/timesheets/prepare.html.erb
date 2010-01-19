@@ -37,7 +37,7 @@
                                         Finish
                                     </td>
                                     <td class="header" style="<%= "display: none" if @contract.rateType == 'Hour' %>">
-Daily
+                                         Daily
                                     </td>
                                     <td class="header">
                                         Hours
@@ -133,94 +133,51 @@ Daily
                     <input type="hidden" name="selected_date" id="selected_date" />
                 </div>
             </div>
+            <div class="bottom"><%=left_panel_footer%></div>
         </div>
         <div class="Right">
             <div class="col sidebar">
                 <div class="new_task_wrapper">
-                    <div class="sidebar_form new_task">
-                        <div>
-                            <div class="right_section_header">
-                                <h1>Actions</h1>
-                            </div>
-                            <div class="body">
-                                <div class="top_box">
-                                    <%= submit_tag('Submit', :title => @submit_button_title, :class => 'generalButton', :disabled => @disable_submit) %>
-                                    <%= submit_tag('Submit as Manual', :title => 'Submit for manual approval', :class => 'generalButton') %><br />
-									<%= submit_tag("Save as draft", :class => 'generalButton') %>
-                                    <input type="button" class="generalButton" value="Cancel" onclick="nav('<%= currenttimesheets_url %>');"/>
-                                </div>
-							</div>
-							</div>
-							</div>
+                
 						
-							<div class="sidebar_form new_task">
-                        <div>
-                        		<div class="right_section_header">
-                                	<h1>Notes</h1>
-                            	</div>
-                                <div class="body">
-                                	<div class="top_box">
-										<%= text_area(:timesheet, :note, :style => 'width: 100%; height:80px', :onKeyDown => 'limitText(this,255)', :onKeyUp => 'limitText(this,255)') %>
-                                	</div>
-								</div>	
-								</div>
-								</div>
+                              <%=right_panel_task_bar("Actions", html_header_right)%>
+                              <%notes_html=''%>
+                              <%notes_html<<text_area(:timesheet, :note, :style => 'width: 98%; height:98px', :onKeyDown => 'limitText(this,255)', :onKeyUp => 'limitText(this,255)')%>
+                              <%= right_panel_task_bar("Notes",notes_html) %>
+
+                              <% agency_area_html= "" %>
+                              <% agency_area_html<< "<div style=\"height: 90px; overflow:auto;\"><span class=\"bold\">" %>
+                              <% agency_area_html<<  @agency.name %>
+                              <% agency_area_html<< "</span><br/>(t) "  %>
+                              <% agency_area_html<<  @agency.phone  %>
+                              <% agency_area_html<<  "<br/>(f) " %>
+                              <% agency_area_html<<  @agency.fax %>
+                              <% agency_area_html<<  "<br/>(e) "%>
+                              <% agency_area_html<<  "<a href=mailto:'#{@agency.email}'>#{@agency.email}</a></div>"%>
+
+                              <%= right_panel_task_bar("Agency Details",agency_area_html) %>
+			                  <% approver_area_html="<div style=\"height: 90px; overflow:auto;\">" %>
+                              <% if @approvers.length == 0 %>
+                              <% approver_area_html >> "<div align=\"center\"><i>None Assigned</i></div>" %>
+                              <% else %>
+                              <% for approver in @approvers do %>
+                              <% approver_area_html << "<a href='mailto: #{approver.email}'>#{approver.full_name}</a><br/>" %>
+                              <%end%><%end%>
+                              <% approver_area_html << "</div>" %>
+                             <%= right_panel_task_bar("Approver",approver_area_html) %>
+															
 								
-								<div class="sidebar_form new_task">
-                        <div>
-								
-                        		<div class="right_section_header">
-                                	<h1>Agency Details</h1>
-                            	</div>
-                                <div class="body">
-									<div class="top_box">
-										
-										<div style="height: 90px; overflow:auto;">
-                                                <span class="bold"><%= @agency.name %></span>
-                                                <br/>
-                                                (t) <%= @agency.phone %>
-                                                <br/>
-                                                (f) <%= @agency.fax %>
-                                                <br/>
-                                                (e) <a href="mailto:<%= @agency.email %>"><%= @agency.email %></a>
-                                            </div>
-									</div>
-								</div>
-								</div>
-								</div>
-								
-								<div id="add_new_task" class="new_task">
-                        		<div class="right_section_header">
-                                	<h1>Approvers</h1>
-                            	</div>
-                                <div class="body">
-									<div class="top_box">
-										<div style="height: 90px; overflow:auto;">
-                                                <% if @approvers.length == 0 %>
-                                                <div align="center">
-                                                    <i>None Assigned</i>
-                                                </div>
-                                                <% else %>
-                                                <% for approver in @approvers do %>
-                                                <a href="mailto:<%= approver.email %>"><%= approver.full_name %></a>
-                                                <br/>
-                                                <% end %>
-                                                <% end %>
-                                            </div>
-									</div>
-                                    
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+            <% end %>
         </div>
     </div>
-    <% end %>
-</div>
+   
+
 <div style="clear: both">
 </div>
-</div>
+
 <script type="text/javascript">
     
     CalcAll('<%= @timesheet.timesheet_entries.length%>');

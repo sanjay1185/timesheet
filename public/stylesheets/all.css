@@ -4,7 +4,7 @@ padding-right:15px;
 }
 
 body.overview .innercol {
-padding-top:10px;
+/*padding-top:10px;*/
 }
 
 h1.index {
@@ -143,14 +143,15 @@ padding-bottom:0;
 -moz-background-inline-policy:continuous;
 -moz-background-origin:padding;
 background:#FFFFFF url(/images/right-bg.gif) repeat-y scroll right center;
-padding:0 0px 0 0;
+padding:0 8px 0 0;
+margin-right:25px
 }
 .Fixed {
 margin:0 auto;
 width:950px;
 }
 .Left .innercol, .Full .innercol, .Fixed .innercol {
-padding:15px 60px 20px 23px;
+ /*padding:15px 25px 20px 23px;*/
 }
 div.page_header {
 -moz-background-clip:border;
@@ -158,7 +159,7 @@ div.page_header {
 -moz-background-origin:padding;
 background:#A4CDFC none repeat scroll 0 0;
 margin:0;
-padding:13px 30px 13px 24px;
+padding:8px 30px 9px 10px;
 }
 div.right_section_header {
 -moz-background-clip:border;
@@ -166,7 +167,7 @@ div.right_section_header {
 -moz-background-origin:padding;
 background:#A4CDFC none repeat scroll 0 0;
 margin:0;
-padding:3px 30px 3px 24px;
+padding:8px 30px 9px 10px;;
 }
 .Right .col {
 min-width:200px;
@@ -183,6 +184,7 @@ overflow:hidden;
 padding:10px 23px 0 30px;
 position:relative;
 text-align:left;
+min-width:900px
 }
 #global_links {
 color:#56778B;
@@ -214,7 +216,7 @@ color:#FF9900;
 background-color:#FFFFCC;
 padding: 10px 10px 18px 10px;
 margin: 0 auto;
-width: 650px;
+width: 605px;
 border-bottom:1px solid #FF9900;
 border-top:1px solid #FF9900;
 padding:3px 25px;
@@ -467,7 +469,7 @@ font-size:1.2em;
 font-weight:bold;
 }
 .padder {
-padding:5px;
+/*padding:5px;*/
 }
 .generalButton {
   border: 1px solid #AFAFAF;
@@ -483,7 +485,7 @@ padding:5px;
   background: #D0EA99;
 }
 #blue-box, #blue-box1, #blue-box2 {
-margin-top:5px;
+/*margin-top:5px;*/
 width:100%;
 background-color:#F0E68C
 }
@@ -493,7 +495,7 @@ width:100%;
 }
 tr.data_table_header{
     background-color:#90EE90;
-    line-height:16px
+    line-height:20px
 }
 div.common_header {
 background-color:#90EE90;
@@ -506,4 +508,13 @@ width:95%
 td.leftHeader {
     font-weight: bold;
     vertical-align: middle;
+}
+.Full .bottom, .Left .bottom, .Fixed .bottom {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(/images/bottom-bg.gif) no-repeat scroll right top;
+font-size:8px;
+padding:12px 0 20px 20px;
+width:94%
 }

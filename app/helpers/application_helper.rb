@@ -161,6 +161,23 @@ module ApplicationHelper
 
     return html
   end
+  def right_panel_task_bar(left_html, right_html)
+    html=''
+    html << "<div class=\"sidebar_form new_task\"><div><div class=\"right_section_header\"><h1>"
+    html << left_html unless left_html.blank?    
+    html << "</h1></div><div class=\"body\"><div class=\"top_box\">"
+    html << right_html unless right_html.blank?
+    html << "</div></div></div></div>"                            
+  end
+
+  def left_panel_footer
+   html=''
+   html <<  "<div id=\"Footer\"><img src="" width=\"38\" height=\"32\" alt=\"Highrise Logo\" style=\"float: left;\" />"
+   html << "<span style=\"padding-top: 10px; line-height: 1.4em;\"><a href="" target=_blank>Terms of service</a></span></div>"
+  
+  end
+
+  
 
   def delete_link_readonly(readonly, type, caption, msg, url, width)
     
