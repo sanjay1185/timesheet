@@ -7,6 +7,12 @@ body.overview .innercol {
 /*padding-top:10px;*/
 }
 
+tr.odd {
+    background-color: #C4C4B3;
+}
+tr.even {
+    background-color: #ECEBCC;
+}
 h1.index {
 font-size:14px;
 margin:5px 0 15px 0;
@@ -151,7 +157,7 @@ margin:0 auto;
 width:950px;
 }
 .Left .innercol, .Full .innercol, .Fixed .innercol {
- /*padding:15px 25px 20px 23px;*/
+ padding:5px 5px 10px 5px;
 }
 div.page_header {
 -moz-background-clip:border;
@@ -440,6 +446,7 @@ text-decoration:none;
 }
 input.timesheet_input
 {
+    border: 1px solid;
     width: 68px;
 }
 .spaced_input
@@ -447,17 +454,21 @@ input.timesheet_input
     margin-top: 2px;
     margin-bottom: 2px;
 }
-table#timesheet{
+/*table#timesheet{
     background-color:#F0E68c;
-}
+}*/
 #timesheet tr td {
 padding:0 2px;
 }
 td.row_border_bottom {
 border-bottom:1px solid silver;
 }
+tr.timesheet_row {
+    height:30px;
+}
 tr.totals {
-background-color:#EDF3FE
+background-color:#EDF3FE;
+height: 35px;
 }
 tr.totals td {
 border-top:1px solid #324D68;
