@@ -163,7 +163,7 @@ div.page_header {
 -moz-background-clip:border;
 -moz-background-inline-policy:continuous;
 -moz-background-origin:padding;
-background:#A4CDFC none repeat scroll 0 0;
+background:#F8E0E0 none repeat scroll 0 0;
 margin:0;
 padding:8px 30px 9px 10px;
 }
@@ -226,7 +226,7 @@ width: 93%;
 border-bottom:1px solid #FF9900;
 border-top:1px solid #FF9900;
 padding:3px 25px;
-
+margin-bottom:4px
 }
 #notice .sb-inner { background-color:#d1f19d;}
 #notice .sb-border { background-color:#87d09e;}
@@ -524,7 +524,7 @@ td.leftHeader {
 -moz-background-clip:border;
 -moz-background-inline-policy:continuous;
 -moz-background-origin:padding;
-background:transparent url(/images/bottom-bg.gif) no-repeat scroll right top;
+background:#E5E5E5 url(/images/bottom-bg.gif) no-repeat scroll right top;
 font-size:8px;
 padding:12px 0 20px 20px;
 width:94%
@@ -554,4 +554,19 @@ font-size:13px;
 font-weight:bold;
 margin:0;
 padding:0 0 8px;
+}
+body .Right h1 {
+background-color:#EDF3FE;
+border-bottom:1px solid #DCDCDC;
+color:#333333;
+font-size:13px;
+margin:0 0 0px;
+padding:6px 8px;
+width:95%}
+
+div.Right div.module p {
+color:#444444;
+font-size:13px;
+margin:0 0 10px;
+}
 }

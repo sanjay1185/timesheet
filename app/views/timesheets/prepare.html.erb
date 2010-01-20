@@ -141,10 +141,10 @@
                 <div class="new_task_wrapper">
                 
 						
-                              <%=right_panel_task_bar("Actions", html_header_right)%>
+                              <%=right_panel_bar_with_header("Actions", html_header_right)%>
                               <%notes_html=''%>
                               <%notes_html<<text_area(:timesheet, :note, :style => 'width: 98%; height:98px', :onKeyDown => 'limitText(this,255)', :onKeyUp => 'limitText(this,255)')%>
-                              <%= right_panel_task_bar("Notes",notes_html) %>
+                              <%= right_panel_bar_with_header("Notes",notes_html) %>
 
                               <% agency_area_html= "" %>
                               <% agency_area_html<< "<div style=\"height: 90px; overflow:auto;\"><span class=\"bold\">" %>
@@ -156,7 +156,7 @@
                               <% agency_area_html<<  "<br/>(e) "%>
                               <% agency_area_html<<  "<a href=mailto:'#{@agency.email}'>#{@agency.email}</a></div>"%>
 
-                              <%= right_panel_task_bar("Agency Details",agency_area_html) %>
+                              <%= right_panel_bar_with_header("Agency Details",agency_area_html) %>
 			                  <% approver_area_html="<div style=\"height: 90px; overflow:auto;\">" %>
                               <% if @approvers.length == 0 %>
                               <% approver_area_html >> "<div align=\"center\"><i>None Assigned</i></div>" %>
@@ -165,7 +165,7 @@
                               <% approver_area_html << "<a href='mailto: #{approver.email}'>#{approver.full_name}</a><br/>" %>
                               <%end%><%end%>
                               <% approver_area_html << "</div>" %>
-                             <%= right_panel_task_bar("Approver",approver_area_html) %>
+                             <%= right_panel_bar_with_header("Approver",approver_area_html) %>
 															
 								
                     </div>

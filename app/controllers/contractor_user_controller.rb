@@ -41,7 +41,7 @@ class ContractorUserController < ApplicationController
     @contractor.email_confirmation = @contractor.email
 
     # save
-    if @contractor.save
+    if @contractor.save!
 
       flash[:notice] = "Details saved successfully"
 

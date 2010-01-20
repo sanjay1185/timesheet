@@ -170,11 +170,17 @@ module ApplicationHelper
     html << "</div></div></div></div>"                            
   end
 
+def right_panel_bar_with_header(left_html, right_html)
+  html=''
+  html << "<h1>#{left_html unless left_html.blank?}</h1><div class=\"module\"><div class=\"inner\"><h2></h2><p>#{right_html unless right_html.blank?}<p></div></div>"
+  return html
+end
+              
+
   def left_panel_footer
    html=''
    html <<  "<div id=\"Footer\"><img src="" width=\"38\" height=\"32\" alt=\"Highrise Logo\" style=\"float: left;\" />"
-   html << "<span style=\"padding-top: 10px; line-height: 1.4em;\"><a href="" target=_blank>Terms of service</a></span></div>"
-  
+   html << "<span style=\"padding-top: 10px; line-height: 1.4em;\"><a href="" target=_blank>Terms of service</a></span></div>"  
   end
 
   
