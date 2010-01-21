@@ -148,6 +148,31 @@ tr.even {
 tr.row_border_bottom {
 border-bottom:1px solid silver;
 }
+td.left_side_cell {
+    width: 50%;
+    padding-right:5px;
+    border-right: black solid 1px;
+    vertical-align: top;
+}
+.with_margins
+{
+    padding: 0px 10px 0px 10px;
+}
+td.right_side_cell {
+    width: 50%;
+    padding-left: 5px;
+    vertical-align: top;
+}
+#timesheet tr td {
+ padding:0 2px;
+}
+tr.timesheet_row {
+ height:30px;
+}
+tr.data_table_header{
+ background-color:#90EE90;
+ line-height:20px
+}
 h1, h2 {
  margin-bottom:5px;
 }
@@ -396,7 +421,6 @@ td.header {
 td.row_border_right {
  border-right: #324d68 solid 1px;
 }
-
 input.timesheet_input
 {
  border: 1px solid;
@@ -410,22 +434,12 @@ input.timesheet_input
 /*table#timesheet{
     background-color:#F0E68c;
 }*/
-#timesheet tr td {
- padding:0 2px;
-}
-
-tr.timesheet_row {
- height:30px;
-}
-
-
 .large_text {
  font-size:1.2em;
 }
 .bold {
  font-weight:bold;
 }
-
 .generalButton {
  border: 1px solid #AFAFAF;
  padding:0px 4px 4px 4px;
@@ -438,8 +452,4 @@ tr.timesheet_row {
 }
 .generalButton:hover {
  background: #D0EA99;
-}
-tr.data_table_header{
- background-color:#90EE90;
- line-height:20px
 }

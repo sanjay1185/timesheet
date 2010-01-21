@@ -224,24 +224,17 @@ class TimesheetsController < ApplicationController
   # Get the list of timesheets for the contractor
   #----------------------------------------------------------------------------
   def list_current_for_contractor
-    p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     session[:selected] = 'timesheets'
     # get the contractor
     @contractor = ContractorUser.find(current_user.id)
-    p current_user.id
     # get the date period
     @selected_date_period = params[:date_period].nil? ? '1' : params[:date_period]
-    p params[:date_period]
     # get the status
     @selected_timesheet_status = params[:timesheet_status].nil? ? 'Outstanding' : params[:timesheet_status]
-    p params[:timesheet_status]
     # set the navigator
     Navigator.set_position(session, :contractor_timesheets, @selected_date_period, @selected_timesheet_status, params[:page])
-    p Navigator.set_position(session, :contractor_timesheets, @selected_date_period, @selected_timesheet_status, params[:page])
     # get the timesheets
     @timesheets = Timesheet.current_for_contractor(@contractor, @selected_timesheet_status, @selected_date_period, params[:page], 10)
-    p @timeseets
-    p ">>>>>>>>>#{params[:page]}>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
     # get the current contracts (so we know whether to add a 'create timesheet' button or not)
 #    @contracts = @contractor.current_contracts
     @contracts = Contract.find(:all,:conditions=>["contractor_user_id = ?",@contractor.id])
