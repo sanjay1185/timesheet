@@ -16,7 +16,7 @@
                     <% html_header_right << "&nbsp;#{submit_tag('Submit as Manual', :title => 'Submit for manual approval', :class => 'generalButton')}&nbsp;" %>
                     <% html_header_right << submit_tag("Save as draft", :class => 'generalButton') %>
                     <% html_header_right << "&nbsp;<input type=\"button\" class=\"generalButton\" value=\"Cancel\" onclick=\"nav('#{currenttimesheets_url}');\" />" %>
-
+                        <div id="blue-box">
                         <div class="padder">
                             <table width="100%" id="timesheet" cellspacing="0" cellpadding="4">
                                 <tr class="data_table_header">
@@ -51,7 +51,7 @@
                                 <% entries.each do |entry| %>
                                 <% f.fields_for :timesheet_entries, entry do |entry_form| %>
                                 <% row_class = cycle('odd', 'even') %>
-                                <tr class="timesheet_row <%= row_class %>">
+                                <tr class="timesheet_row <%= row_class %> row_border_bottom ">
                                     <% if (entry.disabled == true) || (entry.is_bank_hol == true && !@contract.allowBankHolidays?) %>
                                     <td class="row_border_bottom " style="font-size: 0.9em;width:50px;">
                                         <%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %>
@@ -129,7 +129,7 @@
                                 </tr>
                             </table>
                         </div>
-                    
+                </div>
                     <input type="hidden" name="selected_date" id="selected_date" />
                 </div>
             </div>

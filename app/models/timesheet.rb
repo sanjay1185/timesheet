@@ -435,9 +435,9 @@ class Timesheet < ActiveRecord::Base
 
     end
 
-    conditions_string = "status" + filter + "and id = ? and timesheets.startDate >= ?"
+    conditions_string = "status" + filter + "and timesheets.startDate >= ?"
     
-    paginate(:per_page => per_page, :page => page, :conditions => [conditions_string, contractor.id,  Date.today - date_period.to_i.months], :order => 'timesheets.startDate').uniq
+    paginate(:per_page => per_page, :page => page, :conditions => [conditions_string, Date.today - date_period.to_i.months], :order => 'timesheets.startDate').uniq
 
   end
 

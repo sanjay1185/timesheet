@@ -8,7 +8,7 @@
           <h1 class="index">Contractor dashboard</h1>
         </div>
         <div class="innercol">
-                      <div id="blue-box" style="height:300px">
+                      <div id="blue-box">
                         <div class="padder">
                           <table width="100%" cellspacing="0" cellpadding="2">
                             <tr class="data_table_header">
@@ -25,12 +25,14 @@
                               <tr><td colspan="6" style="text-align: center;">There are no <%= title.downcase %> timesheets to display</td></tr>
                             <% else %>
                               <% for timesheet in @timesheets %>
-                                <tr>
+                                <%if timesheet.contract.contractor_user_id == @contractor.id%>
+                                <% row_class = cycle('odd', 'even') %>
+                                  <tr class="timesheet_row <%= row_class %>">
                                   <td class="row_border_bottom row_border_right">
                                     <% if timesheet.status == 'APPROVED' %>
-                                      <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_timesheet_path(@contractor, timesheet) %>
+                                      <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_user_timesheet_path(@contractor, timesheet) %>
                                     <% else %>
-                                      <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_timesheet_path(@contractor, timesheet) %>
+                                      <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_user_timesheet_path(@contractor, timesheet) %>
                                     <% end %>
                                   </td>
                                   <td class="row_border_bottom row_border_right"><%=h timesheet.contract.client.name %></td>
@@ -40,10 +42,11 @@
                                   <td class="row_border_bottom"><%=h timesheet.status %></td>
                                 </tr>
                               <% end %>
+                             <%end%>
                               <tr><td colspan="6" align="center"><%= will_paginate(@timesheets) %></td></tr>
                             <% end %>
                           </table>
-                          <br />
+                          
                         </div>
                       </div>
 
