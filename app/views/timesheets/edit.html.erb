@@ -22,7 +22,7 @@
             <div style="position: absolute; width: 98.5%;top: 35px;height: 88%;z-index:1000; background-color: gray; filter:alpha(opacity=40);-moz-opacity: 0.4;opacity: 0.4;"></div>
          <% end %>
          <div id="left-header-box">
-          <%= two_column_nav_bar_layout2("Client: #{@contract.client.name}, Contract: #{@contract.ref}", link_to(image_tag('/images/printer_48.gif', :class => 'small_icon', :title => 'Print'), edit_contractor_timesheet_path(@contractor, @timesheet) + ".pdf", :class => 'image')) %>
+          <%= two_column_nav_bar_layout2("Client: #{@contract.client.name}, Contract: #{@contract.ref}", link_to(image_tag('/images/printer_48.gif', :class => 'small_icon', :title => 'Print'), edit_contractor_user_timesheet_path(@contractor, @timesheet) + ".pdf", :class => 'image')) %>
          </div> 
             <br />
             

@@ -251,7 +251,7 @@ class TimesheetsController < ApplicationController
     @timesheet = Timesheet.find(params[:id])
     
     # get the contractor
-    @contractor = Contractor.find(@timesheet.contractor_id)
+    @contractor = current_user
     
     # create the rates manager & set contract & get approvers
     rates_manager = RatesManager.new(@timesheet.contract.id)
@@ -288,7 +288,9 @@ class TimesheetsController < ApplicationController
     }
     
     respond_to do |format| 
-      format.html      
+      format.html {
+        render :layout=>"new_contractor_dashboard"
+      }
       format.pdf {
         address = format_address_lines(@timesheet.contract.client.agency)
         uniq = address.uniq!
