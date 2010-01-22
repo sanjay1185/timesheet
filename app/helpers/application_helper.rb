@@ -179,8 +179,8 @@ end
 
   def left_panel_footer
    html=''
-   html <<  "<div id=\"Footer\"><img src="" width=\"38\" height=\"32\" alt=\"Highrise Logo\" style=\"float: left;\" />"
-   html << "<span style=\"padding-top: 10px; line-height: 1.4em;\"><a href="" target=_blank>Terms of service</a></span></div>"  
+   html <<  "<div id=\"Footer\">"
+   html << "<span style=\"padding-top: 10px; line-height: 1.4em;\"></span></div>"  
   end
 
   

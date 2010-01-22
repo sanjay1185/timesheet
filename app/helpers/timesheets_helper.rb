@@ -1,6 +1,6 @@
 module TimesheetsHelper
 
-  def buttons(contract, entries, entry, count, status = 'new')
+  def buttons(contract, entries, entry, count, id,status = 'new')
     html = ''
 
       if !entry.manual?
@@ -11,8 +11,10 @@ module TimesheetsHelper
             html << image_submit_tag('add_green.png', :style => "top: 4px", :onclick => "setEntryDate('#{count}')", :name => 'add_h', :title => "Add hourly rate entry")
             html << "&nbsp;"
           end
-          html << image_submit_tag('add_blue.png', :style => "top: 4px", :onclick => "setEntryDate('#{count}')", :name => 'add_d', :title => 'Add daily rate entry')
-        end
+#          html << image_submit_tag('add_blue.png', :style => "top: 4px", :onclick => "setEntryDate('#{count}')", :name => 'add_d', :title => 'Add daily rate entry')
+        html << "<a href='#' onclick=\"new Ajax.Updater('padder', '/timesheets/update/#{id}', {asynchronous:true, evalScripts:true});return false;\""
+        html << "><img src=#{path_to_image('add_blue.png')} alt='' class=/'icon_48/' ></a>"
+      end
       end
     
 

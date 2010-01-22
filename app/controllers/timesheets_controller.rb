@@ -495,9 +495,8 @@ class TimesheetsController < ApplicationController
   # Update a draft timesheet
   #----------------------------------------------------------------------------
   def update
-    
     # get the contractor
-    @contractor = current_user.contractor
+    @contractor = current_user
     
     # get the timesheet
     @timesheet = Timesheet.find(params[:id])
@@ -532,7 +531,7 @@ class TimesheetsController < ApplicationController
       entry.format_hours
       total_hours += TimeUtil.hours_to_numeric(entry.hours)
       total_days += entry.dayValue unless entry.dayValue.nil?
-      entry.chargeRate = entry.rate.chargeRate unless entry.disabled?
+#      entry.chargeRate = entry.rate.chargeRate unless entry.disabled?
       contract_complete = entry.dateValue == @contract.endDate
       # set values for validation
       entry.requireTimes = Boolean.parse(entry.requireTimes)
@@ -549,10 +548,10 @@ class TimesheetsController < ApplicationController
     @input_section_colspan = @total_colspan - 4
     
     selected_date = nil
-    
+   
     # are adding/removing an entry?
     if !params['add_d.x'].nil? || !params['add_h.x'].nil?
-      
+     
       selected_date = params[:selected_date]
       
     else
@@ -561,7 +560,7 @@ class TimesheetsController < ApplicationController
       for param in params do
         
         if param[0].ends_with?('remove.x')
-          
+         
           # get the id from the button
           id = param[0].split('_')[0]
           
@@ -572,7 +571,7 @@ class TimesheetsController < ApplicationController
           entries[0].deleted = true
           #e.destroy unless e.nil?
           
-          render :action => 'edit'
+          render :action => 'edit',:layout=>"new_contractor_dashboard"
           return
           
         end
@@ -583,7 +582,7 @@ class TimesheetsController < ApplicationController
     
     # if selected_date is set we've added an entry
     unless selected_date.nil?
-      
+     
       # create new entry
       new_entry = TimesheetEntry.new
       new_entry.dateValue = Date.parse(selected_date)
@@ -609,8 +608,8 @@ class TimesheetsController < ApplicationController
       # save it - no validation
       new_entry.save(false)
       
-      render :action => 'edit'
-      return
+#      render :action => 'edit',:layout=>"new_contractor_dashboard"
+#      return
       
     end
     
@@ -674,7 +673,7 @@ class TimesheetsController < ApplicationController
     end
     
   end
-  
+
   #----------------------------------------------------------------------------
   # Alert for cancelling timesheet
   #----------------------------------------------------------------------------

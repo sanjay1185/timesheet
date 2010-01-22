@@ -164,7 +164,7 @@
               <% approver_area_html >> "<div align=\"center\"><i>None Assigned</i></div>" %>
             <% else %>
               <% for approver in @approvers do %>
-                  <% approver_area_html << "<a href='mailto: #{approver.email}'>#{approver.full_name}</a><br/>" %>
+                  <% approver_area_html << "(#{approver.full_name}) <a href='mailto: #{approver.email}'>#{approver.email}</a><br/>" %>
                 <%end%><%end%>
               <% approver_area_html << "</div>" %>
               <%= right_panel_bar_with_header("Approver",approver_area_html) %>

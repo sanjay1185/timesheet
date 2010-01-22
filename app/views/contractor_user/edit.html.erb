@@ -23,100 +23,80 @@
 
             <div id="blue-box">
               <div class="padder">
-                <table width="100%" cellpadding="8" cellspacing="0">
-                  <tr>
-                    <td class="left_side_cell">
 
-                      <h1 class="common_header">Personal Details</h1>
-                      <br />
-                      <% f.fields_for :user, @contractor do |usr_form| %>
-                        <div class="with_margins">
-                          <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
+                <% f.fields_for :user, @contractor do |usr_form| %>
 
-                            <tr style="height:25px">
-                              <td class="leftHeader" >Login: </td>
-                              <td>&nbsp;<%=h @contractor.login %></td>
-                            </tr>
-                            <tr>
-                              <% @titles = ['Select', 'Mr', 'Mrs', 'Miss'] %>
-                              <td>Title: <span style="color:red">*</span></td>
-                              <td><%= select_tag 'selected_title', options_for_select(@titles, @contractor.title.nil? ? 'Select' : @contractor.title), :id => 'title', :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>First name: <span style="color:red">*</span></td>
-                              <td><%= usr_form.text_field :firstName, :id => 'firstName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Last name: <span style="color:red">*</span></td>
-                              <td><%= usr_form.text_field :lastName, :id => 'lastName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Email: <span style="color:red">*</span></td>
-                              <td><%= usr_form.text_field :email, :id => 'email', :size => 25, :maxlength => 100, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Phone: </td>
-                              <td><%= usr_form.text_field :phone, :id => 'phone', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Mobile: </td>
-                              <td><%= usr_form.text_field :mobile, :id => 'mobile', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Addr1: <span style="color:red">*</span></td>
-                              <td><%= usr_form.text_field :addr1, :id => 'addr1', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Addr2: </td>
-                              <td><%= usr_form.text_field :addr2, :id => 'addr2', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Addr3: </td>
-                              <td><%= usr_form.text_field :addr3, :id => 'addr3', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>City: <span style="color:red">*</span></td>
-                              <td><%= usr_form.text_field :city, :id => 'city', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Region: </td>
-                              <td><%= usr_form.text_field :region, :id => 'region', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
-                            </tr>
-                            <tr>
-                              <td>Post Code: <span style="color:red">*</span></td>
-                              <td><%= usr_form.text_field :postCode, :id => 'postCode', :size => 10, :maxlength => 15, :class => 'spaced_input'  %><%= usr_form.hidden_field :contractor_id, :value => @contractor.id %>
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                        <br />
+                  <table style="margin-left:10px" cellpadding="0" cellspacing="0">
+                    <tr style="height:25px">
+                      <td class="leftHeader" >Login: </td>
+                      <td>&nbsp;<%=h @contractor.login %></td>
+                    </tr>
+                    <tr>
+                      <% @titles = ['Select', 'Mr', 'Mrs', 'Miss'] %>
+                      <td>Title: <span style="color:red">*</span></td>
+                      <td><%= select_tag 'selected_title', options_for_select(@titles, @contractor.title.nil? ? 'Select' : @contractor.title), :id => 'title', :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>First name: <span style="color:red">*</span></td>
+                      <td><%= usr_form.text_field :firstName, :id => 'firstName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Last name: <span style="color:red">*</span></td>
+                      <td><%= usr_form.text_field :lastName, :id => 'lastName', :size => 20, :maxlength => 25, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Email: <span style="color:red">*</span></td>
+                      <td><%= usr_form.text_field :email, :id => 'email', :size => 25, :maxlength => 100, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Phone: </td>
+                      <td><%= usr_form.text_field :phone, :id => 'phone', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Mobile: </td>
+                      <td><%= usr_form.text_field :mobile, :id => 'mobile', :size => 20, :maxlength => 30, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Addr1: <span style="color:red">*</span></td>
+                      <td><%= usr_form.text_field :addr1, :id => 'addr1', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Addr2: </td>
+                      <td><%= usr_form.text_field :addr2, :id => 'addr2', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Addr3: </td>
+                      <td><%= usr_form.text_field :addr3, :id => 'addr3', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>City: <span style="color:red">*</span></td>
+                      <td><%= usr_form.text_field :city, :id => 'city', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Region: </td>
+                      <td><%= usr_form.text_field :region, :id => 'region', :size => 25, :maxlength => 75, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Post Code: <span style="color:red">*</span></td>
+                      <td><%= usr_form.text_field :postCode, :id => 'postCode', :size => 10, :maxlength => 15, :class => 'spaced_input'  %><%= usr_form.hidden_field :contractor_id, :value => @contractor.id %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Company Name:</td>
+                      <td><%= f.text_field :companyName, :id => 'companyName', :size => 23, :maxlength => 100, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>Company N&ordm;: </td>
+                      <td><%= f.text_field :companyNumber, :id => 'companyNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
+                    </tr>
+                    <tr>
+                      <td>VAT N&ordm;: </td>
+                      <td><%= f.text_field :vatNumber, :id => 'vatNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
+                    </tr>
+                  </table>
+                  <br />
+                <% end %>
 
-                      </td> <!-- cell -->
-                    <% end %>
-                    <td class="right_side_cell" valign="top">
-
-                      <h1 class="common_header">Company Details (if applicable)</h1>
-                      <br />
-                      <div class="with_margins">
-                        <table width="100%" align="center" cellspacing="0" cellpadding="0" >
-                          <tr>
-                            <td>Company Name:</td>
-                            <td><%= f.text_field :companyName, :id => 'companyName', :size => 23, :maxlength => 100, :class => 'spaced_input'  %></td>
-                          </tr>
-                          <tr>
-                            <td>Company N&ordm;: </td>
-                            <td><%= f.text_field :companyNumber, :id => 'companyNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
-                          </tr>
-                          <tr>
-                            <td>VAT N&ordm;: </td>
-                            <td><%= f.text_field :vatNumber, :id => 'vatNumber', :size => 12, :maxlength => 30, :class => 'spaced_input'  %></td>
-                          </tr>
-                        </table>
-                      </div>
-                      <br/>
-                    </td> <!-- cell -->
-                  </tr> <!-- row -->
-                </table> <!-- table -->
               </div>
             </div>
           </div>
