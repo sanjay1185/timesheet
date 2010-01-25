@@ -331,8 +331,9 @@ class TimesheetsController < ApplicationController
     selected_date = nil
     
     # set the selected_date if we have had an 'add' button clicked
-    if !params['add_d.x'].nil? || !params['add_h.x'].nil?
-      
+#    if !params['add_d.x'].nil? || !params['add_h.x'].nil?
+      if params[:commit]=="add" || !params['add_h.x'].nil?    
+      p " params['add_d.x'].nil?"
       selected_date = params[:selected_date]
       
     else
@@ -384,7 +385,7 @@ class TimesheetsController < ApplicationController
     # set the rates up
     @day_rates = rates_manager.get_valid_rates_by_type(@timesheet.startDate, @timesheet.startDate + 6, 'Day').collect {|r| [ r.name, r.id ] }
     @hour_rates = rates_manager.get_valid_rates_by_type(@timesheet.startDate, @timesheet.startDate + 6, 'Hour', @timesheet.rateType == 'Day').collect {|r| [ r.name, r.id ] }
-    
+   
     # if selected_date set then we're just adding a row
     if !selected_date.nil?
       
@@ -392,21 +393,24 @@ class TimesheetsController < ApplicationController
       new_entry = TimesheetEntry.new
       new_entry.dateValue = Date.parse(selected_date)
       new_entry.manual = true
-      new_entry.rateType = params['add_d.x'].nil? ? 'Hour' : 'Day'
+#      new_entry.rateType = params['add_d.x'].nil? ? 'Hour' : 'Day'
+      new_entry.rateType = 'Day'
+      new_entry.rate_id = 3
       # set values for validation
       new_entry.requireTimes = @contract.requireTimes
       new_entry.requireFullWeek = @contract.requireFullWeek 
       new_entry.is_bank_hol = BankHoliday.is_holiday(new_entry.dateValue, 'UK')
       @timesheet.timesheet_entries << new_entry
       
-      render :action => 'prepare',:layout=>"new_contractor_dashboard"
-      
+#      render :action => 'prepare',:layout=>"new_contractor_dashboard"
+      render :partial =>"/prepare_timesheet_entry"
       return
       
     elsif removed
       
       # just return if we removed an entry earlier
-      render :action => 'prepare'
+#      render :action => 'prepare',:layout=>"new_contractor_dashboard"
+       render :partial =>"/prepare_timesheet_entry"
       return
       
     end
@@ -481,7 +485,10 @@ class TimesheetsController < ApplicationController
           
         else
           
-          format.html { render :action => "prepare" }
+          format.html { 
+#            render :action => "prepare" ,:layout=>"new_contractor_dashboard"
+            render :partial =>"/prepare_timesheet_entry"
+              }
           
         end
         
@@ -495,7 +502,10 @@ class TimesheetsController < ApplicationController
   # Update a draft timesheet
   #----------------------------------------------------------------------------
   def update
+   
     # get the contractor
+  
+#    selected_date = params[:selected_date]
     @contractor = current_user
     
     # get the timesheet
@@ -550,19 +560,17 @@ class TimesheetsController < ApplicationController
     selected_date = nil
    
     # are adding/removing an entry?
-    if !params['add_d.x'].nil? || !params['add_h.x'].nil?
-     
-      selected_date = params[:selected_date]
-      
-    else
-      
+#    if !params['add_d.x'].nil? || !params['add_h.x'].nil?
+      if params[:commit]=="add" || !params['add_h.x'].nil?    
+      selected_date = params[:selected_date]      
+    else      
       # remove?
       for param in params do
         
         if param[0].ends_with?('remove.x')
          
           # get the id from the button
-          id = param[0].split('_')[0]
+          id = param[0].split('_')[0] || params[:id]
           
           # delete from DB
           #e = TimesheetEntry.find(id.to_i) unless id.blank?
@@ -570,8 +578,8 @@ class TimesheetsController < ApplicationController
           entries = @timesheet.timesheet_entries.select {|e| e.id == id.to_i}
           entries[0].deleted = true
           #e.destroy unless e.nil?
-          
-          render :action => 'edit',:layout=>"new_contractor_dashboard"
+          render :partial=>"/timesheet_entry"
+#          render :action => 'edit',:layout=>"new_contractor_dashboard"
           return
           
         end
@@ -587,7 +595,10 @@ class TimesheetsController < ApplicationController
       new_entry = TimesheetEntry.new
       new_entry.dateValue = Date.parse(selected_date)
       new_entry.timesheet_id = @timesheet.id
-      new_entry.rateType = params['add_d.x'].nil? ? 'Hour' : 'Day'
+#      new_entry.rateType = params['add_d.x'].nil? ? 'Hour' : 'Day'
+      new_entry.rateType = params[:timesheet][:rateType]
+      new_entry.rate_id = params[:rate_id]
+
       new_entry.manual = true
       new_entry.requireTimes = @contract.requireTimes
       new_entry.requireFullWeek = @contract.requireFullWeek 
@@ -607,10 +618,11 @@ class TimesheetsController < ApplicationController
       
       # save it - no validation
       new_entry.save(false)
-      
+      p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>unless selected_date.nil?"
 #      render :action => 'edit',:layout=>"new_contractor_dashboard"
 #      return
-      
+      render :partial=>"/timesheet_entry"
+      return
     end
     
     invalid_state = false
@@ -660,11 +672,11 @@ class TimesheetsController < ApplicationController
       end
       
       if result
-        
+        p "//////////////////////////result"
         redirect_to currenttimesheets_path(:date_period => Navigator.get_position(session, :contractor_timesheets)[0], :timesheet_status => Navigator.get_position(session, :contractor_timesheets)[1], :page => Navigator.get_position(session, :contractor_timesheets)[3])
         
       else
-        
+        p "////////////////////////else result"
         @timesheet.status = 'DRAFT'
         render :action => "edit"
         
@@ -723,6 +735,44 @@ class TimesheetsController < ApplicationController
     @submit_button_title = @disable_submit.blank? ? "Submit this timesheet to your approver(s)" : "You have no approvers assigned so you must submit the timesheet manually"
     @submit_button_class = @disable_submit.blank? ? "generalButton" : "disabledButton"
     
+  end
+
+  def add_entry
+    selected_date = params[:selected_date]
+    @contractor = current_user
+    @timesheet = Timesheet.find(params[:id])
+    @timesheet.attributes = params[:timesheet]
+    @contract = @timesheet.contract
+    rates_manager = RatesManager.new(@contract.id)
+    @approvers = @contract.approver_users
+    @notes = TimesheetHistory.get_all_notes(@timesheet.id)
+    @day_rates = rates_manager.get_valid_rates_by_type(@timesheet.startDate, @timesheet.startDate + 6, 'Day').collect {|r| [ r.name, r.id ] }
+    @hour_rates = rates_manager.get_valid_rates_by_type(@timesheet.startDate, @timesheet.startDate + 6, 'Hour', @timesheet.rateType == 'Day').collect {|r| [ r.name, r.id ] }
+
+    total_hours = 0
+    total_days = 0
+    set_submit_button(@contract.approver_users.length)
+    contract_complete = false
+    for entry in @timesheet.timesheet_entries
+      next if entry.deleted?
+      entry.format_hours
+      total_hours += TimeUtil.hours_to_numeric(entry.hours)
+      total_days += entry.dayValue unless entry.dayValue.nil?
+#      entry.chargeRate = entry.rate.chargeRate unless entry.disabled?
+      contract_complete = entry.dateValue == @contract.endDate
+      # set values for validation
+      entry.requireTimes = Boolean.parse(entry.requireTimes)
+      entry.requireFullWeek = Boolean.parse(entry.requireFullWeek)
+      entry.is_bank_hol = Boolean.parse(entry.is_bank_hol)
+    end
+
+    # set the totals
+    @timesheet.totalDays = total_days
+    @timesheet.totalHours = TimeUtil.numeric_to_hours(total_hours)
+
+    # set the colspan
+    @total_colspan = @contract.rateType == 'Day' ? 11 : 10
+    @input_section_colspan = @total_colspan - 4
   end
   
 end

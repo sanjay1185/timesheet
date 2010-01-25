@@ -1,0 +1,142 @@
+ <% form_for([@contractor, @timesheet], :html => {:name => 'ts_form'}) do |f| %>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">
+              <%= two_column_nav_bar_layout2("Client: #{@contract.client.name}, Contract: #{@contract.ref}", link_to(image_tag('/images/printer_48.gif', :class => 'small_icon', :title => 'Print'), edit_contractor_user_timesheet_path(@contractor, @timesheet) + ".pdf", :class => 'image')) %>
+            </h1>
+          </div>
+          <div class="innercol">
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+            <%= show_errors('Unable to save timesheet', f.error_messages) %>
+            <%= show_notice(flash[:notice]) %>
+
+            <% html_header = (@timesheet.status == 'DRAFT' || @timesheet.status == 'DENIED') ? 'Edit Timesheet' : 'New Timesheet' %>
+            <% html_header_right = '' %>
+            <% if @timesheet.status == "DRAFT" || @timesheet.status == 'DENIED' %>
+              <% html_header_right << submit_tag("Submit", :title => @submit_button_title, :class => @submit_button_class, :disabled => @disable_submit) %>
+              <% html_header_right << "&nbsp;#{submit_tag('Submit as Manual', :title => 'Submit for manual approval', :class => 'generalButton')}&nbsp;#{submit_tag('Save as draft', :class => 'generalButton')}" %>
+            <% elsif @timesheet.status == "SUBMITTED" || @timesheet.status == "MANUAL" %>
+              <% html_header_right << "#{submit_tag("Cancel", :title => "Cancel Timesheet", :class => 'generalButton', :onclick => "Modalbox.show(\"cancel_timesheet_alert\", {title: (this.title == '' ? 'Confirm' : this.title), width: 300, autoFocusing: false}); return false;")}" %>
+            <% end %>
+
+            <% html_header_right << "&nbsp;<input type=\"button\" class=\"generalButton\" value=\"Close\" onclick=\"nav('#{currenttimesheets_path(:date_period => Navigator.get_position(session, :contractor_timesheets)[0], :timesheet_status => Navigator.get_position(session, :contractor_timesheets)[1], :page => Navigator.get_position(session, :contractor_timesheets)[3])}');\" />" %>
+            <div id="blue-box">
+              <div class="padder" id="padder">          
+ <% if @timesheet.status != "DRAFT" && @timesheet.status != 'DENIED' %>
+                  <div style="position: absolute; width: 97.5%;left:18px;top: 78px;height: 98%;z-index:1000; background-color: gray; filter:alpha(opacity=40);-moz-opacity: 0.4;opacity: 0.4;"></div>
+                <% end %>
+                <table width="100%" id="timesheet" cellspacing="0" cellpadding="4" >
+                  <tr class="data_table_header" class="row_border_bottom">
+                    <td class="header">Date</td>
+                    <td class="header" align="center" style="">Shifts</td>
+                    <td class="header">Start</td>
+                    <td class="header">Break</td>
+                    <td class="header">Finish</td>
+                    <td class="header" style="<%= "display: none" if @contract.rateType == 'Hour' %>">Daily</td>
+                    <td class="header">Hours</td>
+                    <td class="header">Rate</td>
+                  </tr>
+                  <% count = 0 %>
+                  <% entries_total = @timesheet.timesheet_entries.length %>
+                  <% @timesheet.timesheet_entries.each do |entry| %>
+
+                  <% f.fields_for(:timesheet_entries, entry) do |entry_form| %>
+                      <% row_class = cycle('odd', 'even') %>
+                      <tr class="timesheet_row <%= row_class %> row_border_bottom ">
+                        <% if entry.deleted? %>
+                          <%= entry_form.hidden_field(:id, :value => entry.id) %>
+                          <%= entry_form.hidden_field(:deleted, :value => entry.deleted) %>
+                          <% next %>
+                        <% end %>
+                        <% if (entry.disabled == true) || (entry.is_bank_hol == true && !@contract.allowBankHolidays?) %>
+                          <td class="row_border_bottom" style="font-size: 0.9em;width:150px;">rr
+                            <%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %>
+                          </td>
+                          <td class="row_border_bottom" colspan="<%= @input_section_colspan %>" style="height: 25px;"><%= entry_form.hidden_field :timesheet_id %><%= entry_form.hidden_field :disabled, :value => entry.disabled %><div style="color: gray; border: gray solid 1px;width:98%;text-align: center;"><%= entry.is_bank_hol == true ? "Bank Holidays are not applicable to this contract" : "Not required for this timesheet" %></div></td>
+                        <% else  %>
+                          <td class="row_border_bottom" style="font-size: 0.9em;width:150px;<%= ";color:#324d68;font-style: italic" if entry.manual? %>"><%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %></td>
+                          <td class="row_border_bottom buttons" align="center" style=""><%= remote_buttons(@contract, @timesheet.timesheet_entries, entry, count,@timesheet.id, 'edit') %></td>
+                          <td class="row_border_bottom"><%= entry_form.text_field :startTime, :class => 'timesheet_input spaced_input', :id => "startTime#{count.to_s}", :onkeyup => "formatTime('startTime#{count.to_s}')", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
+                          <td class="row_border_bottom"><%= entry_form.text_field :breakHours, :class => 'timesheet_input spaced_input', :id => "breakHours#{count.to_s}", :onchange => "formatHours('breakHours#{count.to_s}',#{entries_total.to_s})", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
+                          <td class="row_border_bottom"><%= entry_form.text_field :finishTime, :class => 'timesheet_input spaced_input', :id => "finishTime#{count.to_s}", :onkeyup => "formatTime('finishTime#{count.to_s}')", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
+                          <td class="row_border_bottom" style="<%= "display: none" if @contract.rateType == 'Hour' %>"><%= entry_form.select(:dayValue, select_day_values, { :selected => entry.dayValue.nil? ? 0 : entry.dayValue}, :id => 'dayValue' + count.to_s, :onChange => "CalcTotalDays(#{entries_total.to_s})", :class => 'spaced_input', :disabled => entry.rateType == 'Hour') %></td>
+                          <td class="row_border_bottom" style="font-size: 0.9em">
+                            <% if entry.rateType == 'Day' %>
+                              <span>N/A</span>
+                            <% else %>
+                              <%= entry_form.text_field(:hours, :class => 'timesheet_input spaced_input', :id => 'hours' + count.to_s, :onchange => "formatHours('hours#{count.to_s}','#{entries_total.to_s}')", :disabled => entry.rateType == 'Day') %>
+                            <% end %>
+                          </td>
+                          <td class="row_border_bottom">
+                            <% rates_for_entry = entry.rateType == 'Day' ? @day_rates : @hour_rates %>
+                            <%= entry_form.select(:rate_id, rates_for_entry, { :selected => entry.rate_id.nil? ? 0 : entry.rate_id}, { :class => 'spaced_input' }) %>
+                            <%= entry_form.hidden_field(:disabled, :value => entry.disabled) %>
+                            <%= entry_form.hidden_field(:manual, :value => entry.manual) %>
+                            <%= entry_form.hidden_field(:requireFullWeek, :value => entry.requireFullWeek) %>
+                            <%= entry_form.hidden_field(:requireTimes, :value => entry.requireTimes) %>
+                            <%= entry_form.hidden_field(:rateType, :value => entry.rateType) %>
+                            <%= entry_form.hidden_field(:is_bank_hol, :value => entry.is_bank_hol) %>
+                            <%= entry_form.hidden_field(:deleted, :value => entry.deleted) %>
+                          </td>
+                        <% end %>
+                      </tr>
+                      <% count += 1 %>
+
+                    <% end %>
+                  <% end %>
+                  <tr class="totals">
+                    <% span = 5 %>
+                    <td class="timesheet_border_right bold large_text" colspan="<%= span %>">Total</td>
+                    <td class="timesheet_border_right bold large_text" style="<%= "display: none" if @contract.rateType == 'Hour' %>" title="Daily paid values are not included in the total hours."><span id="totalDays">0</span></td>
+                    <td class="timesheet_border_right bold large_text"><span id="totalStandard">0</span></td>
+                    <td class="timesheet_border_right" colspan="2">&nbsp;
+                      <%= f.hidden_field :contract_id, :value => @timesheet.contract_id %>
+                      <%= f.hidden_field :startDate, :value => @timesheet.startDate %>
+                      <%= f.hidden_field :contractor_id, :value => @contractor.id %>
+                      <%= f.hidden_field :rateType, :value => @timesheet.rateType %>
+                    </td>
+                  </tr>
+                </table>
+                <input type="hidden" name="selected_date" id="selected_date" />
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom"><%=left_panel_footer%></div>
+      </div>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <%= right_panel_bar_with_header(html_header, html_header_right) %>
+
+            <%notes_content=''%>
+            <%notes_content << "<table width=\"95%\" cellpadding=\"2\" cellspacing=\"0\">" %>
+            <% if @timesheet.status != 'DRAFT' %>
+              <% notes_content << "<tr valign=\"top\"><td><span class=\"bold\">#{@timesheet.userName} - #{@timesheet.updated_at.to_formatted_s(:uk_date_time_24)}</span><br />#{@timesheet.note}</td></tr>"%>
+            <%end%>
+            <% for note in @notes %>
+              <% cls = cycle("odd_row_dull", "") -%>
+              <%notes_content << "<tr class='#{cls}' valign='\top\'>"%>
+              <%notes_content << "<td><span class=\"bold\">#{note.userName} - #{note.updated_at.to_formatted_s(:uk_date_time_24)}</span><br />#{note.note}</td></tr>"%>
+            <%end%>
+            <% if @notes.length == 0 &&  @timesheet.status == 'DRAFT' %>
+              <%notes_content << "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><i>No notes to display</i></td></tr>" %>
+            <%end%>
+            <%notes_content << "</table>"%>
+            <%= right_panel_bar_with_header("Notes",notes_content) %>
+
+            <%new_notes_content=''%>
+            <%new_notes_content << ''%>
+            <%new_notes_content << ''%>
+            <%new_notes_content << ''%>
+            <%= right_panel_bar_with_header("Add New Note (only saved when submitted)",text_area_tag('notes', nil, :rows => 7, :style => "width: 97%", :onKeyDown => 'limitText(this,255)', :onKeyUp => 'limitText(this,255)', :disabled => @timesheet.status == 'APPROVED') ) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
