@@ -333,7 +333,7 @@ class TimesheetsController < ApplicationController
     # set the selected_date if we have had an 'add' button clicked
 #    if !params['add_d.x'].nil? || !params['add_h.x'].nil?
       if params[:commit]=="add" || !params['add_h.x'].nil?    
-      p " params['add_d.x'].nil?"
+      
       selected_date = params[:selected_date]
       
     else
@@ -341,8 +341,8 @@ class TimesheetsController < ApplicationController
       # remove?
       for param in params do
         
-        if param[0].ends_with?('_remove.x')
-          
+#        if param[0].ends_with?('_remove.x')
+          if params[:commit]=="remove"
           # get the ID from the button
           id = param[0].split('_')[0]
           
@@ -394,7 +394,7 @@ class TimesheetsController < ApplicationController
       new_entry.dateValue = Date.parse(selected_date)
       new_entry.manual = true
 #      new_entry.rateType = params['add_d.x'].nil? ? 'Hour' : 'Day'
-      new_entry.rateType = 'Day'
+       new_entry.rateType =@contract.rateType
       new_entry.rate_id = 3
       # set values for validation
       new_entry.requireTimes = @contract.requireTimes
@@ -618,7 +618,7 @@ class TimesheetsController < ApplicationController
       
       # save it - no validation
       new_entry.save(false)
-      p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>unless selected_date.nil?"
+      
 #      render :action => 'edit',:layout=>"new_contractor_dashboard"
 #      return
       render :partial=>"/timesheet_entry"
@@ -672,11 +672,9 @@ class TimesheetsController < ApplicationController
       end
       
       if result
-        p "//////////////////////////result"
         redirect_to currenttimesheets_path(:date_period => Navigator.get_position(session, :contractor_timesheets)[0], :timesheet_status => Navigator.get_position(session, :contractor_timesheets)[1], :page => Navigator.get_position(session, :contractor_timesheets)[3])
         
       else
-        p "////////////////////////else result"
         @timesheet.status = 'DRAFT'
         render :action => "edit"
         

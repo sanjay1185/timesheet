@@ -3,7 +3,7 @@
         <div class="col">
           <div class="page_header">
             <h1 class="index">
-              <%= two_column_nav_bar_layout2("Client: #{@contract.client.name}, Contract: #{@contract.ref}", link_to(image_tag('/images/printer_48.gif', :class => 'small_icon', :title => 'Print'), edit_contractor_user_timesheet_path(@contractor, @timesheet) + ".pdf", :class => 'image')) %>
+              <%= two_column_nav_bar_layout2("Client: #{@contract.client.name}, Contract: #{@contract.ref} ", link_to(image_tag('/images/printer_48.gif', :class => 'small_icon', :title => 'Print'), edit_contractor_user_timesheet_path(@contractor, @timesheet) + ".pdf", :class => 'image')) %>
             </h1>
           </div>
           <div class="innercol">
@@ -26,7 +26,7 @@
             <% html_header_right << "&nbsp;<input type=\"button\" class=\"generalButton\" value=\"Close\" onclick=\"nav('#{currenttimesheets_path(:date_period => Navigator.get_position(session, :contractor_timesheets)[0], :timesheet_status => Navigator.get_position(session, :contractor_timesheets)[1], :page => Navigator.get_position(session, :contractor_timesheets)[3])}');\" />" %>
             <div id="blue-box">
               <div class="padder" id="padder">          
- <% if @timesheet.status != "DRAFT" && @timesheet.status != 'DENIED' %>
+                <% if @timesheet.status != "DRAFT" && @timesheet.status != 'DENIED' %>
                   <div style="position: absolute; width: 97.5%;left:18px;top: 78px;height: 98%;z-index:1000; background-color: gray; filter:alpha(opacity=40);-moz-opacity: 0.4;opacity: 0.4;"></div>
                 <% end %>
                 <table width="100%" id="timesheet" cellspacing="0" cellpadding="4" >
@@ -59,7 +59,7 @@
                           <td class="row_border_bottom" colspan="<%= @input_section_colspan %>" style="height: 25px;"><%= entry_form.hidden_field :timesheet_id %><%= entry_form.hidden_field :disabled, :value => entry.disabled %><div style="color: gray; border: gray solid 1px;width:98%;text-align: center;"><%= entry.is_bank_hol == true ? "Bank Holidays are not applicable to this contract" : "Not required for this timesheet" %></div></td>
                         <% else  %>
                           <td class="row_border_bottom" style="font-size: 0.9em;width:150px;<%= ";color:#324d68;font-style: italic" if entry.manual? %>"><%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %></td>
-                          <td class="row_border_bottom buttons" align="center" style=""><%= remote_buttons(@contract, @timesheet.timesheet_entries, entry, count,@timesheet.id, 'edit') %></td>
+                          <td class="row_border_bottom buttons" align="center" style=""><img style="display:none" id="loader_<%=entry.id%>" src="/images/loading.gif" height="16px" width="16px"  /><%= remote_buttons(@contract, @timesheet.timesheet_entries, entry, count,@timesheet.id, 'edit') %></td>
                           <td class="row_border_bottom"><%= entry_form.text_field :startTime, :class => 'timesheet_input spaced_input', :id => "startTime#{count.to_s}", :onkeyup => "formatTime('startTime#{count.to_s}')", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
                           <td class="row_border_bottom"><%= entry_form.text_field :breakHours, :class => 'timesheet_input spaced_input', :id => "breakHours#{count.to_s}", :onchange => "formatHours('breakHours#{count.to_s}',#{entries_total.to_s})", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>
                           <td class="row_border_bottom"><%= entry_form.text_field :finishTime, :class => 'timesheet_input spaced_input', :id => "finishTime#{count.to_s}", :onkeyup => "formatTime('finishTime#{count.to_s}')", :onblur => "set_day_total('#{count.to_s}',#{entries_total.to_s})" %></td>

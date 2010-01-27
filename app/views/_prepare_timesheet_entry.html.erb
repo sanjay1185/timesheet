@@ -53,7 +53,7 @@
                       <% row_class = cycle('odd', 'even') %>
                       <tr class="timesheet_row <%= row_class %> row_border_bottom ">
                         <% if (entry.disabled == true) || (entry.is_bank_hol == true && !@contract.allowBankHolidays?) %>
-                          <td class="" style="font-size: 0.9em;width:50px;">
+                          <td class="" style="font-size: 0.9em;width:50px;"><%=entry.disabled%><%=entry.is_bank_hol%><%=!@contract.allowBankHolidays?%>
                             <%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %>
                           </td>
                           <td class="" colspan="<%= @input_section_colspan %>" style="height: 25px;">
@@ -66,7 +66,7 @@
                           <td class="" style="font-size: 0.9em;<%= "color:#324d68;font-style:  italic" if entry.manual? %>">
                             <%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %>
                           </td>
-                          <td class="" align="center" style="">
+                          <td class="" align="center" style=""><img style="display:none" id="loader_<%=count%>" src="/images/loading.gif" height="16px" width="16px"  />
                             <%= remote_buttons(@contract, entries, entry, count,@timesheet.id,'new') %>
                           </td>
                           <td class="">
