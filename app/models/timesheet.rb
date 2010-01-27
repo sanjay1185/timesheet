@@ -411,7 +411,7 @@ class Timesheet < ActiveRecord::Base
   #----------------------------------------------------------------------------
   # get the timesheets for a contractor by status
   #----------------------------------------------------------------------------
-  def self.current_for_contractor(contractor, filter, date_period, page, per_page)
+  def self.current_for_contractor(contract, filter, date_period, page, per_page)
 
     if !filter.nil?
 
@@ -435,9 +435,9 @@ class Timesheet < ActiveRecord::Base
 
     end
 
-    conditions_string = "status" + filter + "and timesheets.startDate >= ?"
+    conditions_string = "status" + filter + "and contract_id=? and timesheets.startDate >= ?"
     
-    paginate(:per_page => per_page, :page => page, :conditions => [conditions_string, Date.today - date_period.to_i.months], :order => 'timesheets.startDate').uniq
+    paginate(:per_page => per_page, :page => page, :conditions => [conditions_string,contract, Date.today - date_period.to_i.months], :order => 'timesheets.startDate').uniq
 
   end
 

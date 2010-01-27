@@ -159,7 +159,7 @@
             <%= right_panel_bar_with_header("Agency Details",agency_area_html) %>
             <% approver_area_html="<div style=\"height: 90px; overflow:auto;\">" %>
             <% if @approvers.length == 0 %>
-              <% approver_area_html >> "<div align=\"center\"><i>None Assigned</i></div>" %>
+              <% approver_area_html << "<div align=\"center\"><i>None Assigned</i></div>" %>
             <% else %>
               <% for approver in @approvers do %>
                   <% approver_area_html << "(#{approver.full_name}) <a href='mailto: #{approver.email}'>#{approver.email}</a><br/>" %>

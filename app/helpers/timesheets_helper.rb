@@ -42,8 +42,8 @@ module TimesheetsHelper
 
       else
           if contract.allowOvertime?
-            html << image_submit_tag('add_green.png', :style => "top: 4px", :onclick => "setEntryDate('#{count}')", :name => 'add_h', :title => "Add hourly rate entry")
-            html << "&nbsp;"
+            html << "<a href='#' onclick=\"new Ajax.Updater('screen_body', '/timesheets/create?commit=add&selected_date=#{entry.dateValue}&rate_id=#{entry.rate_id}', {loading:Element.show('loader_#{count}'),asynchronous:true, evalScripts:true,parameters:Form.serialize('new_timesheet')});return false;\""
+            html << "><img src=#{path_to_image('add_green.png')} name = 'add_d' style='top:4px' alt='' class=/'icon_48/' ></a>&nbsp;"
           end
          if status=='new'
           html << "<a href='#'  onclick=\"new Ajax.Updater('screen_body', '/timesheets/create?commit=add&selected_date=#{entry.dateValue}&rate_id=#{entry.rate_id}', {loading:Element.show('loader_#{count}'),asynchronous:true, evalScripts:true,parameters:Form.serialize('new_timesheet')});return false;\""

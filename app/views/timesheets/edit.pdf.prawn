@@ -5,7 +5,7 @@ pdf.image @img_tag ,:at=>[0,735],:scope=>0.3
 
 table_item = [["","#{@timesheet.contract.client.agency.name}"+@addr +"\nPhone:#{@timesheet.contract.client.agency.phone}"+"\nFax:#{@timesheet.contract.client.agency.fax}",
                "Timesheet No:\n" + "Contractor:\n" + "Client:\n" + "Position:\n" + "Ref:\n" + "Week Ending:",
-               "#{@timesheet.id.to_s.rjust(10, '0')}\n"+"#{@timesheet.contractor.user.full_name}\n" +"#{@timesheet.contract.client.name}\n"+"#{@timesheet.contract.position}\n"+"#{@timesheet.contract.ref}\n"+"#{(@timesheet.startDate + 6).to_formatted_s(:uk_date)}\n"]              
+               "#{@timesheet.id.to_s.rjust(10, '0')}\n"+"#{@timesheet.contract.contractor_user.full_name}\n" +"#{@timesheet.contract.client.name}\n"+"#{@timesheet.contract.position}\n"+"#{@timesheet.contract.ref}\n"+"#{(@timesheet.startDate + 6).to_formatted_s(:uk_date)}\n"]
              ]
 
 pdf.table table_item,:border_style =>:grid,:font_families=>"helvetica",

@@ -170,7 +170,7 @@ class TimesheetsController < ApplicationController
       @ts_entry.requireTimes = @contract.requireTimes
       
       # set rate to standard
-      @ts_entry.rate_id = std_rate.id
+#      @ts_entry.rate_id = std_rate.id
       
       # if it's a weekend - set the rate to unpaid
       if @ts_entry.dateValue.wday == 0 || @ts_entry.dateValue.wday == 6
@@ -234,7 +234,7 @@ class TimesheetsController < ApplicationController
     # set the navigator
     Navigator.set_position(session, :contractor_timesheets, @selected_date_period, @selected_timesheet_status, params[:page])
     # get the timesheets
-    @timesheets = Timesheet.current_for_contractor(@contractor, @selected_timesheet_status, @selected_date_period, params[:page], 10)
+    @timesheets = Timesheet.current_for_contractor(@contractor.contracts[0].id, @selected_timesheet_status, @selected_date_period, params[:page], 10)
     # get the current contracts (so we know whether to add a 'create timesheet' button or not)
 #    @contracts = @contractor.current_contracts
     @contracts = Contract.find(:all,:conditions=>["contractor_user_id = ?",@contractor.id])
