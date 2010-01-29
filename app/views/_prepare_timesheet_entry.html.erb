@@ -53,7 +53,7 @@
                       <% row_class = cycle('odd', 'even') %>
                       <tr class="timesheet_row <%= row_class %> row_border_bottom ">
                         <% if (entry.disabled == true) || (entry.is_bank_hol == true && !@contract.allowBankHolidays?) %>
-                          <td class="" style="font-size: 0.9em;width:50px;"><%=entry.disabled%><%=entry.is_bank_hol%><%=!@contract.allowBankHolidays?%>
+                          <td class="" style="font-size: 0.9em;width:50px;">
                             <%=h entry.dateValue.to_formatted_s(:uk_date) %>&nbsp;-&nbsp;<%=h entry.dateValue.strftime("%A") %><%= entry_form.hidden_field :dateValue, :value => entry.dateValue %>
                           </td>
                           <td class="" colspan="<%= @input_section_colspan %>" style="height: 25px;">

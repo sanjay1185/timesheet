@@ -4,7 +4,7 @@ class ApproverdashboardController < ApplicationController
   # Callback events - authenticate. need to be approver user
   #----------------------------------------------------------------------------
   before_filter :authenticate
-
+  layout "new_approverdashboard"
   before_filter do |controller|
     controller.check_type('approver')
   end

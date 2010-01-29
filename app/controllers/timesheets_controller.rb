@@ -116,7 +116,7 @@ class TimesheetsController < ApplicationController
     @contractor = current_user
     
     # get the contracts
-    contracts = @contractor.current_contracts
+    contracts = @contractor.contracts.select{|contract| contract.status !='COMPLETED'}
     
     # set the contract id (from list of contracts or from single valid contract)
     @contractId = contracts.length == 1 ? contracts[0].id : params['contract_obj']['contract_id']
@@ -576,7 +576,8 @@ class TimesheetsController < ApplicationController
           #e = TimesheetEntry.find(id.to_i) unless id.blank?
           #@timesheet.timesheet_entries.delete(e) unless e.nil?
           entries = @timesheet.timesheet_entries.select {|e| e.id == id.to_i}
-          entries[0].deleted = true
+          entries[0].destroy
+          @timesheet = Timesheet.find(params[:id])
           #e.destroy unless e.nil?
           render :partial=>"/timesheet_entry"
 #          render :action => 'edit',:layout=>"new_contractor_dashboard"

@@ -27,7 +27,7 @@
                   <% for timesheet in @timesheets %>
                     <%if timesheet.contract.contractor_user_id == @contractor.id%>
                       <% row_class = cycle('odd', 'even') %>
-                      <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                        <tr class="timesheet_row <%= row_class %> row_border_bottom">
                         <td class="row_border_bottom row_border_right">
                           <% if timesheet.status == 'APPROVED' %>
                             <%= link_to timesheet.startDate.to_formatted_s(:uk_date), edit_contractor_user_timesheet_path(@contractor, timesheet) %>
@@ -43,7 +43,9 @@
                       </tr>
                     <% end %>
                   <%end%>
+                  <% if @timesheets.length >= 10 %>
                   <tr><td colspan="6" align="center"><%= will_paginate(@timesheets) %></td></tr>
+                <% end %>
                 <% end %>
               </table>
 

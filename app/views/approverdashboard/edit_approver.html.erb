@@ -1,92 +1,80 @@
-<% form_for(:user, @approver, :url => {:action => 'update_approver', :controller => 'approverdashboard', :approver_id => @approver.id}) do |u| -%>
-  <% if flash[:alert] %>
-    <% msg = flash[:alert] %>
-  <% else %>
-    <% msg = u.error_messages %>
-  <% end %>
-  <%= show_errors('Please fix the following errors', msg) %>
-  <%= show_notice(flash[:notice]) %>
-
-<div id="nav-bar-box">
-  <%= two_column_nav_bar_layout2('Edit My Details', "") %>
-</div>
-
- <div id="blue-box">
-    <div class="padder">
-         <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="left_side_cell">
-              <div id="left-header-box" >
-                <%= two_column_nav_bar_layout2('My Details', image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')) %>
-              </div>
-              <br />
-              <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for(:user, @approver, :url => {:action => 'update_approver', :controller => 'approverdashboard', :approver_id => @approver.id}) do |u| -%>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">
+              Edit My Details
+            </h1>
+          </div>
+          <div class="innercol">
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+            <% if flash[:alert] %>
+              <% msg = flash[:alert] %>
+            <% else %>
+              <% msg = u.error_messages %>
+            <% end %>
+            <%= show_errors('Please fix the following errors', msg) %>
+            <%= show_notice(flash[:notice]) %>
+            <div id="blue-box">
+              <div class="padder">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <table style="margin-left:10px" cellpadding="0" cellspacing="0">
                     <tr style="height:25px">
-                    	<td class="leftHeader">Login: </td><td>&nbsp;<%= @approver.login %></td>
+                      <td class="leftHeader">Login: </td><td>&nbsp;<%= @approver.login %></td>
                     </tr>
                     <tr>
                       <td class="leftHeader">Title: <span class="required">*</span></td><td><%= select_tag 'selected_title', options_for_select(@titles, @approver.title), :class => 'spaced_input' %></td>
                     </tr>
                     <tr>
-                    	<td class="leftHeader">First Name: <span class="required">*</span></td><td><%= u.text_field :firstName, :id => 'firstName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
+                      <td class="leftHeader">First Name: <span class="required">*</span></td><td><%= u.text_field :firstName, :id => 'firstName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
                     </tr>
                     <tr>
-                    	<td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= u.text_field :lastName, :id => 'lastName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
+                      <td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= u.text_field :lastName, :id => 'lastName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
                     </tr>
                     <tr>
-                    	<td class="leftHeader">Email: <span class="required">*</span></td><td><%= u.text_field :email, :id => 'user_email', :size=> 30, :maxlength => 100, :class => 'spaced_input' %></td>
+                      <td class="leftHeader">Email: <span class="required">*</span></td><td><%= u.text_field :email, :id => 'user_email', :size=> 30, :maxlength => 100, :class => 'spaced_input' %></td>
                     </tr>
                     <tr>
-                    	<td class="leftHeader">Phone:</td><td><%= u.text_field :phone, :size => 20, :maxlength => 30, :class => 'spaced_input' %></td>
+                      <td class="leftHeader">Phone:</td><td><%= u.text_field :phone, :size => 20, :maxlength => 30, :class => 'spaced_input' %></td>
                     </tr>
                     <tr>
-                    	<td class="leftHeader">Mobile:</td><td><%= u.text_field :mobile, :size => 20, :maximum => 30, :class => 'spaced_input' %></td>
+                      <td class="leftHeader">Mobile:</td><td><%= u.text_field :mobile, :size => 20, :maximum => 30, :class => 'spaced_input' %></td>
                     </tr>
+                  </table><br />
 
-                </table>
-                <br />
-                
-                <% end %>
-            </td> <!-- cell -->
-            <td class="right_side_cell" valign="top">
-              <div id="right-header-box">
-                <%= two_column_nav_bar_layout2('Change Password', "") %>
+                </table> <!-- table -->
               </div>
-                <br />
-                <% form_for :user, @approver, :url => {:controller => 'approverdashboard', :action => "change_password"} do |form| %>
-                <table class="with_margins" width="100%" align="center" cellspacing="0" cellpadding="0">
-
-              
-
-              <tr>
-                <td>Password: </td>
-                <td><%= form.password_field :password, :size => 45, :size => 20, :id => 'pwd', :class => 'spaced_input' %></td>
-              </tr>
-              <tr>
-                <td>Confirm: </td>
-                <td><%= form.password_field :password_confirmation, :size => 20, :id => 'conf', :class => 'spaced_input' %>
-                            <%= form.hidden_field :id %>
-                </td>
-              </tr>
-              <tr style="height: 30px">
-                <td colspan="2"><%= submit_tag "Change", :class => 'generalButton' %></td>
-                <% end %>
-              </tr>
-            </table>
-            </td> <!-- cell -->
-          </tr> <!-- row -->
-        </table> <!-- table -->
+            </div>
+          </div>
+        </div>
+        <div class="bottom"><%=left_panel_footer%></div>
       </div>
-    </div>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <%=right_panel_bar_with_header("Actions",submit_tag("Update", :class => 'generalButton') )%>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div style="clear: both"></div>
+</div>
 <script type="text/javascript">
 
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    leftheaderbox.render('left-header-box');
-    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox.render('right-header-box');
+  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  navbarbox.render('nav-bar-box');
+  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  bluebox.render('blue-box');
+  var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  leftheaderbox.render('left-header-box');
+  var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
+  rightheaderbox.render('right-header-box');
 
 </script>

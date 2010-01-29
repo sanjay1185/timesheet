@@ -59,9 +59,7 @@ body .Right h1 {
  min-width:200px;
  padding:0 0 0 12px;
 }
-.Right div.task div.body {
- line-height:1.3em;
-}
+
 .Right div.new_task_wrapper {
  margin-bottom:20px;
  min-height:41px;
@@ -148,21 +146,12 @@ tr.even {
 tr.row_border_bottom {
 border-bottom:1px solid silver;
 }
-td.left_side_cell {
-    width: 50%;
-    padding-right:5px;
-    border-right: black solid 1px;
-    vertical-align: top;
-}
+
 .with_margins
 {
     padding: 0px 10px 0px 10px;
 }
-td.right_side_cell {
-    width: 50%;
-    padding-left: 5px;
-    vertical-align: top;
-}
+
 table#timesheet{}
 
 #timesheet tr td {
@@ -194,15 +183,7 @@ div#Header h1 {
  padding:0;
  text-align:left;
 }
-h1.common_header {
- background-color:#EDF3FE;
-border-bottom:1px solid #DCDCDC;
-color:#333333;
-font-size:13px;
-margin:0 0 0;
-padding:4px 8px;
-width:95%;
-}
+
 p {
  color:#222222;
  font-size:12px;
@@ -220,16 +201,11 @@ form {
  margin:0;
  padding:0;
 }
-.sidebar_form input, .sidebar_form textarea {
-/*width:95%;*/
-}
+
 input {
  font-size:14px;
 }
-.submit input{
- color:#000000;
- width:auto;
-}
+
 .col {
  padding:0 20px;
  text-align:left;
@@ -313,7 +289,7 @@ background-color:#000000;
  margin:0;
  padding:0;
 }
-#Tabs a:hover{
+#Tabs li a:hover{
  -moz-background-clip:border;
  -moz-background-inline-policy:continuous;
  -moz-background-origin:padding;
@@ -371,22 +347,7 @@ div#Footer {
  line-height:1.2em;
  text-align:left;
 }
-div#Footer a {
- color:#666666;
-}
-div#Footer a:hover {
- color:#FFFFFF;
-}
 
-div#Footer img {
- margin-right:10px;
-}
-.new_task {
- -moz-background-clip:border;
- -moz-background-inline-policy:continuous;
- -moz-background-origin:padding;
- background:#F2F5FB none repeat scroll 0 0;
-}
 div#quick_show_window {
  position:absolute;
 }
@@ -456,4 +417,7 @@ input.timesheet_input
 }
 .odd_row_dull {
 	background-color: #D3DBE2;
+}
+span.required{
+    color:red
 }

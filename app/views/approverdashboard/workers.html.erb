@@ -1,44 +1,64 @@
-<div id="nav-bar-box">
-    <%= two_column_nav_bar_layout2('Workers You Can Currenty Approve', "") %>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">Workers You Can Currenty Approve</h1>
+        </div>
+        <div class="innercol">
+          <div style="display: none;" id="error_msgs">
+          </div>
+          <div style="display: none;" id="notice">
+          </div>
+          <div id="blue-box">
+            <div class="padder">
+              <table width="100%" cellpadding="2" cellspacing="0">
+                <tr class="data_table_header">
+                  <td class="header row_border_right">First Name</td>
+                  <td class="header row_border_right">Last Name</td>
+                  <td class="header row_border_right">Phone</td>
+                  <td class="header row_border_right">Mobile</td>
+                  <td class="header">Email</td>
+                </tr>
+                <% if @workers.length == 0 %>
+                  <tr>
+                    <td colspan="5">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" style="text-align:center">You are not currently assigned to approve timesheets for any workers</td>
+                  </tr>
+                <% else %>
+                  <% for worker in @workers %>
+                    <% row_class = cycle('odd', 'even') %>
+                    <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                      <td class="row_border_bottom"><%= h worker.firstName %></td>
+                      <td class="row_border_bottom row_border_right"><%= h worker.lastName %></td>
+                      <td class="row_border_bottom row_border_right"><%= h worker.phone %></td>
+                      <td class="row_border_bottom row_border_right"><%= h worker.mobile %></td>
+                      <td class="row_border_bottom row_border_right"><%= h worker.email %></td>
+                    </tr>
+                  <% end %>
+                  <tr><td colspan="5" align="center"><%= will_paginate(@workers) %></td></tr>
+                <% end %>
+              </table>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <%=left_panel_footer%>
+      </div>
+    </div>
+    <div class="Right">
+      <div class="col sidebar">
+        <div class="new_task_wrapper">
+        </div>
+      </div>
+    </div>
   </div>
-<div id="blue-box" style="height:300px">
-  <div class="padder">
-    <table width="100%" cellpadding="2" cellspacing="0">
-      <tr>
-        <td class="header row_border_right">First Name</td>
-        <td class="header row_border_right">Last Name</td>
-        <td class="header row_border_right">Phone</td>
-        <td class="header row_border_right">Mobile</td>
-        <td class="header">Email</td>
-      </tr>
 
-      <% if @workers.length == 0 %>
-        <tr>
-          <td colspan="5">&nbsp;</td>
-        </tr>
-        <tr>
-          <td colspan="5" style="text-align:center">You are not currently assigned to approve timesheets for any workers</td>
-        </tr>
-      <% else %>
-
-        <% for worker in @workers %>
-        
-          <tr>
-            <td class="row_border_bottom"><%= h worker.firstName %></td>
-            <td class="row_border_bottom row_border_right"><%= h worker.lastName %></td>
-            <td class="row_border_bottom row_border_right"><%= h worker.phone %></td>
-            <td class="row_border_bottom row_border_right"><%= h worker.mobile %></td>
-            <td class="row_border_bottom row_border_right"><%= h worker.email %></td>
-          </tr>
-
-        <% end %>
-        <tr><td colspan="5" align="center"><%= will_paginate(@workers) %></td></tr>
-      <% end %>
-    </table>
-    <br />
-
-  </div>
-
+  <div style="clear: both"></div>
 </div>
 <script type="text/javascript">
 

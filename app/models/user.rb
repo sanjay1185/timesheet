@@ -208,13 +208,17 @@ class User < ActiveRecord::Base
   def self.get_workers_for_approver(approver_id, page, per_page)
 
 		conditions = []
-		conditions.add_condition!('cc.contractor_id = users.contractor_id')
-		conditions.add_condition!('cu.contract_id = cc.contract_id')
-		conditions.add_condition!('ct.id = cc.contract_id')
-		conditions.add_condition!("ct.status != 'COMPLETE'")
-		conditions.add_condition!(['cu.user_id = ?', approver_id])
-
-		User.paginate(:page => page, :per_page => per_page, :conditions => conditions, :joins => ', contractors_contracts cc, contracts ct, contracts_users cu', :order => 'users.lastName')
+#		conditions.add_condition!('cc.contractor_id = users.contractor_id')
+#		conditions.add_condition!('cu.contract_id = cc.contract_id')
+#		conditions.add_condition!('ct.id = cc.contract_id')
+#		conditions.add_condition!("ct.status != 'COMPLETE'")
+#		conditions.add_condition!(['cu.user_id = ?', approver_id])
+    
+    conditions.add_condition!(["auc.approver_user_id = ?",approver_id])
+#    conditions.add_condition!('auc.contract_id = users.contract_id')
+    conditions.add_condition!('ct.contractor_user_id=users.id')
+    conditions.add_condition!("ct.status != 'COMPLETE'")
+		User.paginate(:page => page, :per_page => per_page, :conditions => conditions, :joins => ', contracts ct, approver_users_contracts auc', :order => 'users.lastName')
 
   end
 
