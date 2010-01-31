@@ -393,9 +393,9 @@ class Timesheet < ActiveRecord::Base
   #----------------------------------------------------------------------------
   def self.requiring_approval(approver, page, per_page)
 
-    conditions_string = "users.contract_id=timesheets.contract_id and users.id=? and timesheets.status in ('SUBMITTED', 'REJECTED')"
+    conditions_string = "auc.contract_id=t.contract_id and auc.approver_user_id=? and t.contract_id=auc.contract_id and t.status in ('SUBMITTED', 'REJECTED')"
 
-    paginate :page => page, :per_page => per_page, :conditions => [ conditions_string, approver.id ], :joins => ', users', :order => 'startDate ASC'
+    paginate :page => page, :per_page => per_page, :conditions => [ conditions_string, approver.id ], :select => 't.*',  :joins => 't , approver_users_contracts auc', :order => 't.startDate ASC'
 
   end
 

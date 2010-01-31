@@ -103,8 +103,8 @@ class Client < ActiveRecord::Base
   def unassigned_approvers_for_contract(contract)
 
     # todo: shouldnt have to use select here... theres a better way
-    user_ids = contract.users.map {|user| user.id}
-    self.users.select {|user| !user_ids.include?(user.id)}
+    user_ids = contract.approver_users.map {|user| user.id}
+    self.approver_users.select {|user| !user_ids.include?(user.id)}
 
   end
   
