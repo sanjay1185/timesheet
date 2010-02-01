@@ -23,7 +23,11 @@ class ContractorUser < User
   #############################################################################
   # Custom Methods
   #############################################################################
+def full_name
 
+    return "#{self.firstName} #{self.lastName}"
+
+  end
   #----------------------------------------------------------------------------
   # Get the current contracts for this contractor
   #----------------------------------------------------------------------------
@@ -39,7 +43,8 @@ class ContractorUser < User
   def self.get_all_active(agency_id)
 
     contractors = {}
-    Client.find(:all, ["agency_id = ?", agency_id]).select {|cl| cl.contracts.select { |c| contractors[c.contractors[0].user.full_name] = c.contractors[0].id } }
+#    Client.find(:all, ["agency_id = ?", agency_id]).select {|cl| cl.contracts.select { |c| c.contractor_user.id = c.contractor_user_id } }
+    Client.find(:all, ["agency_id = ?", agency_id]).select {|cl| cl.contracts.select { |c| c.contractor_user.id = c.contractor_user_id } }
     return contractors
 
   end

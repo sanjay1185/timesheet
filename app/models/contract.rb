@@ -195,7 +195,7 @@ class Contract < ActiveRecord::Base
     conditions = []
     conditions.add_condition!("c.client_id = cl.id")
     conditions.add_condition!("t.contract_id = c.id")
-    conditions.add_condition!("c.status != 'COMPLETE'")
+#    conditions.add_condition!("c.status != 'COMPLETE'")
     conditions.add_condition!("t.status != 'DRAFT'")
     conditions.add_condition!(["cl.agency_id = ?", agency_id])
     

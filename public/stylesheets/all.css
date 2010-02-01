@@ -421,3 +421,10 @@ input.timesheet_input
 span.required{
     color:red
 }
+#trial-box {
+    color: #FFF;    
+    padding:1px 7px 2px 7px;
+    text-align:left;
+    font-weight: bold;
+    background-color:red;
+}

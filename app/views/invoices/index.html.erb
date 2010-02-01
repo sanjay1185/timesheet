@@ -7,11 +7,14 @@
             <h1 class="index">Invoicing</h1>
           </div>
           <div class="innercol">
-
-            <div id="blue-box2">
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+            <div id="blue-box">
               <div class="padder">
                 <table width="100%" cellspacing="0" cellpadding="2">
-                  <tr>
+                  <tr class="heading data_table_header" >
                     <td class="header">&nbsp;</td>
                     <td class="header row_border_right">Invoice Date</td>
                     <td class="header row_border_right">Client</td>
@@ -23,8 +26,8 @@
                   <% if !@invoices.nil? && @invoices.length > 0 %>
 
                     <% for invoice in @invoices %>
-
-                      <tr>
+                      <% row_class = cycle('odd', 'even') %>
+                      <tr  class="timesheet_row <%= row_class %> row_border_bottom">
                         <td class="row_border_bottom"><%= check_box_tag "ids[]", invoice.id %></td>
                         <td class="row_border_bottom row_border_right"><%= link_to invoice.invoiceDate.to_s(:uk_date), edit_invoice_path(invoice.id, :from => @from_date, :to => @to_date, :client_id => (@client_id unless @client_id.blank?), :inactive => @inactive, :signed_off => @signed_off) %></td>
                         <td class="row_border_bottom row_border_right"><%=h invoice.client.name %></td>
@@ -47,104 +50,64 @@
                     <td colspan="7">&nbsp;</td>
                   </tr>
                 </table>
-
               </div>
             </div>
-
           </div>
         </div>
       </div>
-
       <div class="Right">
         <div class="col sidebar">
-
-          <% right_side_html = "<div class=\"header_combo_right\">Invoice By Client: " + select_tag("client_id", options_from_collection_for_select(@client_list, :id, :name, @client_id.to_i), :id => 'client_id', :style =>"width: 180px;" ) + '</div>' %>
-
-
           <div class="new_task_wrapper">
-            <div id="add_new_task" class="sidebar_form new_task">
-              <div class="inner task">
-                <div class="header">
-                  <h1>
+            <% right_side_html = "<div class=\"header_combo_right\">Invoice By Client: " + select_tag("client_id", options_from_collection_for_select(@client_list, :id, :name, @client_id.to_i), :id => 'client_id', :style =>"width: 180px;" ) + '</div>' %>
+            <%= right_panel_bar_with_header("Invoicing&nbsp;#{help_link('/help/invoicing', 'Help on Invoicing','middle', 500, 400)}", right_side_html) %>
 
-                  </h1>
-                </div>
-                <div class="body">  <div id="nav-bar-box">
-                    <%= single_column_layout("Invoicing&nbsp;#{help_link('/help/invoicing', 'Help on Invoicing','middle', 500, 400)}", right_side_html) %>
-                </div></div>
+            <h1>Step 1 - Search</h1>
+            <div class="module">
+              <div class="inner">
+                <table cellpadding="2" cellspacing="0">
+                  <tr>
+                    <td>From:</td>
+                    <td><%= calendar_date_select_tag 'from_date', @from_date.nil? ? Date.today << 1 : @from_date, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17  %></td>
+                  </tr>
+                  <tr>
+                    <td>To:</td>
+                    <td ><%= calendar_date_select_tag 'to_date', @to_date.nil? ? Date.today : @to_date, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17 %></td>
+                  </tr>
+                  <tr>
+                    <td><input name="inactive" type="checkbox" <% if !@inactive.nil? %>checked<% end %> /></td><td>Include inactive invoices?</td>
+                  </tr>
+                  <tr>
+                    <td ><input name="signed_off" type="checkbox" <% if !@signed_off.nil? %>checked<% end %> /></td><td>Include signed-off invoices?</td>
+                  </tr>
+                  <tr><td><%= submit_tag('Search', :class => 'generalButton') %></td><td></td></tr>
+                </table>
+              </div>
+            </div>
+            <h1>Step 2 - Export</h1>
+            <div class="module">
+              <div class="inner">
+                <table cellpadding="2" cellspacing="0">
+                  <tr><td colspan="2" >Select the invoices from the list below and the file format format to export to.</td></tr>
+                  <tr>
+                    <td>Format:</td>
+                    <td><%= select_tag('exportFormat', options_for_select(@formats, @selectedFormat.blank? ? 'CSV' : @selectedFormat)) %></td>
+                  </tr>
+                  <tr><td><%= submit_tag('Export', :class => 'generalButton') %></td><td></td></tr>
+                </table>
+              </div>
+            </div>
+            <h1>Step 3 - Sign-Off</h1>
+            <div class="module">
+              <div class="inner">
+                <table cellpadding="2" cellspacing="0">
+                  <tr><td colspan="2" >Select the invoices from the list below that you wish to mark as <i>signed-off</i>. After clicking the <i>Sign-Off</i> button they will not appear in subsequent searches.</td></tr>
+                  <tr><td><%= submit_tag('Sign-Off', :class => 'generalButton') %></td><td></td></tr>
+                </table>
               </div>
             </div>
           </div>
-
-          <div class="new_task_wrapper">
-            <div id="add_new_task" class="sidebar_form new_task">
-              <div class="inner task">
-                <div class="header">
-                  <h1>
-
-                  </h1>
-                </div>
-                <div class="body">
-                  <table cellpadding="5" cellspacing="3" style="border-collapse:collapse;">
-                    <tr><td style="border-bottom: black solid 1px;vertical-align:top">
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                          <tr><td class="header" colspan="2">
-                              <table width="100%" cellpadding="2" cellspacing="0">
-                                <tr><td style="vertical-align:middle;font-size:1.2em">Step 1 - Search</td><td align="right"><%= submit_tag('Search', :class => 'generalButton') %></td></tr>
-                              </table>
-                          </td></tr>
-                          <tr>
-                            <td class="leftHeader" style="padding-top: 4px">From:</td>
-                            <td style="padding-top: 4px"><%= calendar_date_select_tag 'from_date', @from_date.nil? ? Date.today << 1 : @from_date, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17  %></td>
-                          </tr>
-                          <tr>
-                            <td class="leftHeader">To:</td>
-                            <td ><%= calendar_date_select_tag 'to_date', @to_date.nil? ? Date.today : @to_date, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17 %></td>
-                          </tr>
-                          <tr>
-                            <td align="right"><input name="inactive" type="checkbox" <% if !@inactive.nil? %>checked<% end %> /></td><td style="vertical-align:middle">Include inactive invoices?</td>
-                          </tr>
-                          <tr>
-                            <td align="right"><input name="signed_off" type="checkbox" <% if !@signed_off.nil? %>checked<% end %> /></td><td style="vertical-align:middle">Include signed-off invoices?</td>
-                          </tr>
-                        </table>
-                    </td></tr>
-                    <tr><td style="border-bottom: black solid 1px;vertical-align:top">
-
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                          <tr><td class="header" colspan="2"><table width="100%" cellpadding="2" cellspacing="0"><tr><td style="vertical-align:middle;font-size:1.2em">Step 2 - Export</td><td align="right"><%= submit_tag('Export', :class => 'generalButton') %></td></tr></table></td></tr>
-                          <tr><td colspan="2" style="padding-top: 4px">Select the invoices from the list below and the file format format to export to.</td></tr>
-                          <tr>
-                            <td class="leftHeader" style="padding-top: 4px">Format:</td>
-                            <td style="padding-top: 4px"><%= select_tag('exportFormat', options_for_select(@formats, @selectedFormat.blank? ? 'CSV' : @selectedFormat)) %></td>
-                          </tr>
-                        </table>
-
-                    </td></tr>
-                    <tr><td valign="top">
-
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                          <tr><td class="header" colspan="2"><table width="100%" cellpadding="2" cellspacing="0"><tr><td style="vertical-align:middle;font-size:1.2em">Step 3 - Sign-Off</td><td align="right"><%= submit_tag('Sign-Off', :class => 'generalButton') %></td></tr></table></td></tr>
-                          <tr><td colspan="2" style="padding-top: 4px">Select the invoices from the list below that you wish to mark as <i>signed-off</i>. After clicking the <i>Sign-Off</i> button they will not appear in subsequent searches.</td></tr>
-                        </table>
-
-                    </td></tr>
-                  </table>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
-
-
-
       </div>
     </div>
   <%end%>
 <div style="clear: both"></div></div>
-
-<script type="text/javascript">
-
-</script>

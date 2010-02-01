@@ -1,5 +1,4 @@
 <% title = params['timesheet_status'].nil? ? 'Outstanding' : params['timesheet_status'] %>
-
 <div id="swap_from">
   <div id="screen_body" class="container">
     <div class="Left">
@@ -19,7 +18,6 @@
                   <td class="header row_border_right">Hourly Total</td>
                   <td class="header">Status</td>
                 </tr>
-
                 <% if @timesheets.length == 0 %>
                   <tr><td colspan="6">&nbsp;</td></tr>
                   <tr><td colspan="6" style="text-align: center;">There are no <%= title.downcase %> timesheets to display</td></tr>
@@ -48,10 +46,8 @@
                 <% end %>
                 <% end %>
               </table>
-
             </div>
           </div>
-
         </div>
       </div>
       <div class="bottom">
@@ -62,14 +58,5 @@
       <%=render :partial=>"/new_contractor_dashboard_filter"%>
     </div>
   </div>
-
   <div style="clear: both"></div>
 </div>
-<script type="text/javascript">
-  var navbarbox = RUZEE.ShadedBorder.create({corner:2, border:1});
-  navbarbox.render('nav-bar-box');
-  var type_box = RUZEE.ShadedBorder.create({corner:2, border:1});
-  type_box.render('timesheet-type-box');
-  var bluebox = RUZEE.ShadedBorder.create({corner:2, border:1});
-  bluebox.render('blue-box');
-</script>

@@ -9,109 +9,73 @@
           <h1 class="index">Client Manager</h1>
         </div>
         <div class="innercol">
-
-          <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-
-              <td valign="top">
-                <div id="client-box" style="margin-top:5px">
-                  <div class="padder">
-                    <table width="100%" cellspacing="0" cellpadding="2">
-                      <tr class="heading">
-                        <td class="header row_border_right"><%= sort_link 'Name', :name, @selected_column %></td>
-                        <td class="header row_border_right"><%= sort_link 'Addr1', :addr1, @selected_column %></td>
-                        <td class="header row_border_right"><%= sort_link 'City', :city, @selected_column %></td>
-                        <td class="header row_border_right"><%= sort_link 'Post Code', :postCode, @selected_column %></td>
-                        <td class="header"><%= sort_link 'Reference', :externalClientRef, @selected_column %></td>
-                      </tr>
-                      <% if @clients.length > 0 %>
-                        <% for client in @clients %>
-                          <tr>
-                            <% url = url_for :action => 'edit', :controller => 'clients', :id => client.id %>
-                            <td class="row_border_bottom row_border_right"><%= link_to truncate(client.name, :length => 45), url + "?filter=" + filter + "&nav_page=" + nav_page %></td>
-                            <td class="row_border_bottom row_border_right"><%=h truncate(client.addr1, :length => 30) %></td>
-                            <td class="row_border_bottom row_border_right"><%=h client.city %></td>
-                            <td class="row_border_bottom row_border_right"><%=h client.postCode %></td>
-                            <td class="row_border_bottom"><%= client.externalClientRef.blank? ? "&nbsp;" : client.externalClientRef %></td>
+          <div id="blue-box">
+            <div class="padder">             
+                        <table width="100%" cellspacing="0" cellpadding="2">
+                          <tr class="data_table_header" >
+                            <td class="header row_border_right"><%= sort_link 'Name', :name, @selected_column %></td>
+                            <td class="header row_border_right"><%= sort_link 'Addr1', :addr1, @selected_column %></td>
+                            <td class="header row_border_right"><%= sort_link 'City', :city, @selected_column %></td>
+                            <td class="header row_border_right"><%= sort_link 'Post Code', :postCode, @selected_column %></td>
+                            <td class="header"><%= sort_link 'Reference', :externalClientRef, @selected_column %></td>
                           </tr>
-                        <% end %>
-                        <tr><td colspan="5" align="center"><%= will_paginate(@clients) %></td></tr>
-                      <% else %>
-                        <tr class="spacer">
-                          <td colspan="5">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td colspan="5" align="center" style="font-size:1.1em">There are no clients to view. Click <%= link_to('here', new_client_path) %> to add a new client.</td>
-                        </tr>
-                      <% end %>
-                    </table>
-                  </div>
-                </div>
-              </td>
-            </tr> <!-- row -->
-          </table> <!-- table -->
-
+                          <% if @clients.length > 0 %>
+                            <% for client in @clients %>
+                              <% row_class = cycle('odd', 'even') %>
+                              <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                                <% url = url_for :action => 'edit', :controller => 'clients', :id => client.id %>
+                                <td class="row_border_bottom row_border_right"><%= link_to truncate(client.name, :length => 45), url + "?filter=" + filter + "&nav_page=" + nav_page %></td>
+                                <td class="row_border_bottom row_border_right"><%=h truncate(client.addr1, :length => 30) %></td>
+                                <td class="row_border_bottom row_border_right"><%=h client.city %></td>
+                                <td class="row_border_bottom row_border_right"><%=h client.postCode %></td>
+                                <td class="row_border_bottom"><%= client.externalClientRef.blank? ? "&nbsp;" : client.externalClientRef %></td>
+                              </tr>
+                            <% end %>
+                            <tr><td colspan="5" align="center"><%= will_paginate(@clients) %></td></tr>
+                          <% else %>
+                            <tr class="spacer">
+                              <td colspan="5">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td colspan="5" align="center" style="font-size:1.1em">There are no clients to view. Click <%= link_to('here', new_client_path) %> to add a new client.</td>
+                            </tr>
+                          <% end %>
+                        </table>                      
+          </div>
+          </div>
         </div>
       </div>
     </div>
-
     <div class="Right">
       <div class="col sidebar">
         <div class="new_task_wrapper">
-          <div id="add_new_task" class="sidebar_form new_task">
-            <div class="inner task">
-              <div class="header">
-                <h1>
-                  Client Manager
-                </h1>
-              </div>
-              <div class="body">
-                <div id="nav-bar-box">
-                  <%= two_column_nav_bar_layout2("", "#{link_to_readonly('Import', "/import_clients", 'import clients', @readonly )} | #{link_to_readonly('Add New', new_client_path, 'add new clients', @readonly)}") %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="new_task_wrapper">
-          <div id="add_new_task" class="sidebar_form new_task">
-            <div class="inner task">
-              <div class="header">
-                <h1>
-
-                </h1>
-              </div>
-              <div class="body">
-                <div id="alphabet-box" style="">
-                  <div>
-                    <% chrs = ['*', '-', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']%>
-                    <% for x in chrs do %>
-                        <% if x == filter %>
-                          <% style = "font-weight: bold" %>
-                        <% else %>
-                          <% style = "" %>
-                        <% end %>
-                        <% if x == '*' %>
-                          <%= link_to x, clients_path + "?filter=" + x + "&page=1", :class => 'bold large_text' %>
-                        <% elsif x == "-" %>
-                          <%= x %>
-                        <% else %>
-                          <%= link_to x, clients_path + "?filter=" + x + "&page=1", :style => style %>
-                        <% end %>
-                      <% end%>
-                    </div>
+          <%= right_panel_bar_with_header("Client Manager", "#{link_to_readonly('Import', "/import_clients", 'import clients', @readonly )} | #{link_to_readonly('Add New', new_client_path, 'add new clients', @readonly)}") %>
+          <div class="module">
+            <div class="inner">
+              <div id="alphabet-box" style="">
+                <div>
+                  <% chrs = ['*', '-', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']%>
+                  <% for x in chrs do %>
+                      <% if x == filter %>
+                        <% style = "font-weight: bold" %>
+                      <% else %>
+                        <% style = "" %>
+                      <% end %>
+                      <% if x == '*' %>
+                        <%= link_to x, clients_path + "?filter=" + x + "&page=1", :class => 'bold large_text' %>
+                      <% elsif x == "-" %>
+                        <%= x %>
+                      <% else %>
+                        <%= link_to x, clients_path + "?filter=" + x + "&page=1", :style => style %>
+                      <% end %>
+                    <% end%>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
     <div style="clear: both"></div>
   </div>
-
-  <script type="text/javascript">
-  </script>

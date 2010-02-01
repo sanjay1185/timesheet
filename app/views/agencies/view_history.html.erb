@@ -1,5 +1,5 @@
 <div id="nav-bar-box">
-<%= two_column_nav_bar_layout2("History for Timesheet: #{@current.startDate.to_formatted_s(:uk_date)} for #{@current.contractor.user.full_name} at #{@current.contract.client.name}", "<a href=\"#{session[:previous_uri]}\">Back to Timesheet</a>") %>
+<%= two_column_nav_bar_layout2("History for Timesheet: #{@current.startDate.to_formatted_s(:uk_date)} for #{@current.contract.contractor_user.full_name} at #{@current.contract.client.name}", "<a href=\"#{session[:previous_uri]}\">Back to Timesheet</a>") %>
 </div>
 <div id="blue-box">
     <div id="padder-list">
@@ -58,11 +58,3 @@
 <br />
 </div>
 </div>
-<script type="text/javascript">
-
-      var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-      navbarbox.render('nav-bar-box');
-      var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-      bluebox.render('blue-box');
-	  
-</script>

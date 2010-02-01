@@ -1,20 +1,34 @@
-<br /><br /><br /><br />
-<div class="logout_box">
-<div class="t"><div class="b"><div class="l"><div class="r">
-<div class="bl_nav_bar"><div class="br_nav_bar"><div class="tl_nav_bar"><div class="tr_nav_bar">
-<div class="logout_content">
-<table cellpadding="2" width="100%" style="margin-top: 60px;z-index:100">
-<tr>
-  <td style="text-align:center; font-size:1.2em;">Are you sure you want to log out?</td>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">Logout</h1>
+        </div>
+        <div class="innercol">
+          <div id="blue-box">
+            <div class="padder">
+              <div class="logout_box">
+                <div class="t"><div class="b"><div class="l"><div class="r">
+                        <div class="bl_nav_bar"><div class="br_nav_bar"><div class="tl_nav_bar"><div class="tr_nav_bar">
+                                <div class="logout_content">
+                                  <table cellpadding="2" width="100%" style="margin-top: 60px;z-index:100">
+                                    <tr>
+                                      <td style="text-align:center; font-size:1.2em;">Are you sure you want to log out?</td>
+                                    </tr>
+                                    <tr style="height:40px">
+                                      <td style="text-align:center; font-size:1.2em; font-weight: bold"><%= link_to 'Yes', logout_path + "?t=" + session[:theme] %></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                        </div></div></div></div>
+          </div></div></div></div> </div></div> </div>
+        </div>
+      </div><div class="bottom"><%=left_panel_footer%></div>
+    </div>
+    <div class="Right">
+      <div class="col sidebar">
+      </div>
+    </div>
 
-</tr>
-<tr style="height:40px">
-  <td style="text-align:center; font-size:1.2em; font-weight: bold"><%= link_to 'Yes', logout_path + "?t=" + session[:theme] %></td>
-</tr>
-</table>
-  <br /><br /><br /><br />
-<br /><br /><br /><br />
-</div>
-</div></div></div></div>
-</div></div></div></div>
-</div>
+<div style="clear: both"></div></div></div>

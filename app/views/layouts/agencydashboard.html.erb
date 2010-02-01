@@ -77,18 +77,7 @@
     </div>
   </div>
   
-  <script type="text/javascript">
-    var main_box = RUZEE.ShadedBorder.create({corner:11, border:5});
-    main_box.render('main_box');
-  <% if current_user.agency.trial? %>
-      var trialbox = RUZEE.ShadedBorder.create({corner:10}); 
-      trialbox.render('trial-box');
-  <% end %>
-  <% if flash[:notice] %>
-    var notice = RUZEE.ShadedBorder.create({corner:5, border:1});
-    notice.render('notice');
-  <% end %>
-  </script>
+  
   <% flash.discard %>
 </body>
 </html>

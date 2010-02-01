@@ -74,7 +74,7 @@ class AgenciesController < ApplicationController
     
     # get active contract list
     @active_contracts = Contract.get_by_agency_and_status(session[:agencyId], 'ACTIVE')
-    @active_workers = Contractor.get_all_active(session[:agencyId])
+    @active_workers = ContractorUser.get_all_active(session[:agencyId])
     
     # get outstanding timesheets
     #@timesheets = Timesheet.get_all_requiring_action(session[:agencyId], 1, 10)

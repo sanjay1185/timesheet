@@ -1,12 +1,10 @@
 <div class="col sidebar">
   <div class="new_task_wrapper">
-
     <% title = params['timesheet_status'].nil? ? 'Outstanding' : params['timesheet_status'] %>
     <% form_tag('/preparetimesheet', :method => 'get') do %>
       <% html_header = '' %>
       <% html_header << "&nbsp;#{title} Timesheets" %>
       <% html_header_right = '' %>
-
       <% if @contracts.length > 1 %>
         <% html_header_right << "Contract : #{collection_select(:contract_obj, 'contract_id' , @contracts, 'id', 'ref')}&nbsp;" %>
       <% elsif @contracts.length == 1 %>
@@ -16,7 +14,6 @@
       <%= right_panel_bar_with_header(html_header, html_header_right) %>
 
     <% end %>
-
     <h1>Filter:</h1>
     <div class="module">
       <div class="inner">
@@ -26,11 +23,8 @@
           <p>For the last:<br/>
             <%= select_tag('date_period', options_for_select([['Month', '1'], ['3 Months', '3'], ['6 Months', '6'], ['9 Months', '6'], ['Year', '12']], @selected_date_period)) %>
           </p><p><%= submit_tag 'View', :class => 'generalButton' %></p>
-
-
         <% end %>
       </div>
     </div>
-
   </div>
 </div>

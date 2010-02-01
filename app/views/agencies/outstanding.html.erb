@@ -6,11 +6,14 @@
           <h1 class="index">Dashboard</h1>
         </div>
         <div class="innercol">
-
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
           <div id="blue-box">
             <div class="padder">
               <table width="100%" cellspacing="0" cellpadding="2">
-                <tr>
+                <tr class="data_table_header">
                   <td class="header row_border_right"><%= sort_link 'Start Date', :startDate, @selected_column %></td>
                   <td class="header row_border_right"><%= sort_link 'End Date', :endDate, @selected_column %></td>
                   <td class="header row_border_right"><%= sort_link 'Contract Ref', :ref, @selected_column %></td>
@@ -22,8 +25,8 @@
                 <% if @timesheets.length > 0 %>
 
                   <% for timesheet in @timesheets do %>
-
-                      <tr>
+                     <% row_class = cycle('odd', 'even') %>
+                      <tr class="timesheet_row <%= row_class %> row_border_bottom">
                         <% if timesheet.status.downcase == "draft" %>
                           <td class="row_border_bottom row_border_right"><%= timesheet.startDate.to_formatted_s(:uk_date) %></td>
                         <% else %>
@@ -45,13 +48,9 @@
                     <tr>
                       <td colspan="6" align="center">There are no outstanding timesheets</td>
                     </tr>
-                  <% end %>
-                  <tr>
-                    <td colspan="6">&nbsp;</td>
-                  </tr>
+                  <% end %>                  
                   <tr><td colspan="6"><%= will_paginate(@timesheets) %></td></tr>
                 </table>
-
               </div>
             </div>
           </div>
@@ -61,62 +60,17 @@
       <div class="Right">
         <div class="col sidebar">
           <div class="new_task_wrapper">
-            <div id="add_new_task" class="sidebar_form new_task">
-              <div class="inner task">
-                <div class="header">
-                  <h1>
-                    Outstanding Timesheets
-                  </h1>
-                </div>
-                <div class="body">
-                  <% form_tag(outstanding_agency_path(@agency), :method => 'get', :style => 'margin: 0px 0px 0px 0px' ) do %>
+            <% form_tag(outstanding_agency_path(@agency), :method => 'get', :style => 'margin: 0px 0px 0px 0px' ) do %>
                     <%= show_errors('An error occurred...',flash[:alert]) %>
-                    <%= show_notice(flash[:notice]) %>
+                    <%= show_notice(flash[:notice]) %>                
+                      <%= right_panel_bar_with_header("Outstanding Timesheets", "Filter:&nbsp;<br>#{select_tag("status", options_for_select(["ANY", "SUBMITTED", "DENIED", "DRAFT", "MANUAL", "REJECTED" ], @status.nil? ? "ANY" : @status), :onchange => 'this.form.submit();')}") %>
 
-                    <div id="nav-bar-box" >
-                      <%= single_column_layout("", "Filter:&nbsp;<br>#{select_tag("status", options_for_select(["ANY", "SUBMITTED", "DENIED", "DRAFT", "MANUAL", "REJECTED" ], @status.nil? ? "ANY" : @status), :onchange => 'this.form.submit();')}") %>
-                    </div>
                   <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="new_task_wrapper">
-            <div id="add_new_task" class="sidebar_form new_task">
-              <div class="inner task">
-                <div class="header">
-                  <h1>
 
-                  </h1>
-                </div>
-                <div class="body">
-
-                  <table style="" width="100" cellpadding="0" cellspacing="0">
-
-                    <tr>
-                      <td align="center"><div style="margin-bottom:10px"><img src="/images/alarm.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/outstanding">Outstanding Timesheets</a></div></td>
-                    </tr><tr> <td align="center"><div style="margin-bottom:10px"><img src="/images/calendar.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/active_contracts">Active Contracts</a></div></td>
-                    </tr>
-                    <tr>
-                      <td align="center"><div style="margin-bottom:10px"><img src="/images/addressbook.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/active_clients">Active Clients</a></div></td>
-                    </tr><tr><td align="center"><div style="margin-bottom:10px"><img src="/images/configure.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/tools">Tools</a></div></td>
-                    </tr>
-
-                    <tr>
-                      <td align="center"><div style="margin-bottom:10px"><img src="/images/chart.gif" alt="" width="15%" height="15%" class="icon_48" /><br /><a href="/agencies/1/stats">Statistics</a></div></td>
-                    </tr><tr><td></td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
+                 <%= render :partial=>'/new_agency_dashboard_navigation'  %>
+          </div>         
         </div>
-
       </div>
     </div>
-
     <div style="clear: both"></div>
   </div>

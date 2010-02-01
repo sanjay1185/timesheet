@@ -27,9 +27,7 @@
       //]]>
     </script>
   </head>
-
   <body class="overview">
-
     <div id="quick_show_window" style="display: none">
       <div class="quick_show_window_position">
 
@@ -39,12 +37,8 @@
         </div>
       </div>
     </div>
-
-
-
     <div id="Header">
       <div id="global_links">
-
         <% if current_user.agency.trial? %>
           <div style="position:absolute;top:1px;left:0px;">
             <div id="trial-box"><div style="vertical-align:bottom;"><%=session[:theme]%>Trial ends in <%= session[:days_left] %> days</div></div>
@@ -74,37 +68,13 @@
         <%end%>
 
       </div>
-
-
-
-      <div id="upgrade_bar">
-        <%=session[:theme]%>
-
-      </div>
-
       <h1>ClockOff</h1>
       <div id="Tabs">
         <%=render :partial=>"/new_agency_navigation"%>
-
       </div>
-
     </div>
-
     <div class="wrapper">
-
       <%=yield%>
-
-      <div class="bottom">
-        <div id="Footer">
-          <img src="" width="38" height="32" alt="Highrise Logo" style="float: left;" />
-
-          <span style="padding-top: 10px; line-height: 1.4em;">
-
-            <a href="" target=_blank>Terms of service</a>
-
-          </span>
-        </div>
-      </div>
       <br style="clear: both" />
     </div>
 

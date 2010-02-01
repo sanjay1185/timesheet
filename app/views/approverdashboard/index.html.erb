@@ -13,10 +13,8 @@
           <div id="blue-box">
             <div class="padder">
               <% form_tag(approve_deny_timesheets_path) do %>
-                <%= show_errors('Timesheet List', flash[:alert]) %>
-    
+                <%= show_errors('Timesheet List', flash[:alert]) %>    
       <table cellpadding="2" cellspacing="0" width="100%">
-
         <tr class="data_table_header">
           <td class="header">&nbsp;</td>
           <td class="header row_border_right">Start Date</td>
@@ -50,12 +48,9 @@
           <% end %>
           <tr><td colspan="8" align="center" ><%= will_paginate(@timesheets) %></td></tr>
         <% end %>
-
-      </table>
- 
+      </table> 
   </div>
           </div>
-
         </div>
       </div>
       <div class="bottom">
@@ -70,8 +65,6 @@
       </div>
     </div>
   </div>
-
   <div style="clear: both"></div>
 </div>
-
 <% end %>

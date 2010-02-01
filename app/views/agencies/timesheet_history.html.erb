@@ -6,92 +6,87 @@
           <h1 class="index">Timesheet History</h1>
         </div>
         <div class="innercol">
-
-
-          <table width="100%" cellspacing="0" cellpadding="2">
-            <tr>
-              <td class="header row_border_right">Start Date</td>
-              <td class="header row_border_right">End Date</td>
-              <td class="header row_border_right">Contract Ref</td>
-              <td class="header row_border_right">Worker</td>
-              <td class="header row_border_right">Days</td>
-              <td class="header row_border_right">Hours</td>
-              <td class="header row_border_right">Status</td>
-              <td class="header">Approver</td>
-            </tr>
-            <% if @timesheets.length > 0 %>
-              <% for timesheet in @timesheets %>
-
-                <tr class="heading">
-                  <td class="row_border_bottom row_border_right">
-                    <% if timesheet.status != 'DRAFT' %>
-                      <%= link_to(timesheet.startDate.to_formatted_s(:uk_date), view_timesheet_agency_path(@agency, :timesheet_id => timesheet.id, :client_id => @client_id.blank? ? "0" : @client_id, :contractor_id => @contractor_id, :page => params[:page].nil? ? 1 : params[:page], :source => 'history', :from_date => @from_date, :to_date => @to_date, :status => @status)) %></td>
-                    <% else %>
-                      <%= timesheet.startDate.to_formatted_s(:uk_date) %>
-                    <% end %>
-                  <td class="row_border_bottom row_border_right"><%= (timesheet.startDate + 7).to_formatted_s(:uk_date) %></td>
-                  <td class="row_border_bottom row_border_right"><%=h timesheet.contract.ref %></td>
-                  <td class="row_border_bottom row_border_right"><%=h timesheet.contractor.user.full_name %></td>
-                  <td class="row_border_bottom row_border_right"><%=h timesheet.totalDays %></td>
-                  <td class="row_border_bottom row_border_right"><%=h timesheet.totalHours %></td>
-                  <td class="row_border_bottom row_border_right"><%=h timesheet.status %></td>
-                  <td class="row_border_bottom"><%= timesheet.userName.blank? ? "&nbsp;" : timesheet.userName if timesheet.status == 'APPROVED' %></td>
+          <div id="blue-box">
+            <div class="padder">
+              <table width="100%" cellspacing="0" cellpadding="2">
+                <tr class="data_table_header" class="row_border_bottom">
+                  <td class="header row_border_right">Start Date</td>
+                  <td class="header row_border_right">End Date</td>
+                  <td class="header row_border_right">Contract Ref</td>
+                  <td class="header row_border_right">Worker</td>
+                  <td class="header row_border_right">Days</td>
+                  <td class="header row_border_right">Hours</td>
+                  <td class="header row_border_right">Status</td>
+                  <td class="header">Approver</td>
                 </tr>
-
-              <% end %>
-            <% else %>
-              <tr>
-                <td colspan="8">&nbsp;</td>
-              </tr>
-              <tr>
-                <td colspan="8" align="center">No timesheets to view</td>
-              </tr>
-            <% end %>
-            <tr>
-              <td colspan="8">&nbsp;</td>
-            </tr>
-            <tr><td colspan="8" align="center"><%= will_paginate(@timesheets) %></td></tr>
-          </table>
-
+                <% if @timesheets.length > 0 %>
+                  <% for timesheet in @timesheets %>
+                    <% row_class = cycle('odd', 'even') %>
+                    <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                      <td class="row_border_bottom row_border_right">
+                        <% if timesheet.status != 'DRAFT' %>
+                          <%= link_to(timesheet.startDate.to_formatted_s(:uk_date), view_timesheet_agency_path(@agency, :timesheet_id => timesheet.id, :client_id => @client_id.blank? ? "0" : @client_id, :contractor_id => @contractor_id, :page => params[:page].nil? ? 1 : params[:page], :source => 'history', :from_date => @from_date, :to_date => @to_date, :status => @status)) %></td>
+                        <% else %>
+                          <%= timesheet.startDate.to_formatted_s(:uk_date) %>
+                        <% end %>
+                      <td class="row_border_bottom row_border_right"><%= (timesheet.startDate + 7).to_formatted_s(:uk_date) %></td>
+                      <td class="row_border_bottom row_border_right"><%=h timesheet.contract.ref %></td>
+                      <td class="row_border_bottom row_border_right"><%=h timesheet.contractor.user.full_name %></td>
+                      <td class="row_border_bottom row_border_right"><%=h timesheet.totalDays %></td>
+                      <td class="row_border_bottom row_border_right"><%=h timesheet.totalHours %></td>
+                      <td class="row_border_bottom row_border_right"><%=h timesheet.status %></td>
+                      <td class="row_border_bottom"><%= timesheet.userName.blank? ? "&nbsp;" : timesheet.userName if timesheet.status == 'APPROVED' %></td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td colspan="8">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="8" align="center">No timesheets to view</td>
+                  </tr>
+                <% end %>
+                <tr>
+                  <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr><td colspan="8" align="center"><%= will_paginate(@timesheets) %></td></tr>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
-
     <div class="Right">
       <div class="col sidebar">
         <div class="new_task_wrapper">
-          <div id="add_new_task" class="sidebar_form new_task">
-            <div class="inner task">
-              <div class="header">
-                <h1>
+          <h1>Timesheet History Criteria</h1>
+          <div class="module">
+            <div class="inner">
+              <% form_tag 'timesheet_history', :style => 'text-align:left', :method => 'get' do %>
 
-                </h1>
-              </div>
-              <div class="body">
-                <% form_tag 'timesheet_history', :style => 'text-align:left', :method => 'get' do %>
-
-                  <div id="nav-bar-box">
-                    <%= single_column_layout("<h1>Timesheet History</h1>", "#{select_tag('exportFormat', options_for_select(@formats, @selectedFormat.blank? ? 'CSV' : @selectedFormat))}&nbsp;#{submit_tag('Export', :class => 'btn', :disabled => @disabled, :class => 'generalButton', :style => "width: 70px")}&nbsp;|&nbsp;#{submit_tag('Run Report', :class => 'generalButton')}") %>
-                  </div>
-
+                <%= select_tag('exportFormat', options_for_select(@formats, @selectedFormat.blank? ? 'CSV' : @selectedFormat)) %>&nbsp;|&nbsp;<%=submit_tag('Export', :class => 'btn', :disabled => @disabled, :class => 'generalButton', :style => "width: 70px")%>
+                &nbsp;|&nbsp;<%=submit_tag('Run Report', :class => 'generalButton')%>
+                <p>
                   <table width="100%" cellpadding="1" cellspacing="0">
-                    <tr >
-                      <td class="header"><h1>Timesheet History Criteria</h1></td>
+                    <tr>
+                      <td >From:&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td><%= calendar_date_select_tag 'from_date', @from_date.nil? ? Date.today - 1.month : @from_date, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17  %></td>
                     </tr>
 
                     <tr>
-                      <td class="leftHeader">From:&nbsp;</td>
-                    </tr><tr>
-                      <td class="header"><%= calendar_date_select_tag 'from_date', @from_date.nil? ? Date.today - 1.month : @from_date, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17  %></td>
-                    </tr><tr>
                       <td class="leftHeader">Client:&nbsp;</td>
-                    </tr><tr>
+                    </tr>
+                    <tr>
                       <td><%= select_tag("client_id", options_from_collection_for_select(@client_list, :id, :name, @client_id.to_i), :id => 'client_id', :style =>"width: 180px;" ) %></td>
-                    </tr><tr>
-                      <td class="leftHeader">Status:&nbsp;<%= select_tag 'status', options_for_select(@status_list, @status) %>
-
+                    </tr>
+                    <tr>
+                      <td class="leftHeader">Status:&nbsp;
                       </td>
+                    </tr>
+                    <tr>
+                      <td><%= select_tag 'status', options_for_select(@status_list, @status) %></td>
                     </tr>
                     <tr>
                       <td class="leftHeader">To:&nbsp;</td>
@@ -102,19 +97,12 @@
                     </tr><tr>
                       <td><%= select_tag("contractor_id", options_from_collection_for_select(@users, :contractor_id, :full_name, @contractor_id.to_i), :style =>"width: 180px;") %></td>
                     </tr>
-                  </table>
-                <% end %>
-              </div>
-            </div>
-          </div>
+                </table></p>
+              <% end %>
+          </div></div>
         </div>
       </div>
     </div>
   </div>
-
   <div style="clear: both"></div>
 </div>
-
-<script type="text/javascript">
-
-</script>

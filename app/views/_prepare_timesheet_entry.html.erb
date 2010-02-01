@@ -18,7 +18,7 @@
             <% html_header_right << "&nbsp;<input type=\"button\" class=\"generalButton\" value=\"Cancel\" onclick=\"nav('#{currenttimesheets_url}');\" />" %>
             <div id="blue-box">
               <div class="padder">
-                <table width="100%" id="timesheet" cellspacing="0" cellpadding="4">
+                <table id="timesheet" cellspacing="0" cellpadding="4">
                   <tr class="data_table_header">
                     <td class="header">
                       Date
@@ -147,7 +147,7 @@
             <%= right_panel_bar_with_header("Notes",notes_html) %>
 
             <% agency_area_html= "" %>
-            <% agency_area_html<< "<div style=\"height: 90px; overflow:auto;\"><span class=\"bold\">" %>
+            <% agency_area_html<< "<div><span class=\"bold\">" %>
             <% agency_area_html<<  @agency.name %>
             <% agency_area_html<< "</span><br/>(t) "  %>
             <% agency_area_html<<  @agency.phone  %>
@@ -157,7 +157,7 @@
             <% agency_area_html<<  "<a href=mailto:'#{@agency.email}'>#{@agency.email}</a></div>"%>
 
             <%= right_panel_bar_with_header("Agency Details",agency_area_html) %>
-            <% approver_area_html="<div style=\"height: 90px; overflow:auto;\">" %>
+            <% approver_area_html="<div>" %>
             <% if @approvers.length == 0 %>
               <% approver_area_html << "<div align=\"center\"><i>None Assigned</i></div>" %>
             <% else %>
