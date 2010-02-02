@@ -1,23 +1,28 @@
-<% form_for(@client) do |f| %>
-
-  <%= show_errors('Unable to save client', f.error_messages) %>
-  <%= show_notice(flash[:notice]) %>
-
-  <div id="nav-bar-box">
-    <%= two_column_nav_bar_layout2("#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> New Client", "&nbsp;") %>
-  </div>
-
-<div id="blue-box">
-      <div class="padder">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="left_side_cell">
-              <div id="left-header-box" >
-                <%= two_column_nav_bar_layout2('New Client Details', "#{image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')}") %>
-              </div>
-              <br />
-              <table width="100%" class="with_margins" align="center" cellspacing="0" cellpadding="0">
-
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for(@client) do |f| %>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">
+              <%= two_column_nav_bar_layout2("#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> New Client", "&nbsp;") %>
+            </h1>
+          </div>
+          <div class="innercol">
+            <div>
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+            </div>
+            <div id="blue-box">
+              <div class="padder">
+                <%= show_errors('Unable to save client', f.error_messages) %>
+                <%= show_notice(flash[:notice]) %>
+                <table style="margin-left:10px;margin-bottom:10px" cellspacing="0" cellpadding="0">
+                  <tr style="height:25px">
+                    <td ><b>New Client Details</b></td>
+                  </tr>
                   <tr>
                     <td class="leftHeader">Name: <span class="required">*</span></td>
                     <td><%= f.text_field :name, :size => "30", :maxlength => "100", :class => 'spaced_input' %></td>
@@ -46,76 +51,69 @@
                     <td class="leftHeader">Post Code:</td>
                     <td><%= f.text_field :postCode, :size => "15", :maxlength => "15", :class => 'spaced_input' %></td>
                   </tr>
-                  </table>
-                  <br />
-                  <div id="left-header-box2">
-                    <div class="header-container">Invoicing Settings</div>
-                  </div>
-              <br />
-                          <table width="100%" class="with_margins" cellpadding="0" align="center" cellspacing="0">
-                            <tr>
-                                <% @periods =  ['Monthly', 'Weekly'] %>
-                                <td class="leftHeader">Invoice Period <%= help_link('/help/client_invoice_period', 'Help on Invoice Period') %> : </td><td><%= select_tag 'period', options_for_select(@periods, @client.invoicePeriod), :class => 'spaced_input' %></td>
-                            </tr>
-                            <tr>
-                              <td class="leftHeader">Monthly Period Start Day <%= help_link('/help/client_monthly_start_day', 'Help on Monthly Period Start Day') %> :</td>
-                              <td><%= f.text_field :monthlyInvoicePeriodStartDay, :size => "4", :maxlength => "2", :class => 'spaced_input' %></td>
-                            </tr>
-                            <tr>
+                  <tr>
+                    <td  style="height:25px" colspan="2"><b>Invoicing Settings</b></td>
+                  </tr>
+                  <tr>
+                    <% @periods =  ['Monthly', 'Weekly'] %>
+                    <td class="leftHeader">Invoice Period <%= help_link('/help/client_invoice_period', 'Help on Invoice Period') %> : </td><td><%= select_tag 'period', options_for_select(@periods, @client.invoicePeriod), :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Monthly Period Start Day <%= help_link('/help/client_monthly_start_day', 'Help on Monthly Period Start Day') %> :</td>
+                    <td><%= f.text_field :monthlyInvoicePeriodStartDay, :size => "4", :maxlength => "2", :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
                     <td class="leftHeader">External Ref <%= help_link('/help/client_external_ref', 'Help on External Ref %') %> :</td>
                     <td><%= f.text_field :externalClientRef, :size => "12", :maxlength => "15", :class => 'spaced_input' %></td>
                   </tr>
-                            <tr>
-                              <td class="leftHeader">Default Margin % <%= help_link('/help/client_margin', 'Help on Default Margin %') %> : <span class="required">*</span></td>
-                              <td><%= f.text_field :margin, :size => "6", :style => 'text-align: right', :class => 'spaced_input' %></td>
-                            </tr>
-                            </table>
-                            <br />
-            </td> <!-- cell -->
-            <td class="right_side_cell" valign="top">
-              <div id="right-header-box">
-                <div class="header-container">Notes</div>
+                  <tr>
+                    <td class="leftHeader">Default Margin % <%= help_link('/help/client_margin', 'Help on Default Margin %') %> : <span class="required">*</span></td>
+                    <td><%= f.text_field :margin, :size => "6", :style => 'text-align: right', :class => 'spaced_input' %></td>
+                  </tr>
+                </table>
               </div>
-              
-            <br />
-            <table width="100%" align="center" cellpadding="1" cellspacing="0">
-              <tr>
-                <td class="header">Invoicing</td>
-              </tr>
-              <tr>
-                <td><br />You can choose how you want to invoice your client.<br />
-                <br /><div style="margin-left:7px; font-weight: bold; font-style: italic">Monthly</div>
-                <div style="margin-left:7px;">All timesheets that have an end date equal to or less than the last day of the invoice period will be included on the invoice calculation.</div>
-                <div style="margin-left:7px;">The monthly period does not have to be from the 1st of the month to the last day of the month. You can specify the start day of the monthly billing cycle for each client.</div>
-                <br /><div style="margin-left:7px; font-weight: bold; font-style: italic">Weekly</div>
-                <div style="margin-left:7px;">Timesheets will be grouped together and allocated to a weekly invoice.</div>
-                <br /><div style="margin-left:7px; font-weight: bold; font-style: italic">Margin</div>
-                <div style="margin-left:7px;">Specify the default margin for this client. Each contract can override this margin if necessary.</div>
-                </td>
-              </tr>
-                        
-            </table>
-                     
-            </td> <!-- cell -->
-          </tr> <!-- row -->
-
-        </table> <!-- table -->
+            </div>
+          </div>
+        </div>
+        <div class="bottom">
+        </div>
       </div>
-    </div>
-
-<% end %>
-
-<script type="text/javascript">
-  
-  var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-  navbarbox.render('nav-bar-box');
-  var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-  bluebox.render('blue-box');
-  var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-  leftheaderbox.render('left-header-box');
-  var leftheaderbox2 = RUZEE.ShadedBorder.create({corner:8, border:1});
-  leftheaderbox2.render('left-header-box2');
-  var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-  rightheaderbox.render('right-header-box');
-
-</script>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <h1>Actions</h1>
+            <div class="module">
+              <div class="inner">
+                <p>
+                  <%=submit_tag("Create",:class=>"generalButton")%>
+                </p>
+              </div>
+            </div>
+            <h1>Notes</h1>
+            <div class="module">
+              <div class="inner">
+                <table width="100%" align="center" cellpadding="1" cellspacing="0">
+                  <tr>
+                    <td class="header">Invoicing</td>
+                  </tr>
+                  <tr>
+                    <td><br />You can choose how you want to invoice your client.<br />
+                      <br /><div style="margin-left:7px; font-weight: bold; font-style: italic">Monthly</div>
+                      <div style="margin-left:7px;">All timesheets that have an end date equal to or less than the last day of the invoice period will be included on the invoice calculation.</div>
+                      <div style="margin-left:7px;">The monthly period does not have to be from the 1st of the month to the last day of the month. You can specify the start day of the monthly billing cycle for each client.</div>
+                      <br /><div style="margin-left:7px; font-weight: bold; font-style: italic">Weekly</div>
+                      <div style="margin-left:7px;">Timesheets will be grouped together and allocated to a weekly invoice.</div>
+                      <br /><div style="margin-left:7px; font-weight: bold; font-style: italic">Margin</div>
+                      <div style="margin-left:7px;">Specify the default margin for this client. Each contract can override this margin if necessary.</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div style="clear: both"></div>
+</div>

@@ -411,6 +411,7 @@ input.timesheet_input
  font-weight: bold;
  background: #FFF url(/images/button-bg.gif) repeat-x top left;
  margin-bottom: 2px;
+ text-decoration:none;
 }
 .generalButton:hover {
  background: #D0EA99;

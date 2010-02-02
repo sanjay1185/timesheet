@@ -354,7 +354,7 @@ class UsersController < ApplicationController
         # save
         if @user.save
 
-          flash[:notice] = "Password reset successful"
+          flash[:notice] = "Password reset successfully"
 
         else
 
@@ -398,7 +398,7 @@ class UsersController < ApplicationController
       current_user.only_basic_validation = true
       current_user.email_confirmation = current_user.email
       current_user.reset_password
-      flash[:notice] = current_user.save ? "Password reset successful." : "Password reset failed."
+      flash[:notice] = current_user.save ? "Password reset successfully." : "Password reset failed."
       redirect_back_or_default('/login')
 
     else

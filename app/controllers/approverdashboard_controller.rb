@@ -238,7 +238,7 @@ class ApproverdashboardController < ApplicationController
 
         else
 
-          flash[:notice] = "Password reset successful"
+          flash[:notice] = "Password reset successfully"
 
         end
 

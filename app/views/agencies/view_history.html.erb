@@ -1,60 +1,84 @@
-<div id="nav-bar-box">
-<%= two_column_nav_bar_layout2("History for Timesheet: #{@current.startDate.to_formatted_s(:uk_date)} for #{@current.contract.contractor_user.full_name} at #{@current.contract.client.name}", "<a href=\"#{session[:previous_uri]}\">Back to Timesheet</a>") %>
-</div>
-<div id="blue-box">
-    <div id="padder-list">
-<table width="100%" cellpadding="2" cellspacing="0">
-	<tr><td class="header row_border_right">Date/Time</td><td class="header row_border_right">Status</td><td class="header row_border_right">User</td><td class="header row_border_right">Days</td><td class="header row_border_right">Hours</td><td class="header">Notes</td></tr>
-	<tr><td class="row_border_right"><a href="view_history?original_id=<%= @current.id %>"><%= @current.updated_at.to_formatted_s(:uk_date_time_24) %></a></td><td class="row_border_right"><%= @current.status %></td><td class="row_border_right"><%= @current.userName %></td><td class="row_border_right"><%= @current.totalDays %></td><td class="row_border_right"><%= @current.totalHours == "0:00" ? "&nbsp;" : @current.totalHours %></td><td><%= truncate(@current.note, :length => 85) %></td></tr>
-	<% for ts in @histories do %>
-		<% odd_class = cycle("odd_row", "")%>
-		<tr class="<%= odd_class %>"><td class="row_border_right"><a href="view_history?original_id=<%= @current.id %>&selected_id=<%= ts.id %>"><%= ts.updated_at.to_formatted_s(:uk_date_time_24) %></a></td><td class="row_border_right"><%= ts.status %></td><td class="row_border_right"><%= ts.userName %></td><td class="row_border_right"><%= ts.totalDays %></td><td class="row_border_right"><%= ts.totalHours == "0:00" ? "&nbsp;" : ts.totalHours %></td><td><%= truncate(ts.note, :length => 85) %></td></tr>
-	<% end %>
-</table>
-<div style="border-top: black solid 2px; padding-top: 5px;margin-top: 5px">
-<table width="100%" cellspacing="0" cellpadding="2">
-  <tr>
-    <td class="header row_border_right" colspan="2">Date</td>
-    <td class="header row_border_right" align="right">Start&nbsp;</td>
-    <td class="header row_border_right" align="right">Break&nbsp;</td>
-    <td class="header row_border_right" align="right">Finish&nbsp;</td>
-    <td class="header row_border_right" align="right">Daily&nbsp;</td>
-    <td class="header row_border_right" align="right">Hours&nbsp;</td>
-    <td class="header">Rate&nbsp;</td>
-  </tr>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">
+            <%= two_column_nav_bar_layout2("History for Timesheet: #{@current.startDate.to_formatted_s(:uk_date)} for #{@current.contract.contractor_user.full_name} at #{@current.contract.client.name}", "<a href=\"#{session[:previous_uri]}\">Back to Timesheet</a>") %>
+          </h1>
+        </div>
+        <div class="innercol">
+          <div>
+          <div style="display: none;" id="error_msgs">
+          </div>
+          <div style="display: none;" id="notice">
+          </div>
+          </div>
+          <div id="blue-box">
+            <div class="padder">
+              <table width="100%" cellpadding="2" cellspacing="0">
+                <tr class="data_table_header"><td class="header row_border_right">Date/Time</td><td class="header row_border_right">Status</td><td class="header row_border_right">User</td><td class="header row_border_right">Days</td><td class="header row_border_right">Hours</td><td class="header">Notes</td></tr>
+                <tr class="timesheet_row even"><td class="row_border_right"><a href="view_history?original_id=<%= @current.id %>"><%= @current.updated_at.to_formatted_s(:uk_date_time_24) %></a></td><td class="row_border_right"><%= @current.status %></td><td class="row_border_right"><%= @current.userName %></td><td class="row_border_right"><%= @current.totalDays %></td><td class="row_border_right"><%= @current.totalHours == "0:00" ? "&nbsp;" : @current.totalHours %></td><td><%= truncate(@current.note, :length => 85) %></td></tr>
+                <% for ts in @histories do %>
+                    <% row_class = cycle('odd', 'even') %>
+                    <tr class="timesheet_row <%= row_class %> row_border_bottom"><td class="row_border_right"><a href="view_history?original_id=<%= @current.id %>&selected_id=<%= ts.id %>"><%= ts.updated_at.to_formatted_s(:uk_date_time_24) %></a></td><td class="row_border_right"><%= ts.status %></td><td class="row_border_right"><%= ts.userName %></td><td class="row_border_right"><%= ts.totalDays %></td><td class="row_border_right"><%= ts.totalHours == "0:00" ? "&nbsp;" : ts.totalHours %></td><td><%= truncate(ts.note, :length => 85) %></td></tr>
+                  <% end %>
+                </table>
+                <div style="border-top: black solid 2px; padding-top: 5px;margin-top: 5px">
+                  <table width="100%" cellspacing="0" cellpadding="2">
+                    <tr class="data_table_header">
+                      <td class="header row_border_right" colspan="2">Date</td>
+                      <td class="header row_border_right" align="right">Start&nbsp;</td>
+                      <td class="header row_border_right" align="right">Break&nbsp;</td>
+                      <td class="header row_border_right" align="right">Finish&nbsp;</td>
+                      <td class="header row_border_right" align="right">Daily&nbsp;</td>
+                      <td class="header row_border_right" align="right">Hours&nbsp;</td>
+                      <td class="header">Rate&nbsp;</td>
+                    </tr>
 
-  <% @selected.entries.each do |entry| %>
-    <tr>
-      <% colspan = 6 %>
-      <% if entry.disabled == true %>
-        <td class="row_border_bottom" style="font-size: 1.1em;width:90px;">&nbsp;<%=h entry.dateValue.to_formatted_s(:uk_date) %></td>
-        <td class="row_border_bottom row_border_right" style="font-size: 1.1em;<%= "color:gray" if entry.manual? %>"><%=h entry.dateValue.strftime("%A") %></td>
-        <td class="row_border_bottom" colspan="<%= colspan %>" style="text-align: center"><div style="color: gray; border: gray solid 1px;width:98%;text-align: center;">Not required for this timesheet</div></td>
-      <% else %>
-        <td class="row_border_bottom" style="height: 18px;font-size: 1.1em;width:90px;<%= "color:gray;font-style: italic" if entry.manual? %>">&nbsp;<%=h entry.dateValue.to_formatted_s(:uk_date) %></td>
-        <td class="row_border_bottom row_border_right" style="font-size: 1.1em;<%= "color:gray;font-style: italic" if entry.manual? %>"><%=h entry.dateValue.strftime("%A") %></td>
-        <td class="row_border_bottom row_border_right" align="right"><%= entry.startTime %>&nbsp;</td>
-        <td class="row_border_bottom row_border_right" align="right"><%= entry.breakHours %>&nbsp;</td>
-        <td class="row_border_bottom row_border_right" align="right"><%= entry.finishTime %>&nbsp;</td>
-        <td class="row_border_bottom row_border_right" align="right"><%= entry.dayValue unless entry.dayValue.nil? || entry.dayValue == 0 %>&nbsp;</td>
-        <td class="row_border_bottom row_border_right" align="right"><%= entry.hours %>&nbsp;</td>
-        <td class="row_border_bottom"><%= entry.rate.name %></td>
-      <% end %>
-    </tr>
+                    <% @selected.entries.each do |entry| %>
+                      <% row_class = cycle('odd', 'even') %>
+                      <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                        <% colspan = 6 %>
+                        <% if entry.disabled == true %>
+                          <td class="row_border_bottom" style="font-size: 1.1em;width:90px;">&nbsp;<%=h entry.dateValue.to_formatted_s(:uk_date) %></td>
+                          <td class="row_border_bottom row_border_right" style="font-size: 1.1em;<%= "color:gray" if entry.manual? %>"><%=h entry.dateValue.strftime("%A") %></td>
+                          <td class="row_border_bottom" colspan="<%= colspan %>" style="text-align: center"><div style="color: gray; border: gray solid 1px;width:98%;text-align: center;">Not required for this timesheet</div></td>
+                        <% else %>
+                          <td class="row_border_bottom" style="height: 18px;font-size: 1.1em;width:90px;<%= "color:gray;font-style: italic" if entry.manual? %>">&nbsp;<%=h entry.dateValue.to_formatted_s(:uk_date) %></td>
+                          <td class="row_border_bottom row_border_right" style="font-size: 1.1em;<%= "color:gray;font-style: italic" if entry.manual? %>"><%=h entry.dateValue.strftime("%A") %></td>
+                          <td class="row_border_bottom row_border_right" align="right"><%= entry.startTime %>&nbsp;</td>
+                          <td class="row_border_bottom row_border_right" align="right"><%= entry.breakHours %>&nbsp;</td>
+                          <td class="row_border_bottom row_border_right" align="right"><%= entry.finishTime %>&nbsp;</td>
+                          <td class="row_border_bottom row_border_right" align="right"><%= entry.dayValue unless entry.dayValue.nil? || entry.dayValue == 0 %>&nbsp;</td>
+                          <td class="row_border_bottom row_border_right" align="right"><%= entry.hours %>&nbsp;</td>
+                          <td class="row_border_bottom"><%= entry.rate.name %></td>
+                        <% end %>
+                      </tr>
 
-  <% end %>
-  <tr class="totals bold">
-    <td class="row_border_right" colspan="5">Total</td>
-    <td class="row_border_right" align="right"><%= @selected.totalDays %>&nbsp;</td>
-    <td class="row_border_right" align="right"><%= @selected.totalHours %>&nbsp;</td>
-    <td class="">&nbsp;</td>
+                    <% end %>
+                    <tr class="totals bold">
+                      <td class="row_border_right" colspan="5">Total</td>
+                      <td class="row_border_right" align="right"><%= @selected.totalDays %>&nbsp;</td>
+                      <td class="row_border_right" align="right"><%= @selected.totalHours %>&nbsp;</td>
+                      <td class="">&nbsp;</td>
+                    </tr>
+                  </table><%if @selected.note%>
+                    <div style="padding:10px"><%= @selected.note %></div><%end%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom"></div>
+      </div>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
 
-  </tr>
-  
-</table>
-<div style="padding:10px"><%= @selected.note %></div>
-</div>
-
-<br />
-</div>
-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="clear: both"></div>
+  </div>

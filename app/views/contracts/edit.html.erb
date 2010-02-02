@@ -1,138 +1,138 @@
-<%= show_errors('Unable to save contract', error_messages_for(:contract)) %>
-<%= show_notice(flash[:notice]) %>
-
-<% left_header = "#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{fast_link(@client.name, 'clients/edit/'+ @client.id.to_s)}" %>
-<%# left_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> Edit Contract (#{@contract.ref})" %>
-<% view_timesheets = "#{link_to('View Timesheets', contract_timesheets_path(@contract))}&nbsp;|&nbsp;" if @contract.timesheets.length > 0 %>
-
-<div id="nav-bar-box">
-  <%= two_column_nav_bar_layout2(left_header, "#{view_timesheets}#{link_to('Manage Rates', client_contract_rates_path(@client, @contract))}") %>
-</div>
-
-<% form_for([@client,@contract]) do |f| %>
-  
-<div id="blue-box">
-      <div class="padder">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="left_side_cell">
-              <div id="left-header-box" >
-                <%= two_column_nav_bar_layout2('Contract Details', "#{delete_link('Delete Contract?', 'Deleting this contract will remove all timesheets.<p>Do you wish to proceed?</p>', delete_contract_client_contract_url(@client, @contract), 300, @readonly, 'contracts') if @canDelete == true}&nbsp;#{get_save_image(@readonly, 'save contracts', :style =>'vertical-align:top')}") %>
+<div id="swap_from">
+  <div id="screen_body" class="container"><% form_for([@client,@contract]) do |f| %>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">
+              <% left_header = "#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{fast_link(@client.name, 'clients/edit/'+ @client.id.to_s)}" %>
+              <% left_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> Edit Contract (#{@contract.ref})" %>
+              <%=left_header%>
+            </h1>
+          </div>
+          <div class="innercol">
+            <div>
+              <div style="display: none;" id="error_msgs">
               </div>
-               <br />
-               <% end_date = @contract.endDate %>
-               <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
-                    <tr class="row_text_height">
-                    	<td class="leftHeader">Start Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td class="bold">&nbsp;<%= @contract.startDate.to_formatted_s(:uk_date) %></td>
-                    </tr>
-                    <tr>
-                    	<td class="leftHeader">End Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td><%= f.calendar_date_select :endDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
-                    </tr>
-                    <tr>
-                    	<td class="leftHeader">Ref <%= help_link('/help/contract_ref', 'Help on Contract Ref') %> : <span class="required">*</span></td><td><%= f.text_field :ref, :maxlength => 15, :class => 'spaced_input', :disabled => @disabled %></td>
-                    </tr>
-                    <tr>
-                    	<td class="leftHeader">Position: <span class="required">*</span></td><td><%= f.text_field :position, :size => 26, :maxlength => 255, :class => 'spaced_input', :disabled => @disabled %></td>
-                    </tr>
-                    <tr style="height: 20px">
-                      <td class="leftHeader">Rate Type <%= help_link('/help/contract_rate_type', 'Help on Rate Type') %> :</td><td style="vertical-align: middle" class="bold">&nbsp;<label><%= @contract.rateType %></label></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Allow Overtime <%= help_link('/help/contract_allow_overtime', 'Help on Overtime', 'middle', 400, 260) %> :</td><td><%= f.select(:allowOvertime, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowOvertime.to_s}, {:id => 'allowOvertime',:class => 'spaced_input', :onchange => "checkAllowOvertime('allowOvertime')", :disabled => @disabled}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Allow Bank Holidays <%= help_link('/help/contract_allow_bank_holidays', 'Help on Bank Holidays') %> :</td><td><%= f.select(:allowBankHolidays, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowBankHolidays.to_s}, {:class => 'spaced_input', :disabled => @disabled}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Require Time Entry <%= help_link('/help/contract_require_time', 'Help on Require Time Entry') %> :</td><td><%= f.select(:requireTimes, {'Yes' => true, 'No' => false}, {:selected => @contract.requireTimes}, { :class => 'spaced_input', :disabled => @disabled}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Require Full Week <%= help_link('/help/contract_require_full_week', 'Help on Require Full Week') %> : </td><td><%= f.select(:requireFullWeek, {'Yes' => true, 'No' => false}, {:selected => @contract.requireFullWeek}, {:class => 'spaced_input', :disabled => @disabled}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Margin % <%= help_link('/help/contract_margin', 'Help on Margin %') %> :</td>
-                        <td><%= f.text_field :margin, :size => "7", :style => 'text-align: right', :value => number_with_precision(@contract.margin, :precision => 2), :class => 'spaced_input', :disabled => @disabled %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader"  style="height: 20px">Status :</td>
-                        <td class="bold">&nbsp;<%= @contract.status %></td>
-                    </tr>
-                    <tr>
-                       <td class="leftHeader" colspan="2">&nbsp;</td>
-                    </tr>
-                    <tr>
-                    	<td class="leftHeader" style="text-indent: 7px" colspan="2"><%= f.check_box(:calcChargeRateAsPAYE, :id => 'calcChargeAsPAYE', :disabled => @disabled) %> Calculate charge rate as PAYE employee? <%= help_link('/help/contract_calculate_charge_rates', 'Help on Calculating the Charge Rates %', 'middle', 400, 550) %></td>
-                    </tr>
+              <div style="display: none;" id="notice">
+              </div>
+            </div>
+            <div id="blue-box">
+              <div class="padder">
+                <%= show_errors('Unable to save contract', error_messages_for(:contract)) %>
+                <%= show_notice(flash[:notice]) %>
+                <% view_timesheets = "#{link_to('View Timesheets', contract_timesheets_path(@contract))}&nbsp;|&nbsp;" if @contract.timesheets.length > 0 %>
+                <table  style="margin-left:10px;margin-bottom:10px" cellpadding="2" cellspacing="0">
+                  <tr style="height:25px">
+                    <td colspan="2"><b>Contract Details</b><%=delete_link('Delete Contract?', 'Deleting this contract will remove all timesheets.<p>Do you wish to proceed?</p>', delete_contract_client_contract_url(@client, @contract), 300, @readonly, 'contracts') if @canDelete == true%></td>
+                  </tr>
+                  <tr class="row_text_height">
+                    <td class="leftHeader">Start Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td class="bold">&nbsp;<%= @contract.startDate.to_formatted_s(:uk_date) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">End Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td><%= f.calendar_date_select :endDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Ref <%= help_link('/help/contract_ref', 'Help on Contract Ref') %> : <span class="required">*</span></td><td><%= f.text_field :ref, :maxlength => 15, :class => 'spaced_input', :disabled => @disabled %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Position: <span class="required">*</span></td><td><%= f.text_field :position, :size => 26, :maxlength => 255, :class => 'spaced_input', :disabled => @disabled %></td>
+                  </tr>
+                  <tr style="height: 20px">
+                    <td class="leftHeader">Rate Type <%= help_link('/help/contract_rate_type', 'Help on Rate Type') %> :</td><td style="vertical-align: middle" class="bold">&nbsp;<label><%= @contract.rateType %></label></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Allow Overtime <%= help_link('/help/contract_allow_overtime', 'Help on Overtime', 'middle', 400, 260) %> :</td><td><%= f.select(:allowOvertime, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowOvertime.to_s}, {:id => 'allowOvertime',:class => 'spaced_input', :onchange => "checkAllowOvertime('allowOvertime')", :disabled => @disabled}) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Allow Bank Holidays <%= help_link('/help/contract_allow_bank_holidays', 'Help on Bank Holidays') %> :</td><td><%= f.select(:allowBankHolidays, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowBankHolidays.to_s}, {:class => 'spaced_input', :disabled => @disabled}) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Require Time Entry <%= help_link('/help/contract_require_time', 'Help on Require Time Entry') %> :</td><td><%= f.select(:requireTimes, {'Yes' => true, 'No' => false}, {:selected => @contract.requireTimes}, { :class => 'spaced_input', :disabled => @disabled}) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Require Full Week <%= help_link('/help/contract_require_full_week', 'Help on Require Full Week') %> : </td><td><%= f.select(:requireFullWeek, {'Yes' => true, 'No' => false}, {:selected => @contract.requireFullWeek}, {:class => 'spaced_input', :disabled => @disabled}) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Margin % <%= help_link('/help/contract_margin', 'Help on Margin %') %> :</td>
+                    <td><%= f.text_field :margin, :size => "7", :style => 'text-align: right', :value => number_with_precision(@contract.margin, :precision => 2), :class => 'spaced_input', :disabled => @disabled %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader"  style="height: 20px">Status :</td>
+                    <td class="bold">&nbsp;<%= @contract.status %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader" colspan="2">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader" style="text-indent: 7px" colspan="2"><%= f.check_box(:calcChargeRateAsPAYE, :id => 'calcChargeAsPAYE', :disabled => @disabled) %> Calculate charge rate as PAYE employee? <%= help_link('/help/contract_calculate_charge_rates', 'Help on Calculating the Charge Rates %', 'middle', 400, 550) %></td>
+                  </tr>
                 </table>
-                <br />
-
-                <% end %>
-            </td> <!-- cell -->
-            <td class="right_side_cell" valign="top">
-              <div id="right-header-box">
-                <div class="header-container"><%= "Assigned Worker #{help_link('/help/contract_assign_temp', 'Help on Assigning Workers')}" %></div>
               </div>
-              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <h1>Actions</h1>
+            <div class="module">
+              <div class="inner">
+                <p><%=submit_tag("Edit Contract",:class=>"generalButton")%><br>
+                  <%=view_timesheets %>
+                  <%=link_to('Manage Rates', client_contract_rates_path(@client, @contract))%>
+                </p>
+              </div>
+            </div>
+          <%end%>
+          <h1>Assigned Worker <%=help_link('/help/contract_assign_temp', 'Help on Assigning Workers')%></h1>
+          <div class="module">
+            <div class="inner">
               <% form_tag :action => 'contractor_search', :id => @contract.id, :contracts_page => @contracts_page, :status => @status do %>
-              <table class="with_margins" width="100%" cellpadding="0" cellspacing="0" align="center">
-                    <% if @contract.contractor_user.nil? %>
-                      
+                <table class="with_margins" width="100%" cellpadding="0" cellspacing="0" align="center">
+                  <% if @contract.contractor_user.nil? %>
                     <tr>
-                        <td colspan="3">Last Name/Email: <%= text_field 'q', nil, :size => '26'  %>&nbsp;<%= submit_tag 'Search', :class => 'generalButton' %></td>
+                      <td colspan="3">Last Name/Email: <%= text_field 'q', nil, :size => '26'  %>&nbsp;<%= submit_tag 'Search', :class => 'generalButton' %></td>
                     </tr>
-                    
-                    <% else %>
-                     
+                  <% else %>
                     <tr>
-                    	<td><img src="/images/user_48.png" alt="" style="vertical-align: bottom" class="small_icon" />&nbsp;<%= @contract.contractor_user.full_name %> (<%= @contract.contractor_user.email %>)</td><td style="text-align: right"><%= delete_link("Remove Temp?", "Removing this user will prevent them from adding or editing timesheets for this contract.<p>Do you wish to proceed?</p>", contractor_remove_client_contract_path(@client, @contract, :contractor_id => @contract.contractor_user.id), 300, @readonly, 'remove a contractor from a contract') if @canDelete == true%>
+                      <td><img src="/images/user_48.png" alt="" style="vertical-align: bottom" class="small_icon" />&nbsp;<%= @contract.contractor_user.full_name %> (<%= @contract.contractor_user.email %>)</td><td style="text-align: right"><%= delete_link("Remove Temp?", "Removing this user will prevent them from adding or editing timesheets for this contract.<p>Do you wish to proceed?</p>", contractor_remove_client_contract_path(@client, @contract, :contractor_id => @contract.contractor_user.id), 300, @readonly, 'remove a contractor from a contract') if @canDelete == true%>
                     </tr>
-                      
-                    <% end %>
-               </table>
+                  <% end %>
+                </table>
               <% end %>
-               <br />
-               <div id="right-header-box2">
-                <%= two_column_nav_bar_layout2("Assigned Approvers #{help_link('/help/contract_approvers', 'Help on Approvers')}", "#{link_to_readonly('Add', add_approver_client_contract_path(@client, @contract), 'add approvers', @readonly)}") %>
-              </div>
-               <div class="with_margins">
-               <table width="100%" cellpadding="2" align="center" cellspacing="0">
-                    <tr>
-                    	<td colspan="2">&nbsp;</td>
-                    </tr>
-                    <tr>
-                    	<td class="header row_border_right">Name</td><td style="padding-left:2px" class="header" colspan="2">Email</td>
-                    </tr>
-                    <% if @contract.approver_users == nil || @contract.approver_users.length == 0 %>
-                      <tr>
-                        <td colspan="3">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td colspan="3" style="text-align: center;">This contract has no approvers assigned<p>Timesheets will have to be submitted manually</p></td>
-                      </tr>
-                    <% else %>
-                      <% for approver in @contract.approver_users do %>
+            </div>
+          </div>
+          <h1>Assigned Approvers <%=help_link('/help/contract_approvers', 'Help on Approvers')%></h1>
+          <div class="module">
+            <div class="inner">
+              <%=link_to_readonly('Add', add_approver_client_contract_path(@client, @contract), 'add approvers', @readonly,:class=>"generalButton")%>
+              
+              <table width="100%" cellpadding="2" align="center" cellspacing="0">
+                <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td class="header row_border_right">Name</td><td style="padding-left:2px" class="header" colspan="2">Email</td>
+                </tr>
+                <% if @contract.approver_users == nil || @contract.approver_users.length == 0 %>
+                  <tr>
+                    <td colspan="3">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="text-align: center;">This contract has no approvers assigned<p>Timesheets will have to be submitted manually</p></td>
+                  </tr>
+                <% else %>
+                  <% for approver in @contract.approver_users do %>
                       <tr><td class="row_border_bottom row_border_right"><%= approver.full_name %></td><td class="row_border_bottom"><%= approver.email %></td><td class="row_border_bottom" style="text-align:right"><%= delete_link_readonly(@readonly, "approvers", "Remove Approver?", "Removing this approver will prevent them from approving timesheets for this contract, although it will not delete them from the system.<p>Do you wish to proceed?</p>", remove_approver_client_contract_path(@client, @contract, :user_id => approver.id), 400) unless @disabled == true %></td></tr>
-                      <% end %>
-                      
                     <% end %>
-                    </table>
-               </div>
-            </td> <!-- cell -->
-          </tr> <!-- row -->
-        </table> <!-- table -->
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-<script type="text/javascript">
-
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    leftheaderbox.render('left-header-box');
-    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox.render('right-header-box');
-    var rightheaderbox2 = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox2.render('right-header-box2');
-    
-  </script>
+    <div style="clear: both"></div>
+  </div>

@@ -1,85 +1,80 @@
-<div id="nav-bar-box">
-  <div class="header-container"><%= link_to('User Manager', users_agency_path) %> >> Add New User</div>
-</div>
-
-<div id="blue-box">
-      <div class="padder">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="left_side_cell">
-             <div class="full_width_header_box">
-                <% form_for(:user, :url => {:action => 'save_new_user', :controller => 'agencies'}) do |u| -%>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for(:user, :url => {:action => 'save_new_user', :controller => 'agencies'}) do |u| -%>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">
+              <%= link_to('User Manager', users_agency_path) %> >> Add New User
+            </h1>
+          </div>
+          <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+          <div class="innercol">            
+            <div id="blue-box">
+              <div class="padder">
                 <%= show_errors('Unable to save user', u.error_messages) %>
-
-               <div id="left-header-box" >
-                <%= two_column_nav_bar_layout2('User Details', image_submit_tag('/images/floppy_disk_48.gif', :title => 'Save', :class => 'small_icon')) %>
+                <table style="margin-left:10px;margin-bottom:10px" cellpadding="2" cellspacing="0">
+                  <tr>
+                    <td style="height:25px"><b>User Details</b></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Login: <span class="required">*</span></td><td><%= u.text_field :login, :id => 'login', :maxlength => 15, :class => 'spaced_input' %><%= ajax_login_check %></td>
+                  </tr>
+                  <tr>
+                    <% @titles = ['Mr', 'Mrs', 'Miss'] %>
+                    <td class="leftHeader">Title: <span class="required">*</span></td><td><%= select_tag 'selected_title', options_for_select(@titles, 'Mr'), :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">First Name: <span class="required">*</span></td><td><%= u.text_field :firstName, :id => 'firstName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= u.text_field :lastName, :id => 'lastName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Phone:</td><td><%= u.text_field :phone, :size => 20, :maxlength => 30, :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Mobile:</td><td><%= u.text_field :mobile, :size => 20, :maximum => 30, :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Email: <span class="required">*</span></td><td><%= u.text_field :email, :id => 'user_email', :size=> 30, :maxlength => 100, :class => 'spaced_input' %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Confirm: <span class="required">*</span></td><td><input type="text" name="email_confirmation" size="30" maxlength="100" class="spaced_input" /></td>
+                  </tr>
+                </table>
               </div>
-
-                <br />
-                <div class="with_margins">
-                <table width="100%" cellpadding="0" align="center" cellspacing="0">
-
-    
-        <tr>
-            <td class="leftHeader">Login: <span class="required">*</span></td><td><%= u.text_field :login, :id => 'login', :maxlength => 15, :class => 'spaced_input' %><%= ajax_login_check %></td>
-        </tr>
-        <tr>
-            <% @titles = ['Mr', 'Mrs', 'Miss'] %>
-            <td class="leftHeader">Title: <span class="required">*</span></td><td><%= select_tag 'selected_title', options_for_select(@titles, 'Mr'), :class => 'spaced_input' %></td>
-        </tr>
-        <tr>
-            <td class="leftHeader">First Name: <span class="required">*</span></td><td><%= u.text_field :firstName, :id => 'firstName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
-        </tr>
-        <tr>
-            <td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= u.text_field :lastName, :id => 'lastName', :size => 25, :maxlength => 25, :class => 'spaced_input' %></td>
-        </tr>
-        <tr>
-            <td class="leftHeader">Phone:</td><td><%= u.text_field :phone, :size => 20, :maxlength => 30, :class => 'spaced_input' %></td>
-        </tr>
-        <tr>
-            <td class="leftHeader">Mobile:</td><td><%= u.text_field :mobile, :size => 20, :maximum => 30, :class => 'spaced_input' %></td>
-        </tr>
-         <tr>
-            <td class="leftHeader">Email: <span class="required">*</span></td><td><%= u.text_field :email, :id => 'user_email', :size=> 30, :maxlength => 100, :class => 'spaced_input' %></td>
-        </tr>
-         <tr>
-            <td class="leftHeader">Confirm: <span class="required">*</span></td><td><input type="text" name="email_confirmation" size="30" maxlength="100" class="spaced_input" /></td>
-        </tr>
-
-    </table>
-                </div>
-    
-    <% end -%>
-    <br />
-            </td> <!-- cell -->
-            <td class="right_side_cell" valign="top">
-              <div id="right-header-box">
-                <div class="header-container">About Users</div>
-              </div>
-              <br />
-              <div class="with_margins">
-              <table width="100%" align="center" cellpadding="0" cellspacing="0">
-              <tr><td style="padding-right: 12px;">
-               <p class="rightMargin">To create a new user simply fill in the form on the left.</p>
-               <p class="rightMargin">When you save the new user an email will be sent to the supplied address that will contain a link to allow them
-               to complete the registration process as well as confirming their login name and auto generated password.</p>
-               <p class="rightMargin">New users are not given any advanced privileges such as user management or invoicing. To grant these priviliges you can edit the user once created.</p>
-            </table>
-              </div>
-             </td> <!-- cell -->
-          </tr> <!-- row -->
-        </table> <!-- table -->
+            </div>
+          </div>
+        </div>
+        <div class="bottom">
+        </div>
       </div>
-    </div>
-<script type="text/javascript">
-
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    leftheaderbox.render('left-header-box');
-    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox.render('right-header-box');
-    
-</script>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <%=right_panel_bar_with_header('Actions',submit_tag('Create',:class=>"generalButton"))%>
+            <h1>About Users</h1>
+            <div class="module">
+              <div class="inner">
+                <p>
+                  <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                    <tr><td style="padding-right: 12px;">
+                    <p class="rightMargin">To create a new user simply fill in the form on the left.</p>
+                    <p class="rightMargin">When you save the new user an email will be sent to the supplied address that will contain a link to allow them
+                    to complete the registration process as well as confirming their login name and auto generated password.</p>
+                    <p class="rightMargin">New users are not given any advanced privileges such as user management or invoicing. To grant these priviliges you can edit the user once created.</p>
+                  </table>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end -%>
+  </div>
+  <div style="clear: both"></div>
+</div>

@@ -1,144 +1,137 @@
-<% form_for([@client,@contract]) do |f| %>
-  <%= show_errors('Unable to save contract', f.error_messages) %>
-  <%= show_notice(flash[:notice]) %>
-
-  
-<% left_header = '' %>
-<% left_header << "&nbsp;#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))}" %>
-
-  <div id="nav-bar-box">
-    <%= two_column_nav_bar_layout2(left_header, get_save_image(@readonly, 'create contracts')) %>
-  </div>
-<div id="blue-box">
-      <div class="padder">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="left_side_cell">
-              <div id="left-header-box" >
-                <div class="header-container">Contract Details</div>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for([@client,@contract]) do |f| %>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">              
+                <%="#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))}"%>
+            </h1>
+          </div>
+          <div class="innercol">
+            <div>
+              <div style="display: none;" id="error_msgs">
               </div>
-               <br />
-               <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
-                    <tr>
-                    	<td class="leftHeader">Start Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td><%= f.calendar_date_select :startDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
-                    </tr>
-                    <tr>
-                    	<td class="leftHeader">End Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td><%= f.calendar_date_select :endDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
-                    </tr>
-                    <tr>
-                    	<td class="leftHeader">Ref <%= help_link('/help/contract_ref', 'Help on Contract Ref') %> : <span class="required">*</span></td><td><%= f.text_field :ref, :maxlength => 15, :class => 'spaced_input' %></td>
-                    </tr>
-                    <tr>
-                    	<td class="leftHeader">Position: <span class="required">*</span></td><td><%= f.text_field :position, :size => 26, :maxlength => 255, :class => 'spaced_input' %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Rate Type <%= help_link('/help/contract_rate_type', 'Help on Rate Type') %> :</td><td><%= f.select(:rateType, {'Hour' => 'Hour', 'Day' => 'Day'}, {:selected => @contract.rateType}, {:class => 'spaced_input', :id => 'rateType', :onchange => "checkDailyRate('rateType')"}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Allow Overtime <%= help_link('/help/contract_allow_overtime', 'Help on Overtime', 'middle', 400, 260) %> :</td><td><%= f.select(:allowOvertime, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowOvertime.to_s}, {:id => 'allowOvertime',:class => 'spaced_input', :onchange => "checkAllowOvertime('allowOvertime')"}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Allow Bank Holidays <%= help_link('/help/contract_allow_bank_holidays', 'Help on Bank Holidays') %> :</td><td><%= f.select(:allowBankHolidays, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowBankHolidays.to_s}, {:class => 'spaced_input'}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Require Time Entry <%= help_link('/help/contract_require_time', 'Help on Require Time Entry') %> :</td><td><%= f.select(:requireTimes, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.requireTimes.to_s}, {:class => 'spaced_input'}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Require Full Week <%= help_link('/help/contract_require_full_week', 'Help on Require Full Week') %> :</td><td><%= f.select(:requireFullWeek, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.requireFullWeek.to_s}, {:class => 'spaced_input'}) %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftHeader">Margin % <%= help_link('/help/contract_margin', 'Help on Margin %') %> :</td>
-                        <td><%= f.text_field :margin, :size => "7", :style => 'text-align: right', :value => number_with_precision(@contract.margin, :precision => 2), :class => 'spaced_input' %></td>
-                    </tr>
-                     <tr>
-                       <td class="leftHeader" colspan="2">&nbsp;</td>
-                    </tr>
-                     <tr>
-                    	<td class="leftHeader" style="text-indent: 7px" colspan="2"><%= f.check_box(:calcChargeRateAsPAYE, :id => 'calcChargeAsPAYE') %> Calculate charge rate as PAYE employee? <%= help_link('/help/contract_calculate_charge_rates', 'Help on Calculating the Charge Rates', 'middle', 400, 550) %> </td>
-                    </tr>
-                </table>
-                <br />
-          
-               
-            </td> <!-- cell -->
-            <td class="right_side_cell" valign="top">
-              <div id="right-header-box">
-                <div class="header-container">Default Hourly Rates <%= help_link('/help/contract_default_rates', 'Help on Default Rates %', 'middle') %></div>
+              <div style="display: none;" id="notice">
               </div>
-              <br />
-
-              <div class="with_margins">
-                    <table width="100%" cellspacing="0" cellpadding="0" align="center">
-                
-                       <tr><td class="header">Name</td><td class="header">Pay Rate</td><td class="header">Charge Rate</td></tr>
-                            <% for rate in @contract.rates %>
-                              <% next if rate.rateType == 'Day' %>
-                              <% f.fields_for :rates, rate do |r_form| %>
-
-                          <tr>
-                            <td class="leftHeader" style="width:110px"><%= rate.name  %>:</td>
-                            <td><%= r_form.text_field :payRate, :size => 7, :value => number_with_precision(rate.payRate, :precision => 2), :id => "", :style => 'text-align: right', :id => (rate.category + rate.rateType).downcase.sub(" ", "") + 'p', :onchange => "javascript:applyMargin('#{(rate.category + rate.rateType).downcase.sub(" ", "")}', #{@ni_rate}, #{@hol_accrual_rate});", :class => 'spaced_input' %></td>
-                                <td><%= r_form.text_field :chargeRate, :size => 7, :value => number_with_precision(rate.chargeRate, :precision => 2), :style => 'text-align: right', :id => (rate.category + rate.rateType).downcase.sub(" ", "") + 'c', :class => 'spaced_input' %>
+            </div>
+            <div id="blue-box">
+              <div class="padder">
+                <%= show_errors('Unable to save contract', f.error_messages) %>
+                <%= show_notice(flash[:notice]) %>
+                <table cellpadding="4" cellspacing="0">
+                  <tr>
+                    <td>
+                      <table  style="margin-left:10px;margin-bottom:10px" cellpadding="2" cellspacing="0">
+                        <tr style="height:25px">
+                          <td>
+                            <b>Contract Details</b>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Start Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td><%= f.calendar_date_select :startDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">End Date <%= help_link('/help/contract_dates', 'Help on Start and End Dates') %> : <span class="required">*</span></td><td><%= f.calendar_date_select :endDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Ref <%= help_link('/help/contract_ref', 'Help on Contract Ref') %> : <span class="required">*</span></td><td><%= f.text_field :ref, :maxlength => 15, :class => 'spaced_input' %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Position: <span class="required">*</span></td><td><%= f.text_field :position, :size => 26, :maxlength => 255, :class => 'spaced_input' %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Rate Type <%= help_link('/help/contract_rate_type', 'Help on Rate Type') %> :</td><td><%= f.select(:rateType, {'Hour' => 'Hour', 'Day' => 'Day'}, {:selected => @contract.rateType}, {:class => 'spaced_input', :id => 'rateType', :onchange => "checkDailyRate('rateType')"}) %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Allow Overtime <%= help_link('/help/contract_allow_overtime', 'Help on Overtime', 'middle', 400, 260) %> :</td><td><%= f.select(:allowOvertime, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowOvertime.to_s}, {:id => 'allowOvertime',:class => 'spaced_input', :onchange => "checkAllowOvertime('allowOvertime')"}) %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Allow Bank Holidays <%= help_link('/help/contract_allow_bank_holidays', 'Help on Bank Holidays') %> :</td><td><%= f.select(:allowBankHolidays, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.allowBankHolidays.to_s}, {:class => 'spaced_input'}) %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Require Time Entry <%= help_link('/help/contract_require_time', 'Help on Require Time Entry') %> :</td><td><%= f.select(:requireTimes, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.requireTimes.to_s}, {:class => 'spaced_input'}) %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Require Full Week <%= help_link('/help/contract_require_full_week', 'Help on Require Full Week') %> :</td><td><%= f.select(:requireFullWeek, {'Yes' => "true", 'No' => "false"}, {:selected => @contract.requireFullWeek.to_s}, {:class => 'spaced_input'}) %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader">Margin % <%= help_link('/help/contract_margin', 'Help on Margin %') %> :</td>
+                          <td><%= f.text_field :margin, :size => "7", :style => 'text-align: right', :value => number_with_precision(@contract.margin, :precision => 2), :class => 'spaced_input' %></td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader" colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td class="leftHeader" style="text-indent: 7px" colspan="2"><%= f.check_box(:calcChargeRateAsPAYE, :id => 'calcChargeAsPAYE') %> Calculate charge rate as PAYE employee? <%= help_link('/help/contract_calculate_charge_rates', 'Help on Calculating the Charge Rates', 'middle', 400, 550) %> </td>
+                        </tr>
+                      </table>
+                    </td> <!-- cell -->
+                  </tr> <!-- row -->
+                  <tr>
+                    <td>
+                      <table  style="margin-left:10px;margin-bottom:10px" cellspacing="2" cellpadding="0" >
+                        <tr><td colspan="2"><b>Default Hourly Rates <%= help_link('/help/contract_default_rates', 'Help on Default Rates %', 'middle') %></b></td></tr>
+                        <tr><td class="header">Name</td><td class="header">Pay Rate</td><td class="header">Charge Rate</td></tr>
+                        <% for rate in @contract.rates %>
+                          <% next if rate.rateType == 'Day' %>
+                          <% f.fields_for :rates, rate do |r_form| %>
+                            <tr>
+                              <td class="leftHeader" style="width:110px"><%= rate.name  %>:</td>
+                              <td><%= r_form.text_field :payRate, :size => 7, :value => number_with_precision(rate.payRate, :precision => 2), :id => "", :style => 'text-align: right', :id => (rate.category + rate.rateType).downcase.sub(" ", "") + 'p', :onchange => "javascript:applyMargin('#{(rate.category + rate.rateType).downcase.sub(" ", "")}', #{@ni_rate}, #{@hol_accrual_rate});", :class => 'spaced_input' %></td>
+                              <td><%= r_form.text_field :chargeRate, :size => 7, :value => number_with_precision(rate.chargeRate, :precision => 2), :style => 'text-align: right', :id => (rate.category + rate.rateType).downcase.sub(" ", "") + 'c', :class => 'spaced_input' %>
                                 <%= r_form.hidden_field :name, :value => rate.name %>
                                 <%= r_form.hidden_field :rateType, :value => rate.rateType %>
                                 <%= r_form.hidden_field :contract_id, :value => rate.contract_id %>
                                 <%= r_form.hidden_field :comment, :value => rate.comment %>
                                 <%= r_form.hidden_field :category, :value => rate.category %>
                                 <%= r_form.hidden_field :default, :value => rate.default %>
-                                </td>
-                          </tr>
-
-                              <% end %>
-                            <% end %>
-
-                    </table>
-              </div>
-             <br />
-             <div id="right-header-box2">
-                <div class="header-container">Default Daily Rate <%= help_link('/help/contract_default_rates', 'Help on Default Rates %', 'middle') %></div>
-              </div>
-              <br />
-              <div class="with_margins">
-               <table width="100%" cellspacing="0" cellpadding="0" align="center">
-
-                       <tr><td class="header">Name</td><td class="header">Pay Rate</td><td class="header">Charge Rate</td></tr>
-                       <% f.fields_for :rates, @daily_rate do |dr_form| %>
-                       <tr>
-                        <td class="leftHeader" style="width:110px"><%= rate.name  %>:</td>
+                              </td>
+                            </tr>
+                          <% end %>
+                        <% end %>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table  style="margin-left:10px;margin-bottom:10px" cellspacing="2" cellpadding="0" >
+                        <tr>
+                          <td colspan="2">
+                            <b>Default Daily Rate <%= help_link('/help/contract_default_rates', 'Help on Default Rates %', 'middle') %></b>
+                          </td>
+                        </tr>
+                        <tr><td class="header">Name</td><td class="header">Pay Rate</td><td class="header">Charge Rate</td></tr>
+                        <% f.fields_for :rates, @daily_rate do |dr_form| %>
+                          <tr>
+                            <td class="leftHeader" style="width:110px"><%= rate.name  %>:</td>
                             <td><%= dr_form.text_field :payRate, :size => 7, :value => number_with_precision(rate.payRate, :precision => 2), :style => 'text-align: right', :id => (rate.category + rate.rateType).downcase.sub(" ", "") + 'p', :onchange => "javascript:applyMargin('#{(rate.category + rate.rateType).downcase.sub(" ", "")}', #{@ni_rate}, #{@hol_accrual_rate});", :class => 'spaced_input' %></td>
-                                <td><%= dr_form.text_field :chargeRate, :size => 7, :value => number_with_precision(rate.chargeRate, :precision => 2), :style => 'text-align: right', :id => (rate.category + rate.rateType).downcase.sub(" ", "") + 'c', :class => 'spaced_input' %>
-                                <%= dr_form.hidden_field :name, :value => rate.name %>
-                                <%= dr_form.hidden_field :rateType, :value => rate.rateType %>
-                                <%= dr_form.hidden_field :contract_id, :value => rate.contract_id %>
-                                <%= dr_form.hidden_field :comment, :value => rate.comment %>
-                                <%= dr_form.hidden_field :category, :value => rate.category %>
-                                <%= dr_form.hidden_field :default, :value => rate.default %>
-                                </td>
-                       </tr>
-                       <% end %>
-               </table>
-                </div>
-              <br />
-             </td> <!-- cell -->
-             <% end %>
-          </tr> <!-- row -->
-        </table> <!-- table -->
+                            <td><%= dr_form.text_field :chargeRate, :size => 7, :value => number_with_precision(rate.chargeRate, :precision => 2), :style => 'text-align: right', :id => (rate.category + rate.rateType).downcase.sub(" ", "") + 'c', :class => 'spaced_input' %>
+                              <%= dr_form.hidden_field :name, :value => rate.name %>
+                              <%= dr_form.hidden_field :rateType, :value => rate.rateType %>
+                              <%= dr_form.hidden_field :contract_id, :value => rate.contract_id %>
+                              <%= dr_form.hidden_field :comment, :value => rate.comment %>
+                              <%= dr_form.hidden_field :category, :value => rate.category %>
+                              <%= dr_form.hidden_field :default, :value => rate.default %>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </table>
+                    </td>
+                  </tr>
+                </table> <!-- table -->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-
-<script type="text/javascript">
-
-    checkAllowOvertime('allowOvertime');
-    checkDailyRate('rateType');
-
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    leftheaderbox.render('left-header-box');
-    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox.render('right-header-box');
-    var rightheaderbox2 = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox2.render('right-header-box2');
-  </script>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <%=right_panel_bar_with_header("Actions",submit_tag("Create",:class=>"generalButton"))%>
+          </div>
+        </div>
+      </div>  <% end %>
+  </div>
+  <div style="clear: both"></div>
+</div>

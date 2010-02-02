@@ -7,18 +7,12 @@
     <title></title>
     <%=  stylesheet_link_tag 'all.css' %>
 
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/style" %>
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/navigation" %>
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/boxes" %>
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/tables" %>
-
     <%= stylesheet_link_tag 'modalbox' %>
     <!--[if gte IE 7]>
 <%= stylesheet_link_tag 'ie' %>
         <![endif]-->
         <%= javascript_include_tag 'prototype' %>
         <%= javascript_include_tag 'effects' %>
-        <%#= javascript_include_tag 'shaded' %>
         <%= javascript_include_tag 'application' %>
         <%= javascript_include_tag 'modalbox' %>
     <script type="text/javascript">
@@ -41,7 +35,7 @@
       <div id="global_links">
         <% if current_user.agency.trial? %>
           <div style="position:absolute;top:1px;left:0px;">
-            <div id="trial-box"><div style="vertical-align:bottom;"><%=session[:theme]%>Trial ends in <%= session[:days_left] %> days</div></div>
+            <div id="trial-box"><div style="vertical-align:bottom;">Trial ends in <%= session[:days_left] %> days</div></div>
           </div>
         <% end %>
         <% if logged_in? %>
@@ -66,7 +60,6 @@
             <% end %>
           </div>
         <%end%>
-
       </div>
       <h1>ClockOff</h1>
       <div id="Tabs">
@@ -77,10 +70,6 @@
       <%=yield%>
       <br style="clear: both" />
     </div>
-
-
-
-
   </body>
 </html>
 

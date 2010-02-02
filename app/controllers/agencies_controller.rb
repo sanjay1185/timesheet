@@ -215,7 +215,7 @@ class AgenciesController < ApplicationController
     # save the user
     if result
       
-      flash[:notice] = "User saved succesfully" unless !flash[:notice].nil?
+      flash[:notice] = "User saved succesfully" #unless !flash[:notice].nil?
       
       if @current_user.id == @user.id && users_removed == true
         flash[:notice] = "You no longer have permission to manage users."
@@ -567,7 +567,7 @@ class AgenciesController < ApplicationController
       # save... (email will be sent on saving)
       if @user.save
         
-        flash[:notice] =  "Password reset successful"
+        flash[:notice] =  "Password reset successfully"
         
       else
         
@@ -1074,8 +1074,8 @@ class AgenciesController < ApplicationController
         else
           endDate = ts.startDate + 7
         end
-        csv << [ts.startDate.to_formatted_s(:uk_date), endDate.to_formatted_s(:uk_date), sprintf("%.2f", ts.totalDays), ts.totalHours, ts.contractor.user.full_name, ts.contractor.companyName, ts.contract.ref, 
-        ts.approverName.blank? ? "" : ts.approverName, ts.approvalDateTime.nil? ? "" : ts.approvalDateTime.to_formatted_s(:uk_date_time_24)]
+        csv << [ts.startDate.to_formatted_s(:uk_date), endDate.to_formatted_s(:uk_date), sprintf("%.2f", ts.totalDays), ts.totalHours, ts.contract.contractor_user.full_name, ts.contract.contractor_user.companyName, ts.contract.ref,
+        ts.userName.blank? ? "" : ts.userName, ts.updated_at.nil? ? "" : ts.updated_at.to_formatted_s(:uk_date_time_24)]
       end
     end
     

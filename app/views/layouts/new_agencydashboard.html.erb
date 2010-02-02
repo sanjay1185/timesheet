@@ -39,7 +39,7 @@
 
         <% if current_user.agency.trial? %>
           <div style="position:absolute;top:1px;left:0px;">
-            <div id="trial-box"><div style="vertical-align:bottom;"><%session[:theme]%>Trial ends in <%= session[:days_left] %> days</div></div>
+            <div id="trial-box"><div style="vertical-align:bottom;">Trial ends in <%= session[:days_left] %> days</div></div>
           </div>
         <% end %>
         <% if logged_in? %>
@@ -65,10 +65,8 @@
           </div>
         <%end%>
       </div>
-      <div id="upgrade_bar">
-        
+      <div id="upgrade_bar">        
       </div>
-
       <h1>ClockOff</h1>
       <div id="Tabs">
         <%=render :partial=>"/new_agency_navigation"%>

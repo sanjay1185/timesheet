@@ -172,7 +172,7 @@ module ApplicationHelper
 
 def right_panel_bar_with_header(left_html, right_html)
   html=''
-  html << "<h1>#{left_html unless left_html.blank?}</h1><div class=\"module\"><div class=\"inner\"><h2></h2><p>#{right_html unless right_html.blank?}<p></div></div>"
+  html << "<h1>#{left_html unless left_html.blank?}</h1><div class=\"module\"><div class=\"inner\"><p>#{right_html unless right_html.blank?}<p></div></div>"
   return html
 end
               
