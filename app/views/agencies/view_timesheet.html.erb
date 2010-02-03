@@ -1,7 +1,8 @@
 <% form_tag('reject_timesheet?timesheet_id=' + @timesheet.id.to_s, :onsubmit => 'return false', :name => 'reject_form') do %>
   <% approve_html = "<input type=\"button\" class=\"generalButton\" value=\"Approve\" onclick=\"Modalbox.show('/timesheets/#{@timesheet.id}/manual_approval?back_url=#{@list_url}', {title: 'Manual Approval', width: 400}); return false;\" />" %>
   <% reject_html = "#{image_submit_tag("reject.gif",  :style => "top:2px", :title => "Reject this timesheet", :onclick => "Modalbox.show(\"reject_timesheet_alert\", {title: (this.title == '' ? 'Confirm' : this.title), width: 300, autoFocusing: false}); return false;")}" %>
-  <% history_html = "<a class=\"image\" href=\"view_history?original_id=#{@timesheet.id}\"><img style=\"top:2px\" src=\"/images/icon_history.gif\" alt=\"\" title=\"View History\" /></a>&nbsp;" %>
+  <%# history_html = "<a class=\"image\" href=\"view_history?original_id=#{@timesheet.id}\"><img style=\"top:2px\" src=\"/images/icon_history.gif\" alt=\"\" title=\"View History\" /></a>&nbsp;" %>
+  <% history_html = link_to("View History",{:action=>"view_history",:original_id=>@timesheet.id},:class=>"generalButton") %>
   <% reject_html = "" if !@timesheet.can_reject? %>
   <% reject_html = reject_html + "#{"&nbsp;" + approve_html}" if @timesheet.status == 'MANUAL' %>
   <% reject_html = history_html + reject_html if @timesheet.can_show_history? %>
@@ -12,9 +13,9 @@
           <div class="page_header">
             <h1 class="index">
               <% if @source != 'history' %>
-                <%= two_column_nav_bar_layout2("<a href=\"#{@list_url}\">Oustanding Timesheets</a> >> Timesheet Details", reject_html) %>
+                <a href=<%=@list_url%> >Oustanding Timesheets</a> >> Timesheet Details
               <% else %>
-                <%= two_column_nav_bar_layout2("<a href=\"#{@list_url}\">Timesheets History</a> >> Timesheet Details", "<div class=\"header_combo_right\">#{reject_html}</div>") %>
+                <a href=<%=@list_url%> >Timesheets History</a> >> Timesheet Details
               <% end %>
             </h1>
           </div>
@@ -73,14 +74,18 @@
             </div>
           </div>
         </div>
-        <div class="bottom">
-          <%=left_panel_footer%>
+        <div class="bottom">         
         </div>
       </div>
       <div class="Right">
         <div class="col sidebar">
           <div class="new_task_wrapper">
-
+            <h1>Actions</h1>
+            <div class="module">
+            <div class="inner">
+              <%=reject_html%>
+            </div>
+            </div>
             <h1>Timesheet Details</h1>
             <div class="module"><div class="inner">
                 <table>

@@ -429,3 +429,6 @@ span.required{
     font-weight: bold;
     background-color:red;
 }
+table.top_align tr td {
+    vertical-align:top;
+}

@@ -12,7 +12,7 @@ class SearchResult
       result.start_date = ts.startDate
       result.end_date = ts.end_date
       result.status = ts.status
-      result.contractor_name = ts.contractor.user.full_name
+      result.contractor_name = ts.contract.contractor_user.full_name
       result.ref = ts.contract.ref
       result.url = "/agencies/#{agency_id}/view_timsheet?timesheet_id=#{ts.id}" 
       result.icon = "/images/alarm.gif"
@@ -28,7 +28,7 @@ class SearchResult
       result.start_date = c.startDate
       result.end_date = c.endDate
       result.status = c.status
-      result.contractor_name = c.contractors[0].user.full_name
+      result.contractor_name = c.contractor_user.full_name
       result.ref = c.ref
       result.url = "/agencies/#{agency_id}/clients/#{c.client_id}/contracts/#{c.id}" 
       result.icon = "/images/calendar.gif"

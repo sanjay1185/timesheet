@@ -49,7 +49,7 @@ class TimesheetsController < ApplicationController
     # set the navigator
     Navigator.set_position(session, :timesheet_list, params[:page])
     
-    render :layout => 'agency'
+    render :layout => 'new_agencydashboard'
     
   end
   
@@ -216,7 +216,7 @@ class TimesheetsController < ApplicationController
     # are we allowed to reject it?
     @can_reject = @timesheet.status == 'APPROVED' || @timesheet.status == 'MANUAL'
     
-    render :layout => 'agencydashboard'
+    render :layout => 'new_agencydashboard'
     
   end
   

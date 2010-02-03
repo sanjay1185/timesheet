@@ -77,12 +77,12 @@ class AgenciesController < ApplicationController
     @active_workers = ContractorUser.get_all_active(session[:agencyId])
     
     # get outstanding timesheets
-    #@timesheets = Timesheet.get_all_requiring_action(session[:agencyId], 1, 10)
+    @timesheets = Timesheet.get_all_requiring_action(session[:agencyId], 1, 10)
     
     # client list for drop down
     @client_list = Client.find(:all, :conditions => ["agency_id = ?", session[:agencyId]], :select => "id, name", :order => "name asc")
     
-    render :layout => 'agencydashboard'
+    render :layout => 'new_agencydashboard'
     
   end
   

@@ -1,101 +1,108 @@
-<% html_header = "&nbsp;#{link_to('Invoicing', invoices_path(:from_date => @from_date, :to_date => @to_date, :client_id => @client_id, :inactive => @inactive, :signed_off => @signed_off))}" %>
+<% html_header = "#{link_to('Invoicing', invoices_path(:from_date => @from_date, :to_date => @to_date, :client_id => @client_id, :inactive => @inactive, :signed_off => @signed_off))}" %>
 <% html_header << "&nbsp;>>&nbsp;#{@invoice.client.name}&nbsp;-&nbsp;#{@invoice.invoiceDate.to_s(:uk_date)}" %>
-
-<div id="nav-bar-box">
-  <%= two_column_nav_bar_layout2(html_header, "") %>
-</div>
-
-<% form_for(@invoice) do |f| %>
-  <%= show_errors('Unable to save contract', f.error_messages) %>
-  
-<div id="blue-box">
-      <div class="padder">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="left_side_cell">
-              <div id="left-header-box" >
-                <%= two_column_nav_bar_layout2('Invoice Details', get_save_image(@readonly, 'edit invoices')) %>
-              </div>
-              
-                <br />
-                <div class="with_margins">
-                <table width="100%" align="center" cellpadding="2" cellspacing="0">
-            <tr>
-                <td class="leftHeader">Date <%= help_link('/help/invoice_date', 'Help on Invoice Date', 'middle', 400, 400) %> : </td>
-                <td><%= @invoice.invoiceDate.to_formatted_s(:uk_date) %></td>
-            </tr>
-            <tr>
-                <td class="leftHeader">Client:</td>
-                <td><%= @invoice.client.name %></td>
-            </tr>
-            <tr>
-                <td class="leftHeader">Ref <%= help_link('/help/invoice_ref', 'Help on Invoice Ref', 'middle', 400, 150) %> :</td>
-                <td><%= @invoice.ref %></td>
-            </tr>
-            <tr>
-                <td class="leftHeader">Exported Date:</td>
-                <td><%= @invoice.lastExportDate.nil? ? "Unprocessed" : @invoice.lastExportDate.to_formatted_s(:uk_date_time_24) %></td>
-            </tr>
-            <tr>
-                <td class="leftHeader">Net Amount: </td>
-                <td style="color: green;">£<%= sprintf("%.2f", @invoice.netAmount.to_f) %></td>
-            </tr>
-            <tr>
-                <td class="leftHeader">Gross Amount:</td>
-                <td style="color: green; font-weight: bold">£<%= sprintf("%.2f", @invoice.grossAmount.to_f) %></td>
-            </tr>
-            <tr>
-                <td class="leftHeader">Inactive <%= help_link('/help/invoice_inactive', 'Help on Invoice Inactive', 'middle', 400, 150) %> : </td>
-                <td><%= f.check_box(:inactive, :style => "position: relative; top: 2px;") %></td>
-            </tr>      
-            </table>
-                </div>
-        <br />
-           </td> <!-- cell -->
-           <td class="right_side_cell" valign="top">
-              <div id="right-header-box">
-                <div class="header-container">Invoice Breakdown&nbsp;<%= help_link('/help/invoice_breakdown', 'Help on Invoice breakdown', 'middle', 400, 150) %></div>
-              </div>
-                <br />
-                <div class="with_margins">
-                <table width="100%" align="center" cellpadding="0" cellspacing="0">
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for(@invoice) do |f| %>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">
+              <%=html_header%>
+            </h1>
+          </div>
+          <div>
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+          </div>
+          <div class="innercol">
+            <div id="blue-box">
+              <div class="padder">
+                <%= show_errors('Unable to save contract', f.error_messages) %>
+                <table style="margin-left:10px;margin-bottom:10px" cellpadding="2" cellspacing="0">
+                  <tr style="height:25px">
+                    <td>
+                      <b>Invoice Details</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Date <%= help_link('/help/invoice_date', 'Help on Invoice Date', 'middle', 400, 400) %> : </td>
+                    <td><%= @invoice.invoiceDate.to_formatted_s(:uk_date) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Client:</td>
+                    <td><%= @invoice.client.name %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Ref <%= help_link('/help/invoice_ref', 'Help on Invoice Ref', 'middle', 400, 150) %> :</td>
+                    <td><%= @invoice.ref %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Exported Date:</td>
+                    <td><%= @invoice.lastExportDate.nil? ? "Unprocessed" : @invoice.lastExportDate.to_formatted_s(:uk_date_time_24) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Net Amount: </td>
+                    <td style="color: green;">£<%= sprintf("%.2f", @invoice.netAmount.to_f) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Gross Amount:</td>
+                    <td style="color: green; font-weight: bold">£<%= sprintf("%.2f", @invoice.grossAmount.to_f) %></td>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Inactive <%= help_link('/help/invoice_inactive', 'Help on Invoice Inactive', 'middle', 400, 150) %> : </td>
+                    <td><%= f.check_box(:inactive, :style => "position: relative; top: 2px;") %></td>
+                  </tr>
+                </table>
+                <table style="margin-left:10px;margin-bottom:10px"  cellpadding="2" cellspacing="0">
+                  <tr  style="height:25px">
+                    <td>
+                      <b>Invoice Breakdown&nbsp;<%= help_link('/help/invoice_breakdown', 'Help on Invoice breakdown', 'middle', 400, 150) %></b>
+                    </td>
+                  </tr>
                   <tr>
                     <td class="header">End Date</td><td class="header">Temp</td><td class="header" align="right">Net</td><td class="header" align="right">Tax</td><td class="header" align="right">Gross</td>
                   </tr>
                   <% for ts in @invoice.timesheets do %>
-                    <tr>
-                      <td><%= (ts.startDate + 7).to_formatted_s(:uk_date) %></td>
-                      <td><%= ts.contractor.user.full_name %></td>
-                      <td align="right"><%= number_with_precision(ts.netAmount, :precision => 2) %></td>
-                      <% taxAmt = ((ts.netAmount*@invoice.taxRate)/100) %>
-                      <td align="right"><%= number_with_precision(taxAmt, :precision => 2) %></td>
-                      <td align="right"><%= number_with_precision(ts.netAmount + taxAmt, :precision => 2) %></td>
+                      <tr>
+                        <td><%= (ts.startDate + 7).to_formatted_s(:uk_date) %></td>
+                        <td><%= ts.contract.contractor_user.full_name %></td>
+                        <td align="right"><%= number_with_precision(ts.netAmount, :precision => 2) %></td>
+                        <% taxAmt = ((ts.netAmount*@invoice.taxRate)/100) %>
+                        <td align="right"><%= number_with_precision(taxAmt, :precision => 2) %></td>
+                        <td align="right"><%= number_with_precision(ts.netAmount + taxAmt, :precision => 2) %></td>
+                      </tr>
+                    <% end %>
+                    <tr class="spacer"><td colspan="5"></td></tr>
+                    <tr style="font-weight: bold">
+                      <td style="border-top: black solid 2px;" colspan="2">Total</td>
+                      <td style="border-top: black solid 2px;" align="right"><%= number_with_precision(@invoice.netAmount, :precision => 2) %></td>
+                      <td style="border-top: black solid 2px;" align="right"><%= number_with_precision(@invoice.taxAmount, :precision => 2) %></td>
+                      <td style="border-top: black solid 2px;" align="right"><%= number_with_precision(@invoice.grossAmount, :precision => 2) %></td>
                     </tr>
-                  <% end %>
-                  <tr class="spacer"><td colspan="5"></td></tr>
-                  <tr style="font-weight: bold">
-                    <td style="border-top: black solid 2px;" colspan="2">Total</td>
-                    <td style="border-top: black solid 2px;" align="right"><%= number_with_precision(@invoice.netAmount, :precision => 2) %></td>
-                    <td style="border-top: black solid 2px;" align="right"><%= number_with_precision(@invoice.taxAmount, :precision => 2) %></td>
-                    <td style="border-top: black solid 2px;" align="right"><%= number_with_precision(@invoice.grossAmount, :precision => 2) %></td>
-                  </tr>
-                </table>
+                  </table>
                 </div>
-            </td> <!-- cell -->
-          </tr> <!-- row -->
-        </table> <!-- table -->
-      </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom">
+          </div>
+        </div>
+        <div class="Right">
+          <div class="col sidebar">
+            <div class="new_task_wrapper">
+              <h1>Actions</h1>
+              <div class="module">
+                <div class="inner">
+                  <p>
+                    <%=submit_tag("Edit",:class=>"generalButton")%>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><% end %>
     </div>
-<% end %>
-<script type="text/javascript">
-
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    leftheaderbox.render('left-header-box');
-    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox.render('right-header-box');
-    
-</script>
+    <div style="clear: both"></div>
+  </div>

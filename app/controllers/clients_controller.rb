@@ -19,7 +19,7 @@ class ClientsController < ApplicationController
   # View all the clients for an agency
   #----------------------------------------------------------------------------
   def index
-
+    session[:selected] = 'clients'
     # get the agency
     @agency = Agency.find(session[:agencyId])
 

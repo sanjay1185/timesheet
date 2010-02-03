@@ -7,9 +7,11 @@
             <h1 class="index">Invoicing</h1>
           </div>
           <div class="innercol">
+            <div>
             <div style="display: none;" id="error_msgs">
             </div>
             <div style="display: none;" id="notice">
+            </div>
             </div>
             <div id="blue-box">
               <div class="padder">
@@ -46,9 +48,7 @@
                       <td colspan="7" align="center">Nothing to display</td>
                     </tr>
                   <% end %>
-                  <tr>
-                    <td colspan="7">&nbsp;</td>
-                  </tr>
+                  
                 </table>
               </div>
             </div>
@@ -79,7 +79,7 @@
                   <tr>
                     <td ><input name="signed_off" type="checkbox" <% if !@signed_off.nil? %>checked<% end %> /></td><td>Include signed-off invoices?</td>
                   </tr>
-                  <tr><td><%= submit_tag('Search', :class => 'generalButton') %></td><td></td></tr>
+                  <tr><td colspan="2"><%= submit_tag('Search', :class => 'generalButton') %></td></tr>
                 </table>
               </div>
             </div>
@@ -92,7 +92,9 @@
                     <td>Format:</td>
                     <td><%= select_tag('exportFormat', options_for_select(@formats, @selectedFormat.blank? ? 'CSV' : @selectedFormat)) %></td>
                   </tr>
-                  <tr><td><%= submit_tag('Export', :class => 'generalButton') %></td><td></td></tr>
+                  <tr>
+                    <td colspan="2"><%= submit_tag('Export', :class => 'generalButton') %></td>
+                    </tr>
                 </table>
               </div>
             </div>

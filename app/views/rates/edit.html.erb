@@ -1,124 +1,131 @@
 <% left_header = '' %>
 <% left_header << "&nbsp;#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))}" %>
 <% left_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1],Navigator.get_position(session, :contract_list)[0])} >> #{link_to('Contract (' + @contract.ref + ')', edit_client_contract_path(@client, @contract))} >> #{link_to('Hourly Pay Rates', client_contract_rates_path(@client, @contract))} >> Edit Rate" %>
-<% form_for([@client, @contract, @rate]) do |f| %>
-<%= show_errors('Unable to save rate', f.error_messages) %>
-<%= show_notice(flash[:notice]) %>
-
-<div id="nav-bar-box">
-  <%= two_column_nav_bar_layout2("#{left_header}", "&nbsp;") %>
-</div>
-<div id="blue-box">
-      <div class="padder">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="left_side_cell">
-              <div id="left-header-box" >
-                <%= two_column_nav_bar_layout2('Edit Rate', get_save_image(@readonly, 'save rates')) %>
-              </div>
-                <br />
-                <div class="with_margins">
-                <table width="100%" align="center" cellpadding="0" cellspacing="0">
-                  <% if @rate.is_used_by_draft_timesheet? %>
-                  <tr><td align="center" colspan="2" style="color: red">This rate is being used by a draft timesheet</td></tr>
-                  <tr><td align="center" colspan="2">&nbsp;</td></tr>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for([@client, @contract, @rate]) do |f| %>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index">
+              <%=left_header%>
+            </h1>
+          </div>
+          <div>
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+          </div>
+          <div class="innercol">
+            <div id="blue-box">
+              <div class="padder">
+                <%= show_errors('Unable to save rate', f.error_messages) %>
+                <%= show_notice(flash[:notice]) %>
+                <table style="margin-left:10px;margin-bottom:10px"  cellpadding="2" cellspacing="0">
+                  <tr  style="height:25px" >
+                    <td colspan="2"><b>Edit Rate</b></td>
+                  </tr>
+                  <% if !@rate.is_used_by_draft_timesheet? %>
+                    <tr>
+                      <td align="center" colspan="2" style="color: red">This rate is being used by a draft timesheet</td>
+                    </tr>
                   <% end %>
-                  
-            <tr>
-              <td class="leftHeader">Name <%= help_link('/help/contract_rate_name', 'Help on Rate Name', 'middle', 400, 120) %> : <span class="required">*</span></td>
-              <td><%= f.text_field :name, :size => "20", :maxlength => "20", :disabled => @rate.default, :class => 'spaced_input' %></td>
-              <%= f.hidden_field(:contract_id, :value => @contract.id) %>
-            </tr>
-            <tr>
-              <td class="leftHeader">Pay Rate <%= help_link('/help/contract_rate_payrate', 'Help on PayRate', 'middle', 400, 120) %> : <span class="required">*</span></td>
-              <td><%= f.text_field :payRate, :size => "7", :value => number_with_precision(@rate.payRate, :precision => 2), :style => 'text-align: right', :onchange => "javascript:applyMargin2(#{@ni_rate}, #{@hol_accrual_rate},#{@contract.margin});", :class => 'spaced_input' %></td>
-            </tr>
-            <tr>
-              <td class="leftHeader">Charge Rate <%= help_link('/help/contract_rate_chargerate', 'Help on ChargeRate', 'middle', 400, 120) %> : <span class="required">*</span></td>
-              <td><%= f.text_field :chargeRate, :size => "7", :value => number_with_precision(@rate.chargeRate, :precision => 2), :style => 'text-align: right', :class => 'spaced_input' %></td>
-            </tr>
-            <tr>
-              <td class="leftHeader">Category :</td>
-              <td><%= f.select(:category, {'Standard' => 'Standard', 'Overtime' => 'Overtime', 'Bank Holiday' => 'Bank Holiday', 'Sickness' => 'Sickness', 'Other' => 'Other'}, { :selected => @rate.category}, {:disabled => @rate.default, :class => 'spaced_input'} )%></td>
-            </tr>
-            <tr>
-              <td class="leftHeader">Rate Type :</td>
-              <td><%= f.select(:rateType, {'Hour' => 'Hour', 'Day' => 'Day'}, {:selected => @rate.rateType}, {:disabled => @rate.default, :class => 'spaced_input'}) %></td>
-            </tr>
-            <tr>
-              <td class="leftHeader">Comment:</td>
-              <td><%= f.text_field :comment, :size => "28", :maxlength => "100", :disabled => @rate.default, :class => 'spaced_input' %></td>
-            </tr>
-            <tr>
-              <td class="leftHeader">Effectve Date <%= help_link('/help/contract_rate_effectivedate', 'Help on EffectiveDate', 'middle', 400, 200) %> :</td>
-              <% if @rate.default? %>
-                <td style="font-style: italic;height: 20px;">&nbsp;Continuous</td>
-              <% else %>
-              <td><%= calendar_date_select_tag 'effective_date', @rate.effectiveDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
-              <% end %>
-            </tr>
-            <tr>
-              <td class="leftHeader">End Date <%= help_link('/help/contract_rate_enddate', 'Help on EndDate', 'middle', 400, 200) %> :</td>
-              <% if @rate.default? %>
-                <td style="font-style: italic;height: 20px;">&nbsp;Continuous</td>
-              <% else %>
-              <td><%= calendar_date_select_tag 'end_date', @rate.endDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
-              <% end %>
-            </tr>
-            <tr>
-              <td class="leftHeader">Active <%= help_link('/help/contract_rate_active', 'Help on Active', 'middle', 400, 200) %> :</td>
-              <td><%= f.check_box(:active, :disabled => (@rate.default && @rate.category == 'Standard')) %></td>
-            </tr>
-            </table>
-                </div>
-            <br />
-            </td> <!-- cell -->
-            <td class="right_side_cell">
-              <div id="right-header-box">
-                <div class="header-container">Notes</div>
-              </div>
-                <br />
-                <div class="with_margins">
-                <table width="100%" align="center" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td class="header">Name</td>
+                    <td class="leftHeader">Name <%= help_link('/help/contract_rate_name', 'Help on Rate Name', 'middle', 400, 120) %> : <span class="required">*</span></td>
+                    <td><%= f.text_field :name, :size => "20", :maxlength => "20", :disabled => @rate.default, :class => 'spaced_input' %></td>
+                    <%= f.hidden_field(:contract_id, :value => @contract.id) %>
                   </tr>
                   <tr>
-                    <td>The name of the rate will be used in the rate selector on the temps timesheet. Therefore, you should always make sure that the name of the rate is descriptive enough for the temp to know that they are selecting the correct one.</td>
+                    <td class="leftHeader">Pay Rate <%= help_link('/help/contract_rate_payrate', 'Help on PayRate', 'middle', 400, 120) %> : <span class="required">*</span></td>
+                    <td><%= f.text_field :payRate, :size => "7", :value => number_with_precision(@rate.payRate, :precision => 2), :style => 'text-align: right', :onchange => "javascript:applyMargin2(#{@ni_rate}, #{@hol_accrual_rate},#{@contract.margin});", :class => 'spaced_input' %></td>
                   </tr>
                   <tr>
-                    <td class="header"><br />Pay &amp; Charge Rates</td>
+                    <td class="leftHeader">Charge Rate <%= help_link('/help/contract_rate_chargerate', 'Help on ChargeRate', 'middle', 400, 120) %> : <span class="required">*</span></td>
+                    <td><%= f.text_field :chargeRate, :size => "7", :value => number_with_precision(@rate.chargeRate, :precision => 2), :style => 'text-align: right', :class => 'spaced_input' %></td>
                   </tr>
                   <tr>
-                        <td>The pay rate is only used as a means to calculate the charge rate and it not required for any other purpose. The charge rate is calculated via the <i>Margin</i> on the contract. If the <i>'Calculate charge rate as PAYE employee'</i>
-                        option is selected on the contract the charge rate will be calculated based on the pay rate, plus the employers national insurance and holiday accrual amount, and the margin. Otherwise, just the pay rate and margin will be used.</td>
+                    <td class="leftHeader">Category :</td>
+                    <td><%= f.select(:category, {'Standard' => 'Standard', 'Overtime' => 'Overtime', 'Bank Holiday' => 'Bank Holiday', 'Sickness' => 'Sickness', 'Other' => 'Other'}, { :selected => @rate.category}, {:disabled => @rate.default, :class => 'spaced_input'} )%></td>
                   </tr>
                   <tr>
-                    <td class="header"><br />Effective Date &amp; End Date</td>
+                    <td class="leftHeader">Rate Type :</td>
+                    <td><%= f.select(:rateType, {'Hour' => 'Hour', 'Day' => 'Day'}, {:selected => @rate.rateType}, {:disabled => @rate.default, :class => 'spaced_input'}) %></td>
                   </tr>
                   <tr>
-                    <td>If you create a new rate, you can specify the date period you wish the rate to be active. By doing this the rate will automatically appear
-                    in the temps timesheet during the specified period. This will allow you to set rates in advance for special days, weeks or months and not have to worry about
-                    making them available to the temp.</td>
+                    <td class="leftHeader">Comment:</td>
+                    <td><%= f.text_field :comment, :size => "28", :maxlength => "100", :disabled => @rate.default, :class => 'spaced_input' %></td>
                   </tr>
-                
+                  <tr>
+                    <td class="leftHeader">Effectve Date <%= help_link('/help/contract_rate_effectivedate', 'Help on EffectiveDate', 'middle', 400, 200) %> :</td>
+                    <% if @rate.default? %>
+                      <td style="font-style: italic;height: 20px;">&nbsp;Continuous</td>
+                    <% else %>
+                      <td><%= calendar_date_select_tag 'effective_date', @rate.effectiveDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
+                    <% end %>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">End Date <%= help_link('/help/contract_rate_enddate', 'Help on EndDate', 'middle', 400, 200) %> :</td>
+                    <% if @rate.default? %>
+                      <td style="font-style: italic;height: 20px;">&nbsp;Continuous</td>
+                    <% else %>
+                      <td><%= calendar_date_select_tag 'end_date', @rate.endDate, :popup => "force", :year_range => 10.years.ago..0.years.from_now, :size => 17, :class => 'spaced_input' %></td>
+                    <% end %>
+                  </tr>
+                  <tr>
+                    <td class="leftHeader">Active <%= help_link('/help/contract_rate_active', 'Help on Active', 'middle', 400, 200) %> :</td>
+                    <td><%= f.check_box(:active, :disabled => (@rate.default && @rate.category == 'Standard')) %></td>
+                  </tr>
                 </table>
-                </div>
-                <br />
-            </td> <!-- cell -->
-          </tr> <!-- row -->
-        </table> <!-- table -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom">
+        </div>
       </div>
-    </div>
-<% end %>
-
-<script type="text/javascript">
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    var leftheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    leftheaderbox.render('left-header-box');
-    var rightheaderbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    rightheaderbox.render('right-header-box');
-  </script>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <h1>Actions</h1>
+            <div class="module">
+              <div class="inner">
+                <%=submit_tag("Edit",:class=>"generalButton")%>
+              </div>
+            </div>
+            <h1>Notes</h1>
+            <div class="module">
+              <div class="inner">
+                <p>
+                  <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td class="header">Name</td>
+                    </tr>
+                    <tr>
+                      <td>The name of the rate will be used in the rate selector on the temps timesheet. Therefore, you should always make sure that the name of the rate is descriptive enough for the temp to know that they are selecting the correct one.</td>
+                    </tr>
+                    <tr>
+                      <td class="header"><br />Pay &amp; Charge Rates</td>
+                    </tr>
+                    <tr>
+                      <td>The pay rate is only used as a means to calculate the charge rate and it not required for any other purpose. The charge rate is calculated via the <i>Margin</i> on the contract. If the <i>'Calculate charge rate as PAYE employee'</i>
+                      option is selected on the contract the charge rate will be calculated based on the pay rate, plus the employers national insurance and holiday accrual amount, and the margin. Otherwise, just the pay rate and margin will be used.</td>
+                    </tr>
+                    <tr>
+                      <td class="header"><br />Effective Date &amp; End Date</td>
+                    </tr>
+                    <tr>
+                      <td>If you create a new rate, you can specify the date period you wish the rate to be active. By doing this the rate will automatically appear
+                        in the temps timesheet during the specified period. This will allow you to set rates in advance for special days, weeks or months and not have to worry about
+                      making them available to the temp.</td>
+                    </tr>
+                  </table>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><% end %>
+  </div>
+  <div style="clear: both"></div>
+</div>

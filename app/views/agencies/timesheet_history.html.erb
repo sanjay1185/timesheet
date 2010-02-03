@@ -9,7 +9,7 @@
           <div id="blue-box">
             <div class="padder">
               <table width="100%" cellspacing="0" cellpadding="2">
-                <tr class="data_table_header" class="row_border_bottom">
+                <tr class="data_table_header row_border_bottom">
                   <td class="header row_border_right">Start Date</td>
                   <td class="header row_border_right">End Date</td>
                   <td class="header row_border_right">Contract Ref</td>
@@ -46,9 +46,7 @@
                     <td colspan="8" align="center">No timesheets to view</td>
                   </tr>
                 <% end %>
-                <tr>
-                  <td colspan="8">&nbsp;</td>
-                </tr>
+                
                 <tr><td colspan="8" align="center"><%= will_paginate(@timesheets) %></td></tr>
               </table>
             </div>

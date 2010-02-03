@@ -3,7 +3,7 @@ class RatesController < ApplicationController
   #----------------------------------------------------------------------------
   # Set the layout
   #----------------------------------------------------------------------------
-  layout 'agency'
+  layout 'new_agencydashboard'
 
   #----------------------------------------------------------------------------
   # Callback events - authenticate & only let agencies see this page

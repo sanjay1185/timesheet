@@ -65,7 +65,7 @@ class InvoicesController < ApplicationController
     @agency = Agency.find(session[:agencyId])
 
     # get params
-    @from_date = params[:from_date]
+    @from_date = params[:from_date] 
     @to_date = params[:to_date]
     @client_id = params[:client_id]
     @inactive = params[:inactive]

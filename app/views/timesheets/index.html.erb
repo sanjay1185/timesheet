@@ -1,67 +1,86 @@
-  <%= show_errors('An error occurred...', flash[:alert]) %>
-  <%= show_notice(flash[:notice]) %>
-
-<% html_header = '' %>
-<% html_header << "&nbsp;#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{fast_link(@client.name, 'clients/edit/'+ @client.id.to_s)}" %>
-<%# html_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> #{link_to('Contract (' + @contract.ref + ')', edit_client_contract_path(@client, @contract))} >> Timesheets" %>
-
-  <div id="nav-bar-box">
-    <%= two_column_nav_bar_layout2(html_header, link_to('Manage Rates', client_contract_rates_path(@client, @contract))) %>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <% html_header = '' %>
+          <% html_header << "&nbsp;#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{fast_link(@client.name, 'clients/edit/'+ @client.id.to_s)}" %>
+          <% html_header << "&nbsp;>> #{contract_list_link(@client.id.to_s, Navigator.get_position(session, :contract_list)[1], Navigator.get_position(session, :contract_list)[0])} >> #{link_to('Contract (' + @contract.ref + ')', edit_client_contract_path(@client, @contract))} >> Timesheets" %>
+          <h1 class="index">
+            <%=html_header%>
+          </h1>
+        </div>
+        <div style="display: none;" id="error_msgs">
+        </div>
+        <div style="display: none;" id="notice">
+        </div>
+        <div class="innercol">
+          <div id="blue-box">
+            <div class="padder">
+              <%= show_errors('An error occurred...', flash[:alert]) %>
+              <%= show_notice(flash[:notice]) %>
+              <table cellspacing="0" cellpadding="2">
+                <tr class="data_table_header">
+                  <td class="header row_border_right"><%= sort_link 'Start Date', :startDate, @selected_column %></td>
+                  <td class="header row_border_right"><b>End Date</b></td>
+                  <td class="header row_border_right"><%= sort_link 'Contract Ref', :ref, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Total Days', :totalDays, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Total Hours', :totalHours, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Approver', :userName, @selected_column %></td>
+                  <td class="header row_border_right"><%= sort_link 'Approval Date', :updated_at, @selected_column %></td>
+                  <td class="header"><%= sort_link 'Status', :status, @selected_column %></td>
+                </tr>
+                <% if @timesheets.length > 0 %>
+                  <% for timesheet in @timesheets do %>
+                      <% row_class = cycle('odd', 'even') %>
+                      <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                        <% if timesheet.status.downcase == "draft" %>
+                          <td class="row_border_bottom row_border_right"><%= timesheet.startDate.to_formatted_s(:uk_date) %></td>
+                        <% else %>
+                          <td class="row_border_bottom row_border_right"><a href="/timesheets/<%= timesheet.id %>/view"><%= timesheet.startDate.to_formatted_s(:uk_date) %></a></td>
+                        <% end %>
+                        <td class="row_border_bottom row_border_right"><%=h (timesheet.startDate + 6).to_formatted_s(:uk_date) %></td>
+                        <td class="row_border_bottom row_border_right"><%=h timesheet.contract.ref %></td>
+                        <td class="row_border_bottom row_border_right"><%=h timesheet.totalDays %></td>
+                        <td class="row_border_bottom row_border_right"><%=h timesheet.totalHours %></td>
+                        <td class="row_border_bottom row_border_right"><%= timesheet.userName.blank? ? "&nbsp;" : timesheet.userName if timesheet.status == 'APPROVED' %></td>
+                        <td class="row_border_bottom row_border_right"><%= timesheet.updated_at.blank? ? "&nbsp;" : timesheet.updated_at.to_formatted_s(:uk_date_time_24) if timesheet.status == 'APPROVED' %></td>
+                        <td  class="row_border_bottom"><%=h timesheet.status %></td>
+                      </tr>
+                    <% end %>
+                  <% else %>
+                    <tr>
+                      <td colspan="8">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td colspan="8" align="center">No timesheets to display</td>
+                    </tr>
+                  <% end %>
+                  <tr>
+                    <td colspan="8"><%= will_paginate(@timesheets) %></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom">
+        </div>
+      </div>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <h1>Actions</h1>
+            <div class="module">
+              <div class="inner">
+                <p>
+                  <%= link_to('Manage Rates', client_contract_rates_path(@client, @contract),:class=>"generalButton")%>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="clear: both"></div>
   </div>
-
-<div id="blue-box">
-      <div class="padder">
-        <table width="100%" cellspacing="0" cellpadding="2">
-  <tr>
-    <td class="header row_border_right"><%= sort_link 'Start Date', :startDate, @selected_column %></td>
-    <td class="header row_border_right">End Date</td>
-    <td class="header row_border_right"><%= sort_link 'Contract Ref', :ref, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'Total Days', :totalDays, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'Total Hours', :totalHours, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'Approver', :userName, @selected_column %></td>
-    <td class="header row_border_right"><%= sort_link 'Approval Date', :updated_at, @selected_column %></td>
-    <td class="header"><%= sort_link 'Status', :status, @selected_column %></td>
-  </tr>
-<% if @timesheets.length > 0 %>
-
-  <% for timesheet in @timesheets do %>
-
-  <tr>
-    <% if timesheet.status.downcase == "draft" %>
-    <td class="row_border_bottom row_border_right"><%= timesheet.startDate.to_formatted_s(:uk_date) %></td>
-    <% else %>
-    <td class="row_border_bottom row_border_right"><a href="/timesheets/<%= timesheet.id %>/view"><%= timesheet.startDate.to_formatted_s(:uk_date) %></a></td>
-    <% end %>
-    <td class="row_border_bottom row_border_right"><%=h (timesheet.startDate + 6).to_formatted_s(:uk_date) %></td>
-    <td class="row_border_bottom row_border_right"><%=h timesheet.contract.ref %></td>
-    <td class="row_border_bottom row_border_right"><%=h timesheet.totalDays %></td>
-    <td class="row_border_bottom row_border_right"><%=h timesheet.totalHours %></td>
-    <td class="row_border_bottom row_border_right"><%= timesheet.userName.blank? ? "&nbsp;" : timesheet.userName if timesheet.status == 'APPROVED' %></td>
-    <td class="row_border_bottom row_border_right"><%= timesheet.updated_at.blank? ? "&nbsp;" : timesheet.updated_at.to_formatted_s(:uk_date_time_24) if timesheet.status == 'APPROVED' %></td>
-    <td  class="row_border_bottom"><%=h timesheet.status %></td>
-  </tr>
-  <% end %>
-<% else %>
-  <tr>
-    <td colspan="8">&nbsp;</td>
-  </tr>
-  <tr>
-    <td colspan="8" align="center">No timesheets to display</td>
-  </tr>
-<% end %>
-  <tr>
-    <td colspan="8">&nbsp;</td>
-  </tr>
-<tr><td colspan="8"><%= will_paginate(@timesheets) %></td></tr>
-</table>
-
-</div>
-</div>
-<script type="text/javascript">
-
-    var navbarbox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    navbarbox.render('nav-bar-box');
-    var bluebox = RUZEE.ShadedBorder.create({corner:8, border:1});
-    bluebox.render('blue-box');
-    
-</script>
