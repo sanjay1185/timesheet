@@ -9,18 +9,20 @@
             </h1>
           </div>
           <div class="innercol">
+            <div>
             <div style="display: none;" id="error_msgs">
             </div>
             <div style="display: none;" id="notice">
+            </div>
             </div>
             <div id="blue-box">
               <div class="padder">
                 <%= show_errors('Unable to save client', f.error_messages) %>
                 <%= show_notice(flash[:notice]) %>
 
-                <table style="margin-left:10px;margin-bottom:10px" cellspacing="0" cellpadding="0">
+                <table style="margin:10px" cellspacing="0" cellpadding="0">
                   <tr>
-                    <td><h4>Client Details <%=delete_link("Delete Client?", "Would you like to delete this client?", delete_client_client_url(@client), 300, @readonly, 'clients') if @can_delete%></h4></td>
+                    <td class="bold">Client Details <%=delete_link("Delete Client?", "Would you like to delete this client?", delete_client_client_url(@client), 300, @readonly, 'clients') if @can_delete%></td>
                   </tr>
                   <tr>
                     <td class="leftHeader">Name: <span class="required">*</span></td>
@@ -50,7 +52,7 @@
                     <td class="leftHeader">Post Code:</td>
                     <td><%= f.text_field :postCode, :size => "15", :maxlength => "15", :class => 'spaced_input' %></td>
                   </tr>
-                  <tr><td><h4>Invoicing Settings</h4></td></tr>
+                  <tr><td class="bold">Invoicing Settings</td></tr>
                   <tr>
                     <% @periods =  ['Monthly', 'Weekly'] %>
                     <td class="leftHeader">Invoice Period <%= help_link('/help/client_invoice_period', 'Help on Invoice Period') %> :</td><td><%= select_tag 'period', options_for_select(@periods, @client.invoicePeriod), :class => 'spaced_input' %></td>

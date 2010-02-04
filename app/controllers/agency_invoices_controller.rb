@@ -3,7 +3,7 @@ class AgencyInvoicesController < ApplicationController
   #----------------------------------------------------------------------------
   # Set the layout
   #----------------------------------------------------------------------------
-  layout 'agencydashboard'
+  layout 'new_agencydashboard'
 
   #----------------------------------------------------------------------------
   # Callback events - authenticate. need to be agency user with 'settings'

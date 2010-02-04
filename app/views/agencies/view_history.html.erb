@@ -4,7 +4,7 @@
       <div class="col">
         <div class="page_header">
           <h1 class="index">
-            <%= two_column_nav_bar_layout2("History for Timesheet: #{@current.startDate.to_formatted_s(:uk_date)} for #{@current.contract.contractor_user.full_name} at #{@current.contract.client.name}", "<a href=\"#{session[:previous_uri]}\">Back to Timesheet</a>") %>
+            <%= two_column_nav_bar_layout2("History for Timesheet: #{@current.startDate.to_formatted_s(:uk_date)} for #{@current.contract.contractor_user.full_name} at #{@current.contract.client.name}", "") %>
           </h1>
         </div>
         <div class="innercol">
@@ -75,7 +75,7 @@
       <div class="Right">
         <div class="col sidebar">
           <div class="new_task_wrapper">
-
+             <%=right_panel_bar_with_header("Actions","<a href=\"#{session[:previous_uri]}\" class=\"generalButton\">Back to Timesheet</a>")%>
           </div>
         </div>
       </div>

@@ -92,13 +92,12 @@ class AgenciesController < ApplicationController
   def stats
     
     @selected = 'dashboard'
-    
     # get basic statistics
     @no_of_clients = Agency.find(session[:agencyId]).clients.length
     @no_of_active_clients = Client.get_all_active(session[:agencyId], nil, nil, 'id').length
-    #@active_clients_percent = ((@no_of_active_clients / @no_of_clients.to_f) * 100).round(2)
-    #@no_of_active_contracts = Contract.get_all_active(session[:agencyId], nil, nil, 'id').length
-    @clients_by_timesheets = Client.get_by_timesheets(session[:agencyId])
+    @active_clients_percent = ((@no_of_active_clients / @no_of_clients.to_f) * 100).round(2)
+    @no_of_active_contracts = Contract.get_all_active(session[:agencyId], nil, nil, 'id').length
+#    @clients_by_timesheets = Client.get_by_timesheets(session[:agencyId])
     @clients_with_approvers = Client.get_all_with_approvers(session[:agencyId])
     
   end
@@ -888,7 +887,7 @@ class AgenciesController < ApplicationController
   #----------------------------------------------------------------------------
   def view_contractor
     
-    @contractor = Contractor.find(params[:contractor_id])
+    @contractor = ContractorUser.find(params[:contractor_id])
     @contracts = @contractor.contracts.paginate(:page => params[:page], :per_page => 25, :order => 'endDate')
     
   end

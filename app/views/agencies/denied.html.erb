@@ -1,7 +1,38 @@
-<div style="width: 400px;padding-top: 100px;margin: 0 auto; color: red; height:300px;text-align: center">
-  <span style="font-size: 1.5em">You are not authorised to view this page</span>
-  <p>
-    <%= session[:denied_url] %>
-  </p>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index">Denied</h1>
+        </div>
+        <div class="innercol">
+          <div>
+            <div style="display: none;" id="error_msgs">
+            </div>
+            <div style="display: none;" id="notice">
+            </div>
+          </div>
+          <div id="blue-box">
+            <div class="padder">
+              <div style="padding-top: 100px;margin: 0 auto; color: red; height:200px;text-align: center">
+                <span style="font-size: 1.5em">You are not authorised to view this page</span>
+                <p>
+                  <%= session[:denied_url] %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="Right">
+      <div class="col sidebar">
+        <div class="new_task_wrapper">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="clear: both"></div>
 </div>
+
 <SCRIPT>display_errors('','');</SCRIPT>

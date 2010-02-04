@@ -81,8 +81,8 @@ function display_errors(title, msgs)
     if (msgs != null && msgs != "") {
         $('error_msgs').innerHTML = header + "<div style=\"margin-left:12px\">" + msgs + '</div>';
         $('error_msgs').style.display = '';
-        var errors = RUZEE.ShadedBorder.create({corner:8, border:1});
-        errors.render($('error_msgs'));
+//        var errors = RUZEE.ShadedBorder.create({corner:8, border:1});
+//        errors.render($('error_msgs'));
         
     }
 }

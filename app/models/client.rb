@@ -66,10 +66,10 @@ class Client < ActiveRecord::Base
   def self.get_all_with_approvers(agency_id)
     
     conditions = []
-    conditions.add_condition!("clients.id = clients_users.client_id")
+    conditions.add_condition!("clients.id = approver_users_clients.client_id")
     conditions.add_condition!(["clients.agency_id = ?", agency_id])
     
-    return Client.find(:all, :conditions => conditions, :joins => "clients, clients_users")
+    return Client.find(:all, :conditions => conditions, :joins => "clients, approver_users_clients")
     
   end
 

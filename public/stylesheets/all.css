@@ -432,3 +432,7 @@ span.required{
 table.top_align tr td {
     vertical-align:top;
 }
+.icon_48 {
+	height: 24px;
+	width: 24px;
+}

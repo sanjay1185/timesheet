@@ -4,13 +4,15 @@
       <div class="col">
         <div class="page_header">
           <h1 class="index">
-            <%= two_column_nav_bar_layout2("#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))} >> New Approver", "") %>
+            <%= "#{client_list_link(Navigator.get_position(session, :client_list)[0], Navigator.get_position(session, :client_list)[1])} >> #{link_to(@client.name, edit_client_path(@client))} >> New Approver" %>
           </h1>
         </div>
         <div class="innercol">
+          <div>
           <div style="display: none;" id="error_msgs">
           </div>
           <div style="display: none;" id="notice">
+          </div>
           </div>
           <div id="blue-box">
             <div class="padder">
@@ -18,9 +20,11 @@
               <table style="margin-left:10px;margin-bottom:10px" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="left_side_cell">
-                    <h4>Send Request or Invite Approver</h4>
-                    <table class="with_margins" width="100%" align="center" cellpadding="0" cellspacing="0">
-                      <tr><td style="padding-right: 12px;">
+                    
+                    <table  width="100%" align="center" cellpadding="0" cellspacing="2">
+                      <tr>
+                        <tr><td class="bold">Send Request or Invite Approver</td></tr>
+                        <td style="padding-right: 12px;">
                           <p class="rightMargin">There are two ways to add an approver. </p>
                           <p class="rightMargin">Firstly, you can use the the box below to submit their email address.
                             If they are not yet a registered user they will be sent instructions for registering. If they are
@@ -42,10 +46,13 @@
                   <td>
                     <% form_for(:user, :url => {:action => 'save_approver', :controller => 'clients'}) do |u| -%>
                       <SCRIPT>display_errors('Unable to save approver','<%= u.error_messages %>');</SCRIPT>
-                      <h4>
-                        Create New Approver
-                      </h4>
-                      <table class="with_margins" width="100%"align="center" cellpadding="0" cellspacing="0">
+                           
+                       <table width="100%"align="center" cellpadding="2" cellspacing="0">
+                        <tr>
+                          <td class="bold">
+                           Create New Approver 
+                          </td>
+                        </tr>
                         <tr>
                           <td class="leftHeader">Login: <span class="required">*</span></td><td><%= u.text_field :login, :id => 'login', :maxlength => 15, :class => 'spaced_input' %><%= ajax_login_check %></td>
                         </tr>

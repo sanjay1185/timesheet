@@ -443,8 +443,7 @@ class User < ActiveRecord::Base
   def self.find_by_agency_by_status(agencyId, page, per_page, status, order)
 
     sql = "SELECT distinct u.*  FROM `users` u
-            INNER JOIN contractors_contracts ON contractors_contracts.contractor_id = u.contractor_id
-            INNER JOIN contracts ON contracts.id = contractors_contracts.contract_id
+            INNER JOIN contracts ON contracts.id = u.contract_id
             INNER JOIN clients ON clients.id = contracts.client_id
             WHERE clients.agency_id = #{agencyId.to_s} and u.type = 'ContractorUser'"
 

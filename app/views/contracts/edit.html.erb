@@ -20,7 +20,7 @@
               <div class="padder">
                 <%= show_errors('Unable to save contract', error_messages_for(:contract)) %>
                 <%= show_notice(flash[:notice]) %>
-                <% view_timesheets = "#{link_to('View Timesheets', contract_timesheets_path(@contract))}&nbsp;|&nbsp;" if @contract.timesheets.length > 0 %>
+                <% view_timesheets = "#{link_to('View Timesheets', contract_timesheets_path(@contract) ,:class=>"generalButton")}&nbsp;|&nbsp;" if @contract.timesheets.length > 0 %>
                 <table  style="margin-left:10px;margin-bottom:10px" cellpadding="2" cellspacing="0">
                   <tr style="height:25px">
                     <td colspan="2"><b>Contract Details</b><%=delete_link('Delete Contract?', 'Deleting this contract will remove all timesheets.<p>Do you wish to proceed?</p>', delete_contract_client_contract_url(@client, @contract), 300, @readonly, 'contracts') if @canDelete == true%></td>
@@ -80,7 +80,7 @@
               <div class="inner">
                 <p><%=submit_tag("Edit Contract",:class=>"generalButton")%><br>
                   <%=view_timesheets %>
-                  <%=link_to('Manage Rates', client_contract_rates_path(@client, @contract))%>
+                  <%=link_to('Manage Rates', client_contract_rates_path(@client, @contract),:class=>"generalButton")%>
                 </p>
               </div>
             </div>
@@ -89,14 +89,14 @@
           <div class="module">
             <div class="inner">
               <% form_tag :action => 'contractor_search', :id => @contract.id, :contracts_page => @contracts_page, :status => @status do %>
-                <table class="with_margins" width="100%" cellpadding="0" cellspacing="0" align="center">
+                <table  width="100%" cellpadding="2" cellspacing="0" align="center">
                   <% if @contract.contractor_user.nil? %>
                     <tr>
-                      <td colspan="3">Last Name/Email: <%= text_field 'q', nil, :size => '26'  %>&nbsp;<%= submit_tag 'Search', :class => 'generalButton' %></td>
+                      <td colspan="2">Last Name/Email: <%= text_field 'q', nil, :size => '26'  %>&nbsp;<%= submit_tag 'Search', :class => 'generalButton' %></td>
                     </tr>
                   <% else %>
                     <tr>
-                      <td><img src="/images/user_48.png" alt="" style="vertical-align: bottom" class="small_icon" />&nbsp;<%= @contract.contractor_user.full_name %> (<%= @contract.contractor_user.email %>)</td><td style="text-align: right"><%= delete_link("Remove Temp?", "Removing this user will prevent them from adding or editing timesheets for this contract.<p>Do you wish to proceed?</p>", contractor_remove_client_contract_path(@client, @contract, :contractor_id => @contract.contractor_user.id), 300, @readonly, 'remove a contractor from a contract') if @canDelete == true%>
+                      <td><img src="/images/user_48.png" alt="" style="vertical-align: bottom" class="small_icon" />&nbsp;<%= @contract.contractor_user.full_name %> (<%= @contract.contractor_user.email %>)</td><td style="text-align: right"><%= delete_link("Remove Temp?", "Removing this user will prevent them from adding or editing timesheets for this contract.<p>Do you wish to proceed?</p>", contractor_remove_client_contract_path(@client, @contract, :contractor_id => @contract.contractor_user.id), 300, @readonly, 'remove a contractor from a contract') if @canDelete == true%></td>
                     </tr>
                   <% end %>
                 </table>
