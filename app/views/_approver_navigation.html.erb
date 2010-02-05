@@ -1,6 +1,6 @@
-  <ul>
-    <li><a href="<%= approverdashboard_path %>" class="<%= "current" if session[:selected] == 'timesheets' %>" title="Timesheet Approval Dashboard"><span>Timesheets</span></a></li>
-    <li><a href="<%= approver_workers_path %>" class="<%= "current" if session[:selected] == 'workers' %>" title="Current Workers You Approve"><span>Workers</span></a></li>
-    <li><a href="<%= approver_edit_path %>?approver_id=<%= current_user.id %>" class="<%= "current" if session[:selected] == 'edit' %>" title="Edit your details"><span>My Details</span></a></li>
-    <li><a href="<%= approver_logout_path %>" class="<%= "current" if session[:selected] == 'exit' %>" title="Exit"><span>Logout</span></a></li>
-  </ul>
+<ul>
+  <li><a href="<%= approverdashboard_path %>" class="<%= "current" if session[:selected] == 'timesheets' %>" title="Timesheet Approval Dashboard"><span>Timesheets</span></a></li>
+  <li><a href="<%= approver_workers_path %>" class="<%= "current" if session[:selected] == 'workers' %>" title="Current Workers You Approve"><span>Workers</span></a></li>
+  <li><a href="<%= approver_edit_path %>?approver_id=<%= current_user.id %>" class="<%= "current" if session[:selected] == 'edit' %>" title="Edit your details"><span>My Details</span></a></li>
+  <li><a href="<%= approver_logout_path %>" class="<%= "current" if session[:selected] == 'exit' %>" title="Exit"><span>Logout</span></a></li>
+</ul>

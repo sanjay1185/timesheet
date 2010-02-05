@@ -106,9 +106,9 @@
           <h1>Assigned Approvers <%=help_link('/help/contract_approvers', 'Help on Approvers')%></h1>
           <div class="module">
             <div class="inner">
-              <%=link_to_readonly('Add', add_approver_client_contract_path(@client, @contract), 'add approvers', @readonly,:class=>"generalButton")%>
               
-              <table width="100%" cellpadding="2" align="center" cellspacing="0">
+              
+              <table  width="100%" cellpadding="2" align="center" cellspacing="0">
                 <tr>
                   <td colspan="2">&nbsp;</td>
                 </tr>
@@ -128,6 +128,7 @@
                     <% end %>
                   <% end %>
                 </table>
+                <p style="margin-top:10px"><%=link_to_readonly('Add', add_approver_client_contract_path(@client, @contract), 'add approvers', @readonly,:class=>"generalButton")%></p>
               </div>
             </div>
           </div>

@@ -1,6 +1,8 @@
 <div id="swap_from">
   <div id="screen_body" class="container">
     <% form_for(@agency, :html => { :multipart => true }) do |f| %>
+         <%= show_errors('Unable to save settings', f.error_messages) %>
+         <%= show_notice(flash[:notice]) %>
       <div class="Left">
         <div class="col">
           <div class="page_header">
@@ -9,12 +11,13 @@
             </h1>
           </div>
           <div class="innercol">
+            <div>
             <div style="display: none;" id="error_msgs">
             </div>
             <div style="display: none;" id="notice">
+            </div>            
             </div>
-            <%= show_errors('Unable to save settings', f.error_messages) %>
-            <%= show_notice(flash[:notice]) %>
+         
             <div id="blue-box">
               <div class="padder">
                 <table style="margin-left:10px;margin-bottom:10px" cellpadding="2" cellspacing="0">

@@ -58,7 +58,7 @@
           <% form_tag(contracts_path, :method => 'get') do %>
             <input type="hidden" name="client_id" value="<%= @client.id %>" />
             <% header_right = "#{select_tag('status', options_for_select(['ALL', 'ACTIVE', 'INACTIVE', 'COMPLETE'], @status.nil? ? 'ANY' : @status), :style => 'width: 100px', :onchange => 'this.form.submit();')}" %>
-            <% right_side_cells = "#{link_to_readonly('New Contract', new_client_contract_path(@client), 'create a contract', @readonly)}<br><br>Filter :<br>#{header_right}" %>
+            <% right_side_cells = "#{link_to_readonly('New Contract', new_client_contract_path(@client), 'create a contract', @readonly,:class=>"generalButton")}<br><br>Filter :<br>#{header_right}" %>
             <%=right_panel_bar_with_header("Actions",right_side_cells)%>
           <% end %>
         </div>

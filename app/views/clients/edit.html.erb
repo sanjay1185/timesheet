@@ -89,11 +89,9 @@
             <h1><%="Approvers #{help_link('/help/client_approvers', 'Help on Approvers')}"%></h1>
             <div class="module">
               <div class="inner">
-                <%=link_to('Add Approver', new_approver_client_path(@client),:class=>"generalButton")%>
-                <table width="100%" align="center" cellpadding="2" cellspacing="0">
-                  <tr>
-                    <td colspan="3">&nbsp;</td>
-                  </tr>
+                
+                <table style="margin:10px" width="95%" align="center" cellpadding="2" cellspacing="0">
+                  
                   <tr>
                     <td class="header row_border_right">Name</td><td class="header" colspan="2" style="padding-left:2px">Email</td>
                   </tr>
@@ -114,7 +112,8 @@
                     <% end %>
                   <% end %>
                 </table>
-                <div id="pagination"><%= will_paginate(@approvers) %></div>
+                <div id="pagination"><%= will_paginate(@approvers) %></div><br>
+                <p><%=link_to('Add Approver', new_approver_client_path(@client),:class=>"generalButton")%></p>
               </div>
             </div>
           </div>

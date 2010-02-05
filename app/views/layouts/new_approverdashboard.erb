@@ -7,10 +7,6 @@
     <title></title>
     <%=  stylesheet_link_tag 'all.css' %>
 
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/style" %>
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/navigation" %>
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/boxes" %>
-    <%#= stylesheet_link_tag "themes/sample/#{session[:theme]}/tables" %>
 
     <%= stylesheet_link_tag 'modalbox' %>
     <!--[if gte IE 7]>
@@ -18,7 +14,7 @@
         <![endif]-->
         <%= javascript_include_tag 'prototype' %>
         <%= javascript_include_tag 'effects' %>
-        <%#= javascript_include_tag 'shaded' %>
+        <%= calendar_date_select_includes "blue"%>
         <%= javascript_include_tag 'application' %>
         <%= javascript_include_tag 'modalbox' %>
     <script type="text/javascript">

@@ -44,7 +44,7 @@ def full_name
 
     contractors = {}
 #    Client.find(:all, ["agency_id = ?", agency_id]).select {|cl| cl.contracts.select { |c| c.contractor_user.id = c.contractor_user_id } }
-    Client.find(:all, ["agency_id = ?", agency_id]).select {|cl| cl.contracts.select { |c| c.contractor_user.id = c.contractor_user_id } }
+#    Client.find(:all, ["agency_id = ?", agency_id]).select {|cl| cl.contracts.select { |c| c.contractor_user.id = c.contractor_user_id } }
     return contractors
 
   end

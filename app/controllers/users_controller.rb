@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     @user = User.new
     @client_id = params[:ref]
 
-    render :layout => 'blank'
+    render :layout => 'new_blank'
     
   end
 

@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+        <%=  stylesheet_link_tag 'all.css' %>
+
+        <%= stylesheet_link_tag 'modalbox' %>
+        <!--[if gte IE 7]>
+        <%= stylesheet_link_tag 'ie' %>
+        <![endif]-->
+        <%= javascript_include_tag 'prototype' %>
+        <%= javascript_include_tag 'effects' %>
+        <%= javascript_include_tag 'application' %>
+        <%= javascript_include_tag 'modalbox' %>
+    <script type="text/javascript">
+      //<![CDATA[
+
+      //]]>
+    </script>
+  </head>
+
+  <body class="overview">
+
+    <div id="quick_show_window" style="display: none">
+      <div class="quick_show_window_position">
+
+        <div class="quick_show_window_wrapper">
+          <div class="quick_show_window_content">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="Header">
+      <div id="global_links">
+
+      </div>
+      <div id="upgrade_bar">
+      </div>
+      <h1>ClockOff</h1>
+      <div id="Tabs">
+
+      </div>
+    </div>
+    <div class="wrapper">
+      <%=yield%>
+      <br style="clear: both" />
+    </div>
+  </body>
+</html>
+
+
+

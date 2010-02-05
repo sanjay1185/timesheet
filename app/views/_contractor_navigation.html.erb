@@ -1,7 +1,5 @@
-<div id="tabs">
-  <ul>
-    <li><a href="<%= currenttimesheets_path %>" class="<%= "selected" if session[:selected] == 'timesheets' %>" title="Create, edit and submit timesheets"><span>Timesheets</span></a></li>
-    <li><a href="<%= edit_contractor_user_path(current_user) %>" class="<%= "selected" if session[:selected] == 'my_details' %>" title="Edit your details"><span>My Details</span></a></li>
-    <li><a href="<%= url_for :action => 'logout', :controller => 'contractors', :id => current_user.id %>" class="<%= "selected" if session[:selected] == 'exit' %>" title="Exit"><span>Logout</span></a></li>
-  </ul>
-</div>
+<ul>
+  <li><a href="<%= currenttimesheets_path %>" class="<%= "selected" if session[:selected] == 'timesheets' %>" title="Create, edit and submit timesheets"><span>Timesheets</span></a></li>
+  <li><a href="<%= edit_contractor_user_path(current_user) %>" class="<%= "selected" if session[:selected] == 'my_details' %>" title="Edit your details"><span>My Details</span></a></li>
+  <li><a href="<%= url_for :action => 'logout', :controller => 'contractors', :id => current_user.id %>" class="<%= "selected" if session[:selected] == 'exit' %>" title="Exit"><span>Logout</span></a></li>
+</ul>
