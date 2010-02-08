@@ -66,7 +66,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session, :controller => 'session'
 
   map.resources :agencies,
-    :member => {:users => :get, :user_add => :get, :save_new_user => :post, :view_contractor => :get,
+    :member => {:users => :get,:user=>:get, :user_add => :get, :save_new_user => :post, :view_contractor => :get,
     :timesheet_history => :get, :outstanding => :get, :view_timesheet => :get, :settings => :get, :logout => :get,
     :send_reminder_to_approvers => :post, :reports => :get, :report => :get, :denied => :get,  
     :invite_workers => :get, :send_invites => :post, :reject_timesheet => :post, :user_update => :post, 

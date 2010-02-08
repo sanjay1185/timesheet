@@ -220,7 +220,7 @@ class AgenciesController < ApplicationController
         flash[:notice] = "You no longer have permission to manage users."
         redirect_to clients_path
       else
-        redirect_to users_agency_path(:user_id => @user.id)
+        redirect_to user_agency_path(:user_id => @user.id)
       end
     else
       
@@ -496,6 +496,19 @@ class AgenciesController < ApplicationController
       
     end
     
+  end
+
+  def user
+    session[:selected] = 'users'
+
+    # get the agency
+    @agency = Agency.find(session[:agencyId])
+    # get the user
+    @user = User.find(params[:user_id])
+    @roles_list = Role.find(:all, :order => 'name asc')
+
+    # show a warning about user manager role if needed
+    @show_warning = @user.id == current_user.id && @user.has_role?('Users')
   end
   
   #----------------------------------------------------------------------------

@@ -437,3 +437,7 @@ table.top_align tr td {
 	height: 24px;
 	width: 24px;
 }
+.page_header a{
+ padding:1px;
+ text-decoration:none;
+}

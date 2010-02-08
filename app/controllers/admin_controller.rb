@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
-  
+  layout "new_admin"
   def index
+
   end
 
   def payments
@@ -26,6 +27,16 @@ class AdminController < ApplicationController
 
     end
   end
+
+    def logout
+
+    session[:selected] = 'logout'
+
+  end
+
+    def search
+#@users=User.find_by_contents(params[:search]) if params[:search]
+    end
 
 
 end
