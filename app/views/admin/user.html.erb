@@ -1,0 +1,82 @@
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% if !@user.nil? %>
+      <% form_for(:user, @user,  :url => {:action => "user_update", :id => @user.id }) do |f| -%>
+        <div class="Left">
+          <div class="col">
+            <div class="page_header">
+              <h1 class="index">
+                <%= link_to("Search",:action=>"search") + " >> " + @user.full_name %>
+              </h1>
+            </div>
+            <div class="innercol">
+              <div>
+                <div style="display: none;" id="error_msgs">
+                </div>
+                <div style="display: none;" id="notice">
+                </div>
+              </div>
+              <div id="blue-box">
+                <div class="padder">
+                  <%= show_errors('An error occurred...', flash[:alert]) %>
+                  <%= show_notice(flash[:notice]) %>
+                  <SCRIPT>display_errors('Unable to save user','<%= error_messages_for(:user) %>');</SCRIPT>
+                  <table style="margin:10px;" cellspacing="0" cellpadding="2">
+                    <tr>
+                      <td colspan="2"><b>User Details</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td class="leftHeader" style="height: 20px">Login:</td><td><%=h @user.login %></td>
+                    </tr>
+                    <tr>
+                      <td class="leftHeader">First Name: <span class="required">*</span></td><td><%= f.text_field(:firstName, :size => 15, :maxlength => 25, :class => 'spaced_input') %></td>
+                    </tr>
+                    <tr>
+                      <td class="leftHeader">Last Name: <span class="required">*</span></td><td><%= f.text_field(:lastName, :size => 15, :maxlength => 25, :class => 'spaced_input') %></td>
+                    </tr>
+                    <tr>
+                      <td class="leftHeader">Email: <span class="required">*</span></td><td><%= f.text_field(:email, :size => 25, :maxlength => 100, :class => 'spaced_input') %></td>
+                    </tr>
+                    <tr>
+                      <td class="leftHeader">Phone:</td><td><%= f.text_field(:phone, :maxlength => 30, :class => 'spaced_input') %></td>
+                    </tr>
+                    <tr>
+                      <td class="leftHeader">Mobile:</td><td><%= f.text_field(:mobile, :maxlength => 30, :class => 'spaced_input') %></td>
+                    </tr>
+                  </table>
+                  <table style="margin-left:10px;margin-bottom:10px" width="50%" cellspacing="0" cellpadding="2">
+                    <tr><td class="header">Role Name</td><td class="header">Granted</td><td class="header">Read Only</td></tr>
+                    <% for role in @roles_list do %>
+                        <tr>
+                          <td><%= role.name %></td>
+                          <td><%= check_box_tag(role.name + "_granted", "1", @user.has_role?(role.name), :onclick => (@show_warning == true && role.name == 'Users') ? "Modalbox.show('/user_manager_warning.html', {title: 'User Manager Warning', width: 300});return true;" : "" ) %></td>
+                          <td><%= check_box_tag(role.name + "_readonly", "1", @user.is_role_read_only?(role.name)) %></td>
+                        <% end %>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="Right">
+            <div class="col sidebar">
+              <div class="new_task_wrapper">
+                <h1>Actions</h1>
+                <div class="module">
+                  <div class="inner">
+                    <p>
+                      <%=submit_tag("Update",:class=>"generalButton")%>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><%end%>
+         <%end%>
+    </div>
+    <div style="clear: both"></div>
+  </div>

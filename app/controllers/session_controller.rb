@@ -105,7 +105,7 @@ private
   def do_redirection
 
     # where should each user be directed?
-    if self.current_user.type== "AdminUser" 
+    if self.current_user.type.blank? && self.current_user.login == 'controller'
 
       # admin person
       redirect_to('/admin')

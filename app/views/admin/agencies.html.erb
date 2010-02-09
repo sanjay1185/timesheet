@@ -11,22 +11,26 @@
               <table width="100%" align="center" cellspacing="0" cellpadding="2">
                         <tr class="heading data_table_header">
                           <td class="header row_border_right">Name</td>
-                          <td class="header row_border_right">Login</td>
+                          <td class="header row_border_right">Address</td>
                           <td class="header row_border_right">Email</td>
-                          <td class="header">Type</td>
+                          <td class="header row_border_right">Post Code</td>
+                          <td class="header row_border_right">Phone</td>
+                          <td class="header">Fax</td>
                         </tr>
                        
-                          <% for user in @users %>
+                          <% for agency in @agencies %>
                             <% row_class = cycle('odd', 'even') %>
                             <tr class="timesheet_row <%= row_class %> row_border_bottom row_size_icon">
-                              <td class="row_border_bottom row_border_right"><img src="/images/user_48.png" alt="user" class="small_icon" style="vertical-align: bottom;" />&nbsp;<a href="<%= url_for :action => 'user',:id => user.id %>"><%= user.full_name %></a></td>
-                              <td class="row_border_bottom row_border_right"><%=h user.login %></td>
-                              <td class="row_border_bottom row_border_right" ><%=user.email  %></td>
-                              <td class="row_border_bottom" style="text-align:right;" ><%=user.type%></td>
+                              <td class="row_border_bottom row_border_right"><%= agency.name %></td>
+                              <td class="row_border_bottom row_border_right"><%=h agency.addr1 + agency.city %></td>
+                              <td class="row_border_bottom row_border_right" ><%=agency.email  %></td>
+                              <td class="row_border_bottom row_border_right" ><%=agency.postCode%></td>
+                              <td class="row_border_bottom row_border_right" ><%=agency.phone%></td>
+                              <td class="row_border_bottom" style="text-align:right;" ><%=agency.fax%></td>
                             </tr>
                           <% end %>
-                          <tr><td colspan="4" align="center"><%= will_paginate @users %></td></tr>
-                           <% if @users.size == 0 %>
+                          <tr><td colspan="4" align="center"><%= will_paginate @agencies %></td></tr>
+                           <% if @agencies.size == 0 %>
                              <tr><td align="center" colspan="4"><i>No Search Result</i></td></tr> 
                         <% end %>
                       </table> 
@@ -39,17 +43,7 @@
       <div class="col sidebar">
         <div class="new_task_wrapper">
 
-          <h1>search</h1>
-          <div class="module">
-            <div class="inner">
-              <% form_tag(:action=>"#{params[:action]}") do  %>
-                 
-              <p>Name/Email/Login:<br><%= text_field_tag :search %>&nbsp;<%=submit_tag("Search",:class=>"generalButton")%></p>
-              
-              
-             <%end%>
-            </div>
-          </div>
+          
           
         </div>
       </div>
