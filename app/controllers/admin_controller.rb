@@ -8,6 +8,7 @@ class AdminController < ApplicationController
       @users=ContractorUser.paginate(:all,:page=>params[:page],:per_page=>10)
     else
       @users=ContractorUser.paginate(:all,:conditions=>["firstName = ? or lastName = ? or email =? or login = ?",params[:search],params[:search],params[:search],params[:search]],:page=>params[:page],:per_page=>10) 
+      @title="<a href='/admin/index'>Contractors</a> >> Search"
     end
     render :action=>"search"
   end
@@ -18,7 +19,8 @@ class AdminController < ApplicationController
       @users=ApproverUser.paginate(:all,:page=>params[:page],:per_page=>10)
     else
       @users=ApproverUser.paginate(:all,:conditions=>["firstName = ? or lastName = ? or email =? or login = ?",params[:search],params[:search],params[:search],params[:search]],:page=>params[:page],:per_page=>10) 
-    end      
+      @title="<a href='/admin/approvers'>Approvers</a> >> Search"
+    end
     render :action=>"search"
   end
 
