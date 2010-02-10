@@ -1,0 +1,84 @@
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <% form_for(:agency, :url => {:action => :agency_edit}) do |f| %>
+      <div class="Left">
+        <div class="col">
+          <div class="page_header">
+            <h1 class="index"><%=@title%></h1>
+          </div>
+          <div class="innercol">
+            <div>
+              <div style="display: none;" id="error_msgs">
+              </div>
+              <div style="display: none;" id="notice">
+              </div>            
+            </div>
+            <div id="blue-box">
+              <div class="padder">
+                <%= show_errors('Please correct the following errors:</br>',flash[:error]) %>
+                <%= show_notice(flash[:notice]) %>
+                <table style="margin:10px;" cellspacing="0" cellpadding="2">
+                  <tr>
+                    <td colspan="2" class="bold">Company Information</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>Company Name:  <label class="red">*</label></td>
+                    <td><%= text_field :agency, :name, :size => 30, :maxlength => 100 %></td>
+                  </tr>
+                  <tr>
+                    <td>Addr1:  <label class="red">*</label></td>
+                    <td><%= text_field :agency,:addr1, :maxlength => 75, :size => 30 %></td>
+                  </tr>
+                  <tr>
+                    <td>Addr2:</td>
+                    <td><%= text_field :agency,:addr2, :maxlength => 75, :size => 30 %></td>
+                  </tr>
+                  <tr>
+                    <td>Addr3:</td>
+                    <td><%= text_field :agency,:addr3, :maxlength => 75, :size => 30 %></td>
+                  </tr>
+                  <tr>
+                    <td>City:  <label class="red">*</label></td>
+                    <td><%= text_field :agency, :city, :maxlength => 75, :size => 30 %></td>
+                  </tr>
+                  <tr>
+                    <td>Region:</td>
+                    <td><%= text_field :agency,:region, :maxlength => 75, :size => 30 %></td>
+                  </tr>
+                  <tr>
+                    <td>Postcode:  <label class="red">*</label></td>
+                    <td><%= text_field :agency,:postCode %></td>
+                  </tr>
+                  <tr>
+                    <td>Phone:  <label class="red">*</label></td>
+                    <td><%= text_field :agency,:phone, :maxlength => 30, :size => 30 %></td>
+                  </tr>
+                  <tr>
+                    <td>Fax: <label class="red">*</label></td>
+                    <td><%= text_field :agency, :fax, :maxlength => 30, :size => 30 %></td>
+                  </tr>
+                  <tr>
+                    <td>Company Email:  <label class="red">*</label></td>
+                    <td><%= text_field :agency,:email, :size => 30, :maxlength => 100 %></td>
+                  </tr>
+                </table>
+                <% flash.discard %>
+              </div>
+            </div>
+          </div>
+        </div><div class="bottom"></div>
+      </div>
+      <div class="Right">
+        <div class="col sidebar">
+          <div class="new_task_wrapper">
+            <%=right_panel_bar_with_header('Action',submit_tag('Submit', :class => 'generalButton') )%>
+          </div>
+        </div>
+      </div>
+      <div style="clear: both"></div><% end %>
+  </div>
+</div>
+

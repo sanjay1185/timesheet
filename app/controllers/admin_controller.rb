@@ -1,13 +1,13 @@
 class AdminController < ApplicationController
 
-  layout "new_admin"
-
+  layout "new_admin"  
+  
   def index
     @title="Contractors"
     if params[:search].blank?
       @users=ContractorUser.paginate(:all,:page=>params[:page],:per_page=>10)
     else
-      @users=ContractorUser.paginate(:all,:conditions=>["firstName = ? or lastName = ? or email =? or login = ?",params[:search],params[:search],params[:search],params[:search]],:page=>params[:page],:per_page=>10)
+      @users=ContractorUser.paginate(:all,:conditions=>["firstName = ? or lastName = ? or email =? or login = ?",params[:search],params[:search],params[:search],params[:search]],:page=>params[:page],:per_page=>10) 
     end
     render :action=>"search"
   end
@@ -17,8 +17,8 @@ class AdminController < ApplicationController
     if params[:search].blank?
       @users=ApproverUser.paginate(:all,:page=>params[:page],:per_page=>10)
     else
-      @users=ApproverUser.paginate(:all,:conditions=>["firstName = ? or lastName = ? or email =? or login = ?",params[:search],params[:search],params[:search],params[:search]],:page=>params[:page],:per_page=>10)
-    end
+      @users=ApproverUser.paginate(:all,:conditions=>["firstName = ? or lastName = ? or email =? or login = ?",params[:search],params[:search],params[:search],params[:search]],:page=>params[:page],:per_page=>10) 
+    end      
     render :action=>"search"
   end
 
@@ -56,8 +56,8 @@ class AdminController < ApplicationController
 
   def search
     @title="Search"
-    if params[:search].blank?
-      @users=User.paginate(:all,:conditions=>["type = ?",params[:type]],:page=>params[:page],:per_page=>10)
+    if params[:search].blank? 
+      @users=User.paginate(:all,:conditions=>["type = ?",params[:type]],:page=>params[:page],:per_page=>10)       
     else
       @users=User.paginate(:all,:conditions=>["firstName = ? or lastName = ? or email =? or login = ? and  type =? ",params[:search],params[:search],params[:search],params[:search],params[:type]],:page=>params[:page],:per_page=>10)
       end
@@ -102,7 +102,6 @@ class AdminController < ApplicationController
 
     # start a transaction for saving permissions when the user is saved
     User.transaction do
-
       # check each role
       manage_role?('Clients', clients_role, clients_readonly)
       manage_role?('Contracts', contracts_role, contracts_readonly)
@@ -110,17 +109,13 @@ class AdminController < ApplicationController
       manage_role?('Rates', rates_role, rates_readonly)
       users_removed = manage_role?('Users', users_role, users_readonly)
       manage_role?('Invoicing', invoicing_role, invoicing_readonly)
-
       # now save the user
       result = @user.save
-
     end
 
     # save the user
     if result
-
       flash[:notice] = "User saved succesfully" #unless !flash[:notice].nil?
-
       redirect_to :action=>"user",:id=>@user.id
     else
       # errors
@@ -131,13 +126,13 @@ class AdminController < ApplicationController
   end
   def manage_role?(role_name, grant_role, read_only)
     removed = false
-    if !@user.has_role?(role_name)
+    if !@user.has_role?(role_name)  
       # user doesnt have Clients role
       if grant_role == true
         # get the role id
         r_id = Role.find(:first, :conditions => "name = '#{role_name}'").id
         # add the permission
-        @user.permissions.build(:role_id => r_id, :readOnly => read_only)
+        @user.permissions.build(:role_id => r_id, :readOnly => read_only) 
       end
     else
 
@@ -155,4 +150,38 @@ class AdminController < ApplicationController
     end
     return removed
   end
+  
+  def agency_edit    
+    @agency=Agency.find(params[:id])
+    @title="<a href='/admin/agencies'>Agencies</a> >> " + @agency.name
+    if request.post? 
+      @agency.update_attributes(params[:agency])
+      flash[:notice]="Agency updated sucessfully"
+    end
+  end
+  
+  def contracts
+    @status = params[:status]
+    @agency=Agency.find(params[:agency_id])
+    @title = "<a href='/admin/agencies'>Agencies</a> >> #{@agency.name.capitalize} >> Contracts"
+    # set it if nil
+    @status = 'ACTIVE' if @status.nil?
+    
+    @contracts=[]
+    for client in @agency.clients
+     @contracts = @contracts  + (client.contracts)
+     
+    end
+    @contracts=@contracts.paginate(:per_page => 10, :page => (params[:page] || 1))
+  end
+  
+  
+  def timesheets
+    @contract=Contract.find(params[:id])
+     @title = "<a href='/admin/agencies'>Agencies</a> >> #{@contract.client.agency.name.capitalize} >> Contracts >> #{@contract.ref}"
+    
+    @timesheets=@contract.timesheets.paginate(:per_page => 10, :page => (params[:page] || 1))
+  end
+  
+  
 end

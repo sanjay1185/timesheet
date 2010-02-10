@@ -1,0 +1,64 @@
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index"><%=@title%></h1>
+        </div>
+        <div class="innercol">
+          <div id="blue-box">
+            <div class="padder">
+              
+              <table width="100%" cellspacing="0" cellpadding="2" >
+                    <tr class="heading data_table_header">
+                      <td class="header row_border_right"><%= sort_link 'Ref', :ref, @selected_column %></td>
+                      <td class="header row_border_right"><%= sort_link 'Start Date', :startDate, @selected_column %></td>
+                      <td class="header row_border_right"><%= sort_link 'End Date', :endDate, @selected_column %></td>
+                      <td class="header row_border_right"><%= sort_link 'Position', :position, @selected_column %></td>
+                      <td class="header row_border_right">Temp</td>
+                      <td class="header row_border_right"><%= sort_link 'Status', :status, @selected_column %></td>
+                      <td class="header">Timesheets</td>
+                      
+                    </tr>
+                    <% if @contracts.length > 0 %>
+                      <% for contract in @contracts %>
+                        <% row_class = cycle('odd', 'even') %>
+                        <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                          <% name = contract.contractor_user == nil ? "&nbsp;" : contract.contractor_user.full_name %>
+                          <td class="row_border_bottom row_border_right"><%= contract.ref %></td>
+                          <td class="row_border_bottom row_border_right"><%=h contract.startDate.to_s(:uk_date) %></td>
+                          <td class="row_border_bottom row_border_right"><%=h contract.endDate.to_s(:uk_date) %></td>
+                          <td class="row_border_bottom row_border_right"><%=h contract.position %></td>
+                          <td class="row_border_bottom row_border_right"><%= name %></td>
+                          <td class="row_border_bottom row_border_right"><%=h contract.status %></td>
+                          <td class="row_border_bottom row_border_right" align="center"><%=  contract.timesheets.length > 0 ? link_to(contract.timesheets.length,{:action=>"timesheets",:id=>contract}) : contract.timesheets.length %></td>
+                          
+                        </tr>
+                      <% end %>
+                    <% else %>
+                      <tr>
+                        <td colspan="6" align="center">There are no <%= @status.downcase unless @status.nil? || @status.downcase == 'all' %> contracts to view</td>
+                      </tr>
+                    <% end %>
+                    <tr><td colspan="6" align="center"><%= will_paginate(@contracts) %></td></tr>
+                  </table>
+              
+              
+               </div>
+              </div>
+        </div>
+      </div><div class="bottom"></div>
+    </div>
+    <div class="Right">
+      <div class="col sidebar">
+        <div class="new_task_wrapper">
+
+          
+          
+        </div>
+      </div>
+    </div>
+
+<div style="clear: both"></div></div></div>
+
+

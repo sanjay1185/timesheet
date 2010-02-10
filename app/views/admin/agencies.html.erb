@@ -15,18 +15,24 @@
                           <td class="header row_border_right">Email</td>
                           <td class="header row_border_right">Post Code</td>
                           <td class="header row_border_right">Phone</td>
-                          <td class="header">Fax</td>
+                          <td class="header row_border_right">Fax</td>
+                          <td class="header">Contracts</td>
                         </tr>
                        
                           <% for agency in @agencies %>
                             <% row_class = cycle('odd', 'even') %>
                             <tr class="timesheet_row <%= row_class %> row_border_bottom row_size_icon">
-                              <td class="row_border_bottom row_border_right"><%= agency.name %></td>
+                              <td class="row_border_bottom row_border_right"><%= link_to(agency.name,:action=>"agency_edit",:id=>agency) %></td>
                               <td class="row_border_bottom row_border_right"><%=h agency.addr1 + agency.city %></td>
                               <td class="row_border_bottom row_border_right" ><%=agency.email  %></td>
                               <td class="row_border_bottom row_border_right" ><%=agency.postCode%></td>
                               <td class="row_border_bottom row_border_right" ><%=agency.phone%></td>
-                              <td class="row_border_bottom" style="text-align:right;" ><%=agency.fax%></td>
+                              <td class="row_border_bottom row_border_right " ><%=agency.fax%></td>
+                              <%tot_projects=0%>
+                               <%for client in agency.clients%>
+                                <% tot_projects=tot_projects + client.contracts.length %>
+                               <%end%>
+                              <td class="row_border_bottom" style="text-align:center;" ><%=link_to(tot_projects,{:action=>"contracts",:agency_id=>agency.id})%></td>
                             </tr>
                           <% end %>
                           <tr><td colspan="4" align="center"><%= will_paginate @agencies %></td></tr>

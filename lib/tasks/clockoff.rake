@@ -269,6 +269,28 @@ namespace :clockoff do
     wheeler = Client.new(:agency => agency, :name => 'Wheeler Software Ltd', :addr1 => "96 Bishopsgate", :city => 'London', :region => 'London', :postCode => 'EC8A 8DV', :externalClientRef => 'WHEELER', :margin => 7.75, :invoicePeriod => 'WEEKLY')
     wheeler.save
     
+    puts '*** Creating Administrator ***'
+    puts '...Admin'
+    admin=AdminUser.new(
+      { :login => 'admin',
+        :email => 'admin@intura.co.uk',
+        :title => 'Mr',
+        :firstName => 'Ben',
+        :lastName => 'Hinton',
+        :password => '123456',
+        :state => 'active',
+        :phone => '020 8876 2233',
+        :addr1 => '70 Frensham Close',
+        :city => 'Southall',
+        :region => 'Middlesex',
+        :postCode => 'UB1 2YQ',
+        :setup => true
+      })
+   admin.method(:encrypt_password)
+   admin.method(:make_password_reset_code)
+   admin.activate
+
+
     puts '*** Creating contractors ***'
     puts '...Charles Daly'
     charles_daly = ContractorUser.new(

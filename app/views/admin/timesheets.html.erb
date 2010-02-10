@@ -1,0 +1,62 @@
+<% title = params['timesheet_status'].nil? ? 'Outstanding' : params['timesheet_status'] %>
+<div id="swap_from">
+  <div id="screen_body" class="container">
+    <div class="Left">
+      <div class="col">
+        <div class="page_header">
+          <h1 class="index"><%=@title%></h1>
+        </div>
+        <div class="innercol">
+          <div id="blue-box">
+            <div class="padder">
+              <table width="100%" cellspacing="0" cellpadding="2">
+                <tr class="data_table_header">
+                  <td class="header row_border_right">Start Date</td>
+                  <td class="header row_border_right">Client</td>
+                  
+                  <td class="header row_border_right">Day Total</td>
+                  <td class="header row_border_right">Hourly Total</td>
+                  <td class="header">Status</td>
+                </tr>
+                <% if @timesheets.length == 0 %>
+                  <tr><td colspan="6">&nbsp;</td></tr>
+                  <tr><td colspan="6" style="text-align: center;">There are no <%= title.downcase %> timesheets to display</td></tr>
+                <% else %>
+                  <% for timesheet in @timesheets %>
+                   
+                      <% row_class = cycle('odd', 'even') %>
+                        <tr class="timesheet_row <%= row_class %> row_border_bottom">
+                        <td class="row_border_bottom row_border_right">
+                          <% if timesheet.status == 'APPROVED' %>
+                            <%=  timesheet.startDate.to_formatted_s(:uk_date) %>
+                          <% else %>
+                            <%= timesheet.startDate.to_formatted_s(:uk_date)%>
+                          <% end %>
+                        </td>
+                        <td class=" row_border_right"><%=h timesheet.contract.client.name %></td>
+                        
+                        <td class=" row_border_right"><%=h timesheet.totalDays %></td>
+                        <td class=" row_border_right"><%=h timesheet.totalHours %></td>
+                        <td class=""><%=h timesheet.status %></td>
+                      </tr>
+                    <% end %>
+                  
+                  <% if @timesheets.length >= 10 %>
+                  <tr><td colspan="6" align="center"><%= will_paginate(@timesheets) %></td></tr>
+                <% end %>
+                <% end %>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+      
+      </div>
+    </div>
+    <div class="Right">
+     
+    </div>
+  </div>
+  <div style="clear: both"></div>
+</div>
